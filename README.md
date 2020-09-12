@@ -1,141 +1,118 @@
-### devlopr-jekyll - A Beautiful Jekyll Theme Built for Developers
+# Hyde
 
-[![Gem Version](https://badge.fury.io/rb/devlopr.svg)](https://badge.fury.io/rb/devlopr)![workflow-badge](https://github.com/sujaykundu777/devlopr-jekyll/workflows/deploy/badge.svg)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/4232ac2b-63e0-4c78-92e0-e95aad5ab8c3/deploy-status)](https://app.netlify.com/sites/devlopr/deploys)
-![](https://ruby-gem-downloads-badge.herokuapp.com/devlopr?type=total&color=brightgreen&style=plastic)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+Hyde is a brazen two-column [Jekyll](http://jekyllrb.com) theme that pairs a prominent sidebar with uncomplicated content. It's based on [Poole](http://getpoole.com), the Jekyll butler.
 
-Just a little something I'm using to jump start a site refresh. I like to think of it as a starter for building your own Jekyll site. I purposely keep the styling minimal and bare to make it easier to add your own flare and markup. (Under Active Development) !
+![Hyde screenshot](https://f.cloud.github.com/assets/98681/1831228/42af6c6a-7384-11e3-98fb-e0b923ee0468.png)
 
-Highly Customizable and No Hosting or Maintainence Cost is required !
 
-### [Installation Guide](https://devlopr.netlify.app/get-started)
+## Contents
 
-![devlopr jekyll](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/assets/img/screenshot.PNG?raw=true)
+- [Usage](#usage)
+- [Options](#options)
+  - [Sidebar menu](#sidebar-menu)
+  - [Sticky sidebar content](#sticky-sidebar-content)
+  - [Themes](#themes)
+  - [Reverse layout](#reverse-layout)
+- [Development](#development)
+- [Author](#author)
+- [License](#license)
 
-devlopr uses Markdown Files to generate data like Blog Posts, Gallery, Shop Products etc. No external database is required.
 
-### Deploy your devlopr-jekyll blog - One Click Deploy
+## Usage
 
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/sujaykundu777/devlopr-jekyll)
-[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sujaykundu777/devlopr-jekyll)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/sujaykundu777/devlopr-jekyll)
+Hyde is a theme built on top of [Poole](https://github.com/poole/poole), which provides a fully furnished Jekyll setup—just download and start the Jekyll server. See [the Poole usage guidelines](https://github.com/poole/poole#usage) for how to install and use Jekyll.
 
-### Demo (Hosted Apps)
 
-- Github Pages Demo - [here](https://sujaykundu.com)
-- Firebase Demo - [here](https://devlopr.web.app)
-- Netlify Demo - [here](https://devlopr.netlify.com)
-- Zeit Now Demo - [here](https://devlopr-jekyll.now.sh)
-- Heroku Demo - [here](https://devlopr-jekyll.herokuapp.com)
-- AWS Amplify Demo - [here](https://master.d3t30wwddt6jju.amplifyapp.com/)
+## Options
 
-#### Features :
+Hyde includes some customizable options, typically applied via classes on the `<body>` element.
 
-- Local CMS Admin Support using [Jekyll Admin](https://jekyll.github.io/jekyll-admin/)
-- Onine CMS Admin Support using [Netlify CMS](https://sujaykundu.com/jekyll/2020/05/24/how-to-setup-netlify-cms-with-github-hosted-devlopr-blog/#/), Forestry, [Siteleaf](https://sujaykundu.com/jekyll/2019/05/22/using-siteleaf/), CloudCannon.
-- Supports Latest [Jekyll 4.x](https://jekyllrb.com) and [Bundler](https://bundler.io)
-- Stylesheet built using Sass
-- Comments using [Hyvor](https://talk.hyvor.com/) and [Disqus](https://disqus.com/)
-- SEO-optimized
-- Real Time Search
-- Sell Stuff (Ecommerce) in your Blog using [Snipcart](https://snipcart.com/)
-- Send Newsletters using [Mailchimp](https://mailchimp.com/)
-- Contact Forms using [Formspree](https://formspree.io/)
-- Coding Activity using [Wakatime](https://wakatime.com/)
-- Hosting Support for [Github Pages](https://pages.github.com), [Netlify](https://netlify.com), [Zeit](https://zeit.co), [Heroku](https://heroku.com), [AWS Amplify](aws.amplify.com), [Firebase](https://firebase.com)
-- CI/CD Support using [Travis CI](https://sujaykundu.com/blog/posts/deploy-jekyll-blog-using-github-pages-and-travis-ci/), Buddy , Circle CI
 
-#### Jekyll Admin
-You can easily manage the site locally using the Jekyll admin : [http://localhost:4000/admin](http://localhost:4000/admin)
+### Sidebar menu
 
-![Jekyll Admin](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/assets/img/jekyll-admin.PNG?raw=true)
+Create a list of nav links in the sidebar by assigning each Jekyll page the correct layout in the page's [front-matter](http://jekyllrb.com/docs/frontmatter/).
 
-## Recent Release Changes (v 0.4.6):
-
-- Minor Bug fixes and optimizations
-- You can use Editorial workflow while using Netlify CMS  (Draft, Preview, Publish) !
-- Removed Algolia, Now supporting real time search without anythird party !
-- Removed Jekyll Feeds plugin to optimize build time (now uses auto feed generation) !
-
-You can check out for all changelogs [here](https://www.buymeacoffee.com/p/57109)
-
-## Pull the latest changes
-
-```s
-git remote -v
-git remote add upstream https://github.com/sujaykundu777/devlopr-jekyll.git
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push
+```
+---
+layout: page
+title: About
+---
 ```
 
-## Using Docker :
+**Why require a specific layout?** Jekyll will return *all* pages, including the `atom.xml`, and with an alphabetical sort order. To ensure the first link is *Home*, we exclude the `index.html` page from this list by specifying the `page` layout.
 
-Building the Image :
 
-`docker build -t my-devlopr-jekyll-blog .`
+### Sticky sidebar content
 
-Running the container :
+By default Hyde ships with a sidebar that affixes it's content to the bottom of the sidebar. You can optionally disable this by removing the `.sidebar-sticky` class from the sidebar's `.container`. Sidebar content will then normally flow from top to bottom.
 
-`docker run -d -p 4000:4000 -it --volume="$PWD:/srv/jekyll" --name "my_blog" my-devlopr-jekyll-blog:latest jekyll serve --watch`
+```html
+<!-- Default sidebar -->
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    ...
+  </div>
+</div>
 
-## Using Docker Compose :
+<!-- Modified sidebar -->
+<div class="sidebar">
+  <div class="container">
+    ...
+  </div>
+</div>
+```
 
-### Development :
 
-You can run the app in development mode : (your changes will be reflected --watch moded)
+### Themes
 
-Serve the site at http://localhost:4000 :
+Hyde ships with eight optional themes based on the [base16 color scheme](https://github.com/chriskempson/base16). Apply a theme to change the color scheme (mostly applies to sidebar and links).
 
-`docker-compose -f docker-compose-dev.yml up --build --remove-orphans`
+![Hyde in red](https://f.cloud.github.com/assets/98681/1831229/42b0b354-7384-11e3-8462-31b8df193fe5.png)
 
-### Production :
+There are eight themes available at this time.
 
-You can run the app in production mode : (your changes will be reflected --watch moded)
+![Hyde theme classes](https://f.cloud.github.com/assets/98681/1817044/e5b0ec06-6f68-11e3-83d7-acd1942797a1.png)
 
-Serve the site at http://localhost:4000 :
+To use a theme, add anyone of the available theme classes to the `<body>` element in the `default.html` layout, like so:
 
-`docker-compose -f docker-compose-prod.yml up --build --remove-orphans`
+```html
+<body class="theme-base-08">
+  ...
+</body>
+```
 
-Stop the app :
-`docker-compose -f docker-compose-prod.yml down`
-Once everything is good and ready to go live -
+To create your own theme, look to the Themes section of [included CSS file](https://github.com/poole/hyde/blob/master/public/css/hyde.css). Copy any existing theme (they're only a few lines of CSS), rename it, and change the provided colors.
 
-`docker-compose -f docker-compose-prod.yml up --build --detach`
+### Reverse layout
 
-## Contributors:
+![Hyde with reverse layout](https://f.cloud.github.com/assets/98681/1831230/42b0d3ac-7384-11e3-8d54-2065afd03f9e.png)
 
-This project exists thanks to all the people who contribute.
+Hyde's page orientation can be reversed with a single class.
 
-Contributions are more than just welcome. Fork this repo and create a new branch, then submit a pull request
+```html
+<body class="layout-reverse">
+  ...
+</body>
+```
 
-- 1.Fork it [http://github.com/sujaykundu777/devlopr-jekyll/fork](http://github.com/sujaykundu777/devlopr-jekyll/fork )
 
-- 2.Create your feature branch
-`git checkout -b my-new-feature`
+## Development
 
-- 3.Commit your changes
-`git commit -am 'Add some feature'`
+Hyde has two branches, but only one is used for active development.
 
-- 4.Push to the branch
-`git push origin my-new-feature`
+- `master` for development.  **All pull requests should be submitted against `master`.**
+- `gh-pages` for our hosted site, which includes our analytics tracking code. **Please avoid using this branch.**
 
-- 5.Create new Pull Request
 
-### Backers
+## Author
 
-Thanks to all our Backers ! 🙏 [Become a Backer](https://opencollective.com/devlopr-jekyll#backer)
+**Mark Otto**
+- <https://github.com/mdo>
+- <https://twitter.com/mdo>
 
-<a href="https://opencollective.com/devlopr-jekyll#backers" target="_blank"><img src="https://opencollective.com/devlopr-jekyll/backers.svg?width=890" /></a>
 
-### For Help :
+## License
 
-You can contact me, if you need any help via [Email](mailto:sujaykundu777@gmail.com). If you like the project. Don't forget to :star: !
+Open sourced under the [MIT license](LICENSE.md).
 
-## Licence
-
-The theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT). You can do anything you want, including projects for your clients, as long as you mention an attribution back (credit links in footer). See the [Licence](https://github.com/sujaykundu777/devlopr-jekyll/blob/master/LICENSE) file
-
-I understand that sometimes footer links or any links to external websites are not convenient, so you have the option to remove credits/footer links by becoming a [Backer](https://opencollective.com/devlopr-jekyll#backer).
+<3
