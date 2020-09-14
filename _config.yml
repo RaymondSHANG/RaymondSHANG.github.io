@@ -19,6 +19,7 @@ baseurl:          /
 author:
   name:           'Yuan SHANG'
   url:            www.linkedin.com/in/yuanshang2020
+  github:         https://github.com/RaymondSHANG
 
 paginate:         5
 
