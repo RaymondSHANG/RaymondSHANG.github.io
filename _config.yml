@@ -8,13 +8,14 @@ paginate: 5
 paginate_path: "page:num"
 
 # Permalinks
-permalink:        pretty
+#permalink:        pretty
 
 # Setup
 title:            Yuan SHANG
+email:            yshang@email.arizona.edu
 tagline:          'My personal page'
 description:      'Bioinformatician in University of Arizona'
-url:              https://github.com/RaymondSHANG/RaymondSHANG.github.io/
+url:              /
 baseurl:          /
 
 author:
