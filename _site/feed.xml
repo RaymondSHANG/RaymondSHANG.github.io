@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yuan Blog</title>
+    <description>关于科学，数据，生命 | 这里是 @Yuan 的个人博客，记录我的世界。</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Fri, 27 Aug 2021 18:46:52 -0700</pubDate>
+    <lastBuildDate>Fri, 27 Aug 2021 18:46:52 -0700</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Posting Blog</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;快速发布博客&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h5 id=&quot;rakefile&quot;&gt;Rakefile&lt;/h5&gt;
+&lt;p&gt;设置好根目录下的Rakefile，重点设置好时间之类的参数，然后在terminal里运行：&lt;/p&gt;
+
+&lt;p&gt;rake post title=”xxxx” subtitle=”xxx”&lt;/p&gt;
+
+&lt;p&gt;即可自动生成文件名，然后打开对应的md文件，书写博客，里面的参数根据需要可以调整。
+我在原作者的Rakefile基础上，增加：&lt;/p&gt;
+
+&lt;p&gt;date2 = (ENV[‘date’] ? Time.parse(ENV[‘date’]) : Time.now).strftime(‘%Y-%m-%d %H:%M:%S’)&lt;/p&gt;
+
+&lt;p&gt;同时修改：&lt;/p&gt;
+
+&lt;p&gt;post.puts “date: #{date2}”&lt;/p&gt;
+
+&lt;p&gt;从而得到更准确的头设置&lt;/p&gt;
+
+&lt;hr /&gt;
+</description>
+        <pubDate>Fri, 27 Aug 2021 10:25:13 -0700</pubDate>
+        <link>http://localhost:4000/2021/08/27/posting-blog/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/08/27/posting-blog/</guid>
+        
+        <category>rake</category>
+        
+        <category>blog setting</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Hello 2021</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p id=&quot;build&quot;&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;正文&quot;&gt;正文&lt;/h2&gt;
+
+&lt;p&gt;这个博客的框架来源 &lt;a href=&quot;https://pages.github.com/&quot;&gt;GitHub Pages&lt;/a&gt; + &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; 快速 Building Blog 的技术方案。&lt;/p&gt;
+
+&lt;p&gt;其优点非常明显：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Markdown&lt;/strong&gt; 带来的优雅写作体验&lt;/li&gt;
+  &lt;li&gt;非常熟悉的 Git workflow ，&lt;strong&gt;Git Commit 即 Blog Post&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
+    &lt;ul&gt;
+      &lt;li&gt;如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Jekyll 的自定制非常容易，基本就是个模版引擎&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;常见的设置：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;title: “xxxx”&lt;/li&gt;
+  &lt;li&gt;subtitle: “xxxx”&lt;/li&gt;
+  &lt;li&gt;date:       2021-08-27 12:00:00&lt;/li&gt;
+  &lt;li&gt;layout: post&lt;/li&gt;
+  &lt;li&gt;author: “Yuan”&lt;/li&gt;
+  &lt;li&gt;header-style: text&lt;/li&gt;
+  &lt;li&gt;header-img: “img/post-bg-2015.jpg”&lt;/li&gt;
+  &lt;li&gt;header-mask:  0.3&lt;/li&gt;
+  &lt;li&gt;multilingual: true&lt;/li&gt;
+  &lt;li&gt;catalog: true&lt;/li&gt;
+  &lt;li&gt;hidden: true&lt;/li&gt;
+  &lt;li&gt;plchart: true&lt;/li&gt;
+  &lt;li&gt;tags:&lt;/li&gt;
+  &lt;li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;xxxx&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;最常用的头部设置：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;title: “xxxx”&lt;/li&gt;
+  &lt;li&gt;subtitle: “xxxx”&lt;/li&gt;
+  &lt;li&gt;date:       2021-08-27 12:00:00&lt;/li&gt;
+  &lt;li&gt;layout: post&lt;/li&gt;
+  &lt;li&gt;author: “Yuan”&lt;/li&gt;
+  &lt;li&gt;header-style: text&lt;/li&gt;
+  &lt;li&gt;catalog: true&lt;/li&gt;
+  &lt;li&gt;tags:&lt;/li&gt;
+  &lt;li&gt;
+    &lt;ul&gt;
+      &lt;li&gt;xxxx&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+</description>
+        <pubDate>Fri, 27 Aug 2021 05:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2021/08/27/hello2021/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/08/27/hello2021/</guid>
+        
+        <category>Life</category>
+        
+        
+      </item>
+    
+  </channel>
+</rss>

@@ -5,7 +5,7 @@ title: Publications
 
 ### Publication
 
-Please feel free to email me <yshang@arizona.edu> if you have any comments. 
+Please feel free to [**email me**](yshang@arizona.edu) if you have any comments. 
 1.  Aarti Mishra, Yuan Shang, Yiwei Wang, Eliza R Bacon, Fei Yin, Roberta Brinton(2020). Dynamic Neuro-Immune Profile During Mid-life Aging in the Female Brain and Implications for Alzheimer’s Risk.iScience 2020. 23(12): p.101829.
 2.	Yuan Shang*, Aarti Mishra*, Tian Wang, Yiwei Wang, Maunil Desai, Shuhua Chen, Zisu Mao, Loi Do, Adam S. Bernstein, Theodore P. Trouard, and Roberta Brinton(2020). Evidence in Support of Chromosomal Sex Influencing Plasma Based Metabolome vs APOE Genotype Influencing Brain Metabolome Profile in Humanized APOE Male and Female Mice. PLoS One 2020 , 15(1):e0225392
 3.	Yiwei Wang, Yuan Shang, Aarti Mishra, Eliza Bacon, Fei Yin, Roberta Brinton(2020). Midlife chronological and endocrinological transitions in Brain Metabolism: System Biology Basis for increased Alzheimer’s Risk in female Brain. Sci. Rep. 10: 8528 (2020)

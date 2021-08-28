@@ -1,0 +1,60 @@
+---
+layout:     post
+title:      "Hello 2021"
+subtitle:   " \"Hello World, Hello Blog\""
+date:       2021-08-27 12:00:00
+author:     "Yuan"
+catalog: true
+hiden: false
+tags:
+    - Life
+---
+
+> “Yeah It's on. ”
+
+<p id = "build"></p>
+
+## 正文
+
+这个博客的框架来源 [GitHub Pages](https://pages.github.com/) + [Jekyll](http://jekyllrb.com/) 快速 Building Blog 的技术方案。
+
+其优点非常明显：
+
+* **Markdown** 带来的优雅写作体验
+* 非常熟悉的 Git workflow ，**Git Commit 即 Blog Post**
+* 利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
+	* 如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了 
+* Jekyll 的自定制非常容易，基本就是个模版引擎
+
+常见的设置：
+* title: "xxxx"
+* subtitle: "xxxx"
+* date:       2021-08-27 12:00:00
+* layout: post
+* author: "Yuan"
+* header-style: text
+* header-img: "img/post-bg-2015.jpg"
+* header-mask:  0.3
+* multilingual: true
+* catalog: true
+* hidden: true
+* plchart: true
+* tags:
+*     - xxxx
+
+最常用的头部设置：
+* title: "xxxx"
+* subtitle: "xxxx"
+* date:       2021-08-27 12:00:00
+* layout: post
+* author: "Yuan"
+* header-style: text
+* catalog: true
+* tags:
+*     - xxxx
+
+---
+
+
+
+
