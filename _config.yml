@@ -68,13 +68,15 @@ netease_comment: false
 
 # Analytics settings
 # Baidu Analytics 
-# ba_track_id: [your track id]
+ba_track_id: 'f0921909c44b28183a1ddc4b1ad94b02'
 
 # Google Analytics
 ga_measure_id: 'G-R27ZQFK0D4'            # Format: G-xxxxxxxxxx
 #ga_track_id: 'G-R27ZQFK0D4'            # Format: UA-xxxxxx-xx
 ga_domain: RaymondSHANG.github.io
 
+#Google adsence
+ga_data_client: 'ca-pub-8951389218483379'
 
 
 # Sidebar settings

@@ -63,11 +63,26 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- ga & ba script hoook -->
-    <script></script>
+    <!-- Baidu script hoook -->
+    <!-- Baidu Tongji -->
+    {% if site.ba_track_id %}
+    <script>
+        // dynamic User by Yuan
+        var _baId = '{{ site.ba_track_id }}';
+
+        // Originial
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?" + _baId;
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    {% endif %}
+
     <!-- Google Analytics -->
     {% if site.ga_measure_id %}
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=" + '{{ site.ga_measure_id }}'></script>
     <script>
@@ -81,5 +96,8 @@
     {% endif %}
 
     <!-- Google AdSense -->
-    <script data-ad-client="ca-pub-8951389218483379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% if site.ga_data_client %}
+    <script data-ad-client='{{ site.ga_data_client }}' async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
+
 </head>
