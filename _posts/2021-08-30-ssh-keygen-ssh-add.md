@@ -20,6 +20,7 @@ The algorithm is selected using the -t option and key size using the -b option. 
 ssh-keygen -t rsa -b 4096 ssh-keygen -t dsa ssh-keygen -t ecdsa -b 521 ssh-keygen -t ed25519
 ssh-keygen -f ~/tatu-key-ecdsa -t ecdsa -b 521
 ```
+
 2. Copy the pubkey to the server
 ```
 ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host
