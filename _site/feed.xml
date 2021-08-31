@@ -5,9 +5,124 @@
     <description>关于科学，数据，生命 | 这里是 @Yuan 的个人博客，记录我的世界。</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 27 Aug 2021 18:46:52 -0700</pubDate>
-    <lastBuildDate>Fri, 27 Aug 2021 18:46:52 -0700</lastBuildDate>
+    <pubDate>Tue, 31 Aug 2021 13:50:42 -0700</pubDate>
+    <lastBuildDate>Tue, 31 Aug 2021 13:50:42 -0700</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>ssh keygen ssh add</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;ssh-keygen&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;ssh-keygen pairs:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Generate key pairs
+The algorithm is selected using the -t option and key size using the -b option. The following commands illustrate:
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;ssh-keygen -t rsa -b 4096 ssh-keygen -t dsa ssh-keygen -t ecdsa -b 521 ssh-keygen -t ed25519
+ssh-keygen -f ~/tatu-key-ecdsa -t ecdsa -b 521
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Copy the pubkey to the server
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt;ssh-copy-id -i ~/.ssh/tatu-key-ecdsa user@host
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;Once the public key has been configured on the server, the server will allow any connecting user that has the private key to log in.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add private key to ssh agent&lt;/p&gt;
+
+    &lt;p&gt;Firstly, run ssh-agent:&lt;br /&gt;&lt;/p&gt;
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt; eval `ssh-agent`
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;Then, add private key:(You may need to change privatekey into a 400 access code)&lt;br /&gt;&lt;/p&gt;
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt; ssh-add ~/.ssh/privatekey
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;Finally, Test:&lt;/p&gt;
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;rouge-gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;rouge-code&quot;&gt;&lt;pre&gt; ssh -vT git@github.com
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;hr /&gt;
+</description>
+        <pubDate>Mon, 30 Aug 2021 10:30:04 -0700</pubDate>
+        <link>http://localhost:4000/2021/08/30/ssh-keygen-ssh-add/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/08/30/ssh-keygen-ssh-add/</guid>
+        
+        <category>system</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>rJava</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;rJava.so&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I got this error message when trying to load “SqlRender”&lt;/p&gt;
+
+&lt;p&gt;Error: package or namespace load failed for ‘SqlRender’:
+ .onLoad failed in loadNamespace() for ‘rJava’, details:
+  call: dyn.load(file, DLLpath = DLLpath, …)
+  error: unable to load shared object ‘/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rJava/libs/rJava.so’:
+  dlopen(/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Library/Frameworks/R.framework/Versions/3.6/Resources/library/rJava/libs/rJava.so
+  Reason: image not found
+In addition: Warning message:
+package ‘SqlRender’ was built under R version 3.6.2&lt;/p&gt;
+
+&lt;p&gt;This is a common error when loading &lt;strong&gt;rJava&lt;/strong&gt; into R, as indicated, jdk-11.0.1.jdk could not be found. &amp;lt;/br&amp;gt;
+Instead, I installed java 16 version. Some people just changed jdk-16.0.2.jdk to jdk-11.0.1.jdk so the system could locate libjvm.dylib
+I tried&lt;/p&gt;
+
+&lt;p&gt;install_name_tool -change &lt;br /&gt;
+/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib &lt;br /&gt;
+/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/lib/server/libjvm.dylib &lt;br /&gt;
+/Library/Frameworks/R.framework/Versions/3.6/Resources/library/rJava/libs/rJava.so&lt;/p&gt;
+
+&lt;p&gt;This also help!&lt;/p&gt;
+
+&lt;h2 id=&quot;some-other-useful-tries&quot;&gt;Some other useful tries:&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;sudo R CMD javareconf
+Please try to config R java after installing Java and setting JAVA_HOME&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check the configurations in R:
+Sys.getenv(“DYLD_FALLBACK_LIBRARY_PATH”)
+Sys.getenv(“DYLD_LIBRARY_PATH”)
+You should make sure these two return you the correct results,like this:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Sys.getenv(“DYLD_FALLBACK_LIBRARY_PATH”)
+[1] “/Library/Frameworks/R.framework/Resources/lib:/Users/xxxx/lib:/usr/local/lib:/usr/lib:::/lib:/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/lib/server”
+Sys.getenv(“DYLD_LIBRARY_PATH”)
+[1] “/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home/lib/server”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;hr /&gt;
+</description>
+        <pubDate>Fri, 27 Aug 2021 13:02:21 -0700</pubDate>
+        <link>http://localhost:4000/2021/08/27/rjava/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/08/27/rjava/</guid>
+        
+        <category>R</category>
+        
+        <category>Java</category>
+        
+        
+      </item>
     
       <item>
         <title>Posting Blog</title>

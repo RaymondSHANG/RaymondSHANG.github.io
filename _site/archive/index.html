@@ -55,10 +55,23 @@
 
     <!-- ga & ba script hoook -->
     <script></script>
+    <!-- Google Analytics -->
+    
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=" + 'G-R27ZQFK0D4'></script>
+    <script>
+        var _gamId = 'G-R27ZQFK0D4';
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', _gamId);
+    </script>
+    
 
     <!-- Google AdSense -->
-    <script data-ad-client="ca-pub-6487568398225121" async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script data-ad-client="ca-pub-8951389218483379" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 
 
@@ -243,7 +256,7 @@ https://github.com/kitian616/jekyll-TeXt-theme
 			<div id='tag_cloud' class="tags tags-sup js-tags">
 				<a class="tag-button--all" data-encode="">
 					Show All
-					<sup>2</sup>
+					<sup>4</sup>
 				</a>
 
 				
@@ -251,7 +264,15 @@ https://github.com/kitian616/jekyll-TeXt-theme
 				
 				
 				
-				<a data-sort="0001"
+				<a data-sort="0003"
+					data-encode="Java"
+					class="tag-button"
+					title="Java" rel="1">
+					Java
+					<sup>1</sup>
+				</a>
+				
+				<a data-sort="0003"
 					data-encode="Life"
 					class="tag-button"
 					title="Life" rel="1">
@@ -259,7 +280,15 @@ https://github.com/kitian616/jekyll-TeXt-theme
 					<sup>1</sup>
 				</a>
 				
-				<a data-sort="0001"
+				<a data-sort="0003"
+					data-encode="R"
+					class="tag-button"
+					title="R" rel="1">
+					R
+					<sup>1</sup>
+				</a>
+				
+				<a data-sort="0003"
 					data-encode="blog+setting"
 					class="tag-button"
 					title="blog setting" rel="1">
@@ -267,11 +296,19 @@ https://github.com/kitian616/jekyll-TeXt-theme
 					<sup>1</sup>
 				</a>
 				
-				<a data-sort="0001"
+				<a data-sort="0003"
 					data-encode="rake"
 					class="tag-button"
 					title="rake" rel="1">
 					rake
+					<sup>1</sup>
+				</a>
+				
+				<a data-sort="0003"
+					data-encode="system"
+					class="tag-button"
+					title="system" rel="1">
+					system
 					<sup>1</sup>
 				</a>
 			</div>
@@ -280,7 +317,31 @@ https://github.com/kitian616/jekyll-TeXt-theme
 			<div class="mini-post-list js-result d-none"><section>
 				<span class="fa listing-seperator">
 					<span class="tag-text">2021</span>
-				</span><div class="post-preview item" data-tags="rake,blog+setting">
+				</span><div class="post-preview item" data-tags="system">
+				    <a href="/2021/08/30/ssh-keygen-ssh-add/">
+				        <h2 class="post-title">
+                            ssh keygen ssh add
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            ssh kegen
+				        </h3>
+				        
+				    </a>
+					<hr>
+				</div><div class="post-preview item" data-tags="R,Java">
+				    <a href="/2021/08/27/rjava/">
+				        <h2 class="post-title">
+                            rJava
+				        </h2>
+				        
+				        <h3 class="post-subtitle">
+				            rJava configurations
+				        </h3>
+				        
+				    </a>
+					<hr>
+				</div><div class="post-preview item" data-tags="rake,blog+setting">
 				    <a href="/2021/08/27/posting-blog/">
 				        <h2 class="post-title">
                             Posting Blog
@@ -433,23 +494,6 @@ https://github.com/kitian616/jekyll-TeXt-theme
 
 
 <!-- Google Analytics -->
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-xxxxxx-xx';
-    var _gaDomain = 'RaymondSHANG.github.io';
-
-    // Originial
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
 
 
 
