@@ -34,6 +34,11 @@ parser.add_argument('--should-download', action='store_const', const=True, defau
 parser.add_argument('--citation-name', action='store', default="citation.bib",
                     help='File name for all your citations in BibTex format')
 opts = parser.parse_args()
+
+#using the input parameters
+time.sleep(opts.request_interval)
+soup = create_soup_by_url(opts.google_scholar_uri)
+
 ```
 
 Usage: 
