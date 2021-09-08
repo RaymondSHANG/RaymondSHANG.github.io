@@ -85,6 +85,7 @@ def get_html(url):
 
         print("... it's CAPTCHA time!\a ...")
         time.sleep(5)
+driver.close()
 ```
 
 #### Other useful references:
