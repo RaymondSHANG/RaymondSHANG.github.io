@@ -266,5 +266,32 @@ P.S. When processing dual files, instead of "in1=r1.fq in2=r2.fq out1=clean1.fq 
 ```bash
 java jar trimmomatic-0.39.jar PE -threads 4 read1.fastq.gz read2.fastq.gz read1_paired.fastq.gz read1_unpaired.fastq.gz read2_paired.fastq.gz read2_unpaired.fastq.gz ILLUMINACLIP:adapters.fasta:2:30:10
 ```
+# My Current Choice
+I decide to use fastp to processing my current dataset
 
+```bash
+#!/bin/bash
+source ~/.bash_profile
+for i in {1..154}
+do
+	sample="Sample_$i"
+	subfolder="sample001_051"
+	if [ "$i" -gt 51 ]; then
+    	subfolder="sample052_103"
+	fi
+	if [ "$i" -gt 103 ]; then
+		subfolder="sample104_154"
+	fi
+	sample2="/Volumes/MyRNASeqData/ProjectName/data/$subfolder/$sample"
+	sample3="/Volumes/MyRNASeqData/ProjectName/fastp_trimmed/$sample"
+	echo ${sample2}
+	fastp -i ${sample2}_R1.fastq.gz -I ${sample2}_R2.fastq.gz \
+			--detect_adapter_for_pe \
+        	--overrepresentation_analysis \
+        	--correction --cut_right --thread 8 \
+			--html ${sample3}_fastp.html --json ${sample3}_fastp.json \
+			-o ${sample3}_R1.fq.gz -O ${sample3}_R2.fq.gz
+
+done
+```
 ---
