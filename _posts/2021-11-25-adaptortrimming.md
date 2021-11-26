@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Adaptor.Trimming”
+title: "Adaptor Trimming"
 subtitle: "2021_update"
 date: 2021-11-25 18:57:27
 header-style: text

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "RNASeq_Pipline"
+title: "RNASeq Pipline"
 subtitle: "2021_update"
 date: 2021-11-24 21:37:06
 header-style: text
