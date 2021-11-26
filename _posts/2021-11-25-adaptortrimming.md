@@ -267,7 +267,7 @@ P.S. When processing dual files, instead of "in1=r1.fq in2=r2.fq out1=clean1.fq 
 java jar trimmomatic-0.39.jar PE -threads 4 read1.fastq.gz read2.fastq.gz read1_paired.fastq.gz read1_unpaired.fastq.gz read2_paired.fastq.gz read2_unpaired.fastq.gz ILLUMINACLIP:adapters.fasta:2:30:10
 ```
 # My Current Choice
-I decide to use fastp to processing my current dataset
+I decide to use fastp to process my current dataset
 
 ```bash
 #!/bin/bash
