@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "”RNASeq_Pipline”"
-subtitle: "”2021_update”"
+title: "RNASeq_Pipline"
+subtitle: "2021_update"
 date: 2021-11-24 21:37:06
 header-style: text
 catalog: true
