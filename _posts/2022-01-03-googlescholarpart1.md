@@ -6,7 +6,7 @@ date: 2022-01-03 21:40:28
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [selenium,chromedriver,CAPTCHApython]
+tags: [selenium,chromedriver,CAPTCHA,python]
 ---
 
 >A year's plan starts with spring
