@@ -8,7 +8,7 @@ catalog: true
 author: "Yuan"
 tags: [pandas,python,copy,view]
 ---
-> You are furious because of Ignorant
+> You are furious because of ignorance
 
 Copies and views are very common in python, especially when you are working with arrays, lists, pandas. I'm aware of this, still, was trapped in a bug because of this problem when working with pandas.
 
