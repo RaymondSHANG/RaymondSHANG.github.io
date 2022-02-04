@@ -70,7 +70,7 @@ all(pca$rotation == svd1$v)
 Z = t(data_PCA_scaledbyrow) %*% svd1$v
 #Z==XV==UD==pca$x
 pca$x
-svd1$u #U are unscaled PCs
+svd1$u #U are unscaled PCs, eigengenes
 svd1$u %*% svd1$d #UD, the scaled PCs(principal components), D is the 'scaling factors',
 
 #The proportion of variance explained by each PC
