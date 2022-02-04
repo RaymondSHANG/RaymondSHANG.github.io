@@ -12,7 +12,7 @@ tags: [R,WGCNA,SVD,PCA,Eigengene]
 
 ## Eigengene
 
-The concept of eigengene was first introduced by [Orly et al](https://www.pnas.org/content/97/18/10101). By definition, eigengenes are the right singular vectors of the SVD of the expression matrix. This concept become popular when WGCNA used it to represent the overal expression of a module. Actually, eigengene and WGCNA modules are perfect matchings! In a specific WGCNA module, all genes were in the same cluster by a distance which is closely related to the correlation matrix. In this senario, all genes in one module are highly correlated, and thus their PC1 could best represent their overal expression.
+The concept of eigengene was first introduced by [Orly et al](https://www.pnas.org/content/97/18/10101). By definition, eigengenes are the right singular vectors of the SVD of <b>the expression matrix(row as genes, column as samples)</b>. This concept become popular when WGCNA used it to represent the overal expression of a module. Actually, eigengene and WGCNA modules are perfect matchings! In a specific WGCNA module, all genes were in the same cluster by a distance which is closely related to the correlation matrix. In this senario, all genes in one module are highly correlated, and thus their PC1 could best represent their overal expression.
 
 In [WGCNA](https://github.com/cran/WGCNA/blob/85d34a5cd9945f44425f5490ad0cecda1aa5ecf7/R/Functions.R), by default and in most of times, the first principle component is used to represent the expression values of a group of genes, under the name of eigen gene. But sometimes, we just want to calculate eigengene genes, how to do that in a simple way?
 
