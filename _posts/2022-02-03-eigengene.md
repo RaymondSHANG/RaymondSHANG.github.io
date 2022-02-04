@@ -17,7 +17,8 @@ The concept of eigengene was first introduced by [Orly et al](https://www.pnas.o
 In [WGCNA](https://github.com/cran/WGCNA/blob/85d34a5cd9945f44425f5490ad0cecda1aa5ecf7/R/Functions.R), by default and in most of times, the first principle component is used to represent the expression values of a group of genes, under the name of eigen gene. But sometimes, we just want to calculate eigengene genes, how to do that in a simple way?
 
 After going through the codes in WGCNA functions, I have two solutions for this:
-data_PCA is row as genes,and columns as samples
+data_PCA is row as genes,and columns as samples. This kind of row-column structure is the transpose of what are generally used in statistics and machine learning field.
+
 1. Using WGCNA
     ```r
     library(WGCNA)
@@ -42,15 +43,21 @@ A good online resource for this part is in the blog [SVD vs PRCOMP in R](https:/
 Below are the code examples
 They are correct only if 𝐗 is <b>centered</b>
 
+Also, we should notice that in these examples,there is a <b>transpose transformation</b> to data_PCA_..
+
+svd1 = svd(t(data_PCA_scaledbyrow))
+
+Which is not the same to the one above. Thus,
+svd1\$u here is the same to svd\$v above, where columns are the unscaled PCs.
 ```r
 pca <- prcomp(t(data_PCA), scale=FALSE, center=TRUE)
 summary(pca)
 
 #X=U*D*t(V)
 #X: a matrix s(samples) x g(genes) matrix 
-#U is an s×p orthogonal matrix. Columns “p” are the unscaled PCs
+#U is an s×p orthogonal matrix. Columns “p” are the unscaled PCs, or eigengenes in this case
 #V is an g×p orthogonal matrix.
-#D is an p×p diagonal matrix. It only has values on the diagonals
+#D is an p×p diagonal matrix. It only has values on the diagonals (eigen values)
 data_PCA_scaledbyrow <- data_PCA - rowMeans(data_PCA) #first, center the data on the genes
 svd1 <- svd(t(data_PCA_Scaledbyrow)) # apply SVD on transposed data
 
