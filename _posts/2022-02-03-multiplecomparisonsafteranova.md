@@ -17,6 +17,8 @@ If you want to compare all pairs, "Tukey" adjustment could give you the best adj
 
 If you have one control group, and want to compare all other groups to this one, using "Dunnett"
 
+If you want a confidence interval band, use "scheffe", which is available in "DescTools" package and "emmeans" package
+
 Of course, you could always use "Bonferoni"
 
 To apply multiple comparisons you could either use multicomp package or lsmeans package in R.
