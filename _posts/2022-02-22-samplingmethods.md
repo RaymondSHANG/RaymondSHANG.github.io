@@ -66,21 +66,21 @@ Some new terms:
 ## Metropolis
 If the conjugate or semiconjugate prior is not available, we could apply Metropolis-Hastings algorithm as a general method. Let's start with Metropolis:
 Assuming you have aa(s) in the chain, then you want sample aa(s+1):
-* 1. Sample aa(*) ~ J(aa|aa(s)), where J(aa|aa(s)) is any symmetric proposal distribution.
-* 2. Compute the acceptance ratio: r = p(aa(\*)|y)/p(aa(s)|y) = {p(y|aa(\*)) p(aa(\*))}/{p(y|aa(s)) p(aa(s))}
+* 1. Sample aa(*) ~ J(aa\|aa(s)), where J(aa\|aa(s)) is any symmetric proposal distribution.
+* 2. Compute the acceptance ratio: r = p(aa(\*)\|y)/p(aa(s)\|y) = {p(y\|aa(\*)) p(aa(\*))}/{p(y\|aa(s)) p(aa(s))}
 * 3. Sample u ~ Unif(0,1); aa(s+1) = ifelse(r>u,aa(\*),aa(s))
   
 From the above algorithm, aa(s+1) is only depending on aa(s). So the Metropolis algorithm generates a Markov Chain.
 
 If there are multiple parameters, we could:
-1. update a1(s+1) based on p(a1(\*),a2(s)|y)/p(a1(s),a2(s)|y)
-2. update a2(s+1) based on p(a1(s+1),a2(\*)|y)/p(a1(s+1),a2(s)|y)
+1. update a1(s+1) based on p(a1(\*),a2(s)\|y)/p(a1(s),a2(s)\|y)
+2. update a2(s+1) based on p(a1(s+1),a2(\*)\|y)/p(a1(s+1),a2(s)\|y)
 
 ...
 ## Metropolis-Hastings algorithm
 Similar to Metropolis algorithm, change J(aa|aa(s)) to any distribution,and modify the acceptance ratio accordingly:
-* 1. Sample aa(*) ~ J(aa|aa(s)), where J(aa|aa(s)) is any proposal distribution.
-* 2. Compute the acceptance ratio: r = p(aa(\*)|y)/p(aa(s)|y) * J(aa(s)|aa(\*))/J(aa(\*)|aa(s)) 
+* 1. Sample aa(*) ~ J(aa\|aa(s)), where J(aa\|aa(s)) is any proposal distribution.
+* 2. Compute the acceptance ratio: r = p(aa(\*)\|y)/p(aa(s)\|y) * J(aa(s)\|aa(\*))/J(aa(\*)\|aa(s)) 
 * 3. Sample u ~ Unif(0,1) and set aa(s+1) = ifelse(r>u,aa(\*),aa(s))
 
 
