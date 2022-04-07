@@ -67,7 +67,9 @@ Some new terms:
 
 The back ground is you have 100 schools, and the mathscores of the students in each school. The task is to rank the schools based on the average math performance of each school.
 
-![Semiconjugate priors for normal distributions](../img/in-post/normal_semiconjugate.png)
+![Semiconjugate priors for normal distributions](/img/in-post/normal_semiconjugate.png)
+
+<img src="/img/in-post/normal_semiconjugate.png" width="350" alt="accessibility text">
 
 ```r
 #Data set file: Y.mathscore.txt
