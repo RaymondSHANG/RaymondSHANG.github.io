@@ -62,7 +62,179 @@ Some new terms:
 
 
 * The sampling process is as shown in Gibbs sampler above
-  
+
+### R example of MCMC
+
+The back ground is you have 100 schools, and the mathscores of the students in each school. The task is to rank the schools based on the average math performance of each school.
+
+![Semiconjugate priors for normal distributions](../img/in-post/normal_semiconjugate.png)
+
+```r
+#Data set file: Y.mathscore.txt
+#In YY has two columns, school, and mathscore
+#The task is to rank schools based on the mathscores, either average or median
+source(file="Y.mathscore.txt")
+head(YY)
+## school mathscore
+## [1,] 1 52.11
+## [2,] 1 57.65
+## [3,] 1 66.44
+## [4,] 1 44.68
+## [5,] 1 40.57
+ids <- unique(YY[,1]) # school IDS
+Y <- list() # scores to go in a list, by school
+J <- length(ids) # compute summaries by school
+n<-ybar <-ymed <-s2 <- rep(0,J) #n,length; ybar,mean;s2,var
+for(j in 1:J) {
+  Y[[j]] <- YY[YY[,1]==ids[j],2]
+  ybar[j] <- mean( Y[[j]] )
+  ymed[j] <- median( Y[[j]] )
+  n[j] <- length( Y[[j]] )
+  s2[j] <- var( Y[[j]] )
+}
+# Plot data, schools ordered by mean. First plot is null, just sets up axes
+{
+  par(mfrow=c(1,1))
+  plot(c(1,J),range(Y) ,type="n",ylab="math score",
+  xlab="rank of school-specific math score average")
+  for(l in 1:J) {
+  j <- order(ybar)[l]
+    points( rep(l,n[j]), Y[[j]],pch=16,cex=.6 )
+    segments( l,min( Y[[j]] ),l,max( Y[[j]]) )
+  }
+  abline(h=mean(ybar))
+  title(main="Math Scores with Schools Ordered by Average Score")
+}
+
+# MCMC simulations
+# Weakly informative priors, Hoff's Prior
+nu0 <- 1 ; s20 <- 100 # for sigma^2
+eta0 <- 1 ; t20 <- 100 # for tau^2
+mu0 <- 50 ; g20 <- 25; # for mu
+# Gibbs starting values
+m <- length(Y)
+n <-sv <-ybar <-rep(NA,m)
+for(j in 1:m) {
+  ybar[j] <- mean( Y[[j]] )
+  sv[j] <- var( Y[[j]] )
+  n[j] <- length( Y[[j]] )
+}
+theta <- ybar # school means as start for theta
+sigma2 <- mean(sv) # average of within school variances for sigma^2
+mu <- mean(theta) # mean school mean as start for mu
+tau2 <- var(theta) # variance of school means as start for tau^2
+# Setup MCMC
+set.seed(1)
+S <- 5000
+THETA <- matrix( nrow=S,ncol=m) # contains thetas (m of them)
+MST <- matrix( nrow=S,ncol=3) # contains mu, tau^2, sigma^2
+RANK <- matrix(nrow=S,ncol=m)
+# MCMC algorithm
+for(s in 1:S){
+  # Sample new thetas
+  for(j in 1:m)
+  {
+    vtheta <- 1/( n[j]/sigma2+1/tau2 )
+    etheta <- vtheta*( ybar[j]*n[j]/sigma2+mu/tau2 )
+    theta[j] <- rnorm(1,etheta,sqrt(vtheta))
+  }
+
+  # sample new sigma^2
+  nun <- nu0+sum(n);
+  ss <- nu0*s20;
+  for(j in 1:m){ ss <- ss+sum( ( Y[[j]]-theta[j] )^2 ) }
+  sigma2 <- 1/rgamma(1,nun/2,ss/2)
+  # sample new mu
+  vmu <- 1/( m/tau2+1/g20 )
+  emu <- vmu*( m*mean(theta)/tau2 + mu0/g20 )
+  mu <- rnorm(1,emu,sqrt(vmu))
+  # sample new tau^2
+  etam <- eta0+m
+  ss <- eta0*t20 + sum( (theta-mu)^2 )
+  tau2 <- 1/rgamma(1,etam/2,ss/2)
+  # store results
+  THETA[s,] <- theta
+  MST[s,] <- c(mu,sigma2,tau2)
+}
+#update RANK for each iteraction
+for(s in 1:S){
+  current_rank <- order(THETA[s,],decreasing = F)
+  for(i in 1:m){
+    RANK[s,current_rank[i]] = i
+  }
+}
+# Trace plots provided for parameters ( i.e. excludes thetas )
+stationarity.plot<-function(x,...){
+  S <-length(x)
+  scan <-1:S
+  ng <-min( round(S/100),10)
+  group <-S*ceiling( ng*scan/S) /ng
+  boxplot(x~group,...)
+}
+{
+  par(mfrow=c(2,2))
+  stationarity.plot(MST[,1],xlab="iteration",ylab=expression(mu),main="MCMC Batches")
+  stationarity.plot(MST[,2],xlab="iteration",ylab=expression(sigma^2),main="MCMC Batches")
+  stationarity.plot(MST[,3],xlab="iteration",ylab=expression(tau^2),main="MCMC Batches")
+}
+
+# MCMC summaries for parameters
+# Access the MCMC quality
+library(coda)
+{
+  par(mfrow=c(2,2), oma=c(0,0,0,0),mar=c(0,0,2,2),mai = c(0.51, 0.51, 0.51, 0.51))
+  acf(MST[,1],main=expression(paste("ACF for ",mu)))
+  acf(MST[,2],main=expression(paste("ACF for ",sigma^2)))
+  acf(MST[,3],main=expression(paste("ACF for ",tau^2)))
+  title(main="Autocorrelation Functions",line=-1,outer=TRUE)
+}
+MST_mc <- as.mcmc(MST)
+summary(MST_mc)
+effectiveSize(MST)
+# Density plots with superimposed posterior interval
+{
+  par(mfrow=c(2,2))
+  plot(density(MST[,1],adj=2),xlab=expression(mu),main="",lwd=2,
+  ylab=expression(paste(italic("p("),mu,"|",italic(y[1]),"...",italic(y[m]),")")))
+  abline( v=quantile(MST[,1],c(.025,.5,.975)),col="gray",lty=c(3,2,3) )
+  plot(density(MST[,2],adj=2),xlab=expression(sigma^2),main="", lwd=2,
+  ylab=expression(paste(italic("p("),sigma^2,"|",italic(y[1]),"...",italic(y[m]),")")))
+  abline( v=quantile(MST[,2],c(.025,.5,.975)),col="gray",lty=c(3,2,3) )
+  plot(density(MST[,3],adj=2),xlab=expression(tau^2),main="",lwd=2,
+  ylab=expression(paste(italic("p("),tau^2,"|",italic(y[1]),"...",italic(y[m]),")")))
+  abline( v=quantile(MST[,3],c(.025,.5,.975)),col="gray",lty=c(3,2,3) )
+  title(main="Estimated Posterior Densities with 95% Interval",line=-1,outer=TRUE)
+}
+# Print the RANKs
+theta.hat <- apply(THETA,2,mean)
+RANK_mc <- as.mcmc(RANK)
+RANK_mc_summary <- summary(RANK_mc)
+theta_mc_summary <- summary(as.mcmc(THETA))
+df_rank <- data.frame(school=c(1:m),
+rank_mean=RANK_mc_summary$statistics[,"Mean"],
+rank_SD=RANK_mc_summary$statistics[,"SD"],
+rank_2.5=RANK_mc_summary$quantiles[,1],
+rank_97.5=RANK_mc_summary$quantiles[,5],
+theta_mean=theta.hat,
+theta_SD = theta_mc_summary$statistics[,"SD"])
+df_rank <- df_rank[order(df_rank$rank_mean,decreasing = F),]
+rownames(df_rank) <- NULL
+df_rank$rank <- 1:m
+plot(rank ~ theta_mean,data=df_rank,
+  xlab="Bayesian mean",ylab="Bayes rank",
+  main="Bayes rank Vs the posterior mean")
+
+{
+  par(mfrow=c(1,1))
+  #plot(c(1,J),range(Y) ,type="n",ylab="math score",xlab="rank of school-specific math score average")
+  plot(rank_mean ~ rank,data=df_rank,xlab="Bayes rank",ylab="Posterior mean of rank")
+  for(l in 1:m) {
+  points( rep(l,2), c(df_rank[l,4],df_rank[l,5]),pch=16,cex=.6 )
+  segments( l,df_rank[l,4],l,df_rank[l,5] )
+  }
+  title(main="Posterior rank mean(with 95% CI) Vs Bayes rank")
+}
+```
 ## Metropolis
 If the conjugate or semiconjugate prior is not available, we could apply Metropolis-Hastings algorithm as a general method. Let's start with Metropolis:
 Assuming you have aa(s) in the chain, then you want sample aa(s+1):
@@ -82,6 +254,7 @@ If there are multiple parameters, we could:
 1. update a1(s+1) based on p(a1(\*),a2(s)\|y)/p(a1(s),a2(s)\|y)
 2. update a2(s+1) based on p(a1(s+1),a2(\*)\|y)/p(a1(s+1),a2(s)\|y)
 
+### R examples of Metropolis
 ```r
 
 #For the Metropolis algorithm, we need to specify 3 things:
