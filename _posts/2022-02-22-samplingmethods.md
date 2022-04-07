@@ -70,13 +70,83 @@ Assuming you have aa(s) in the chain, then you want sample aa(s+1):
 * 2. Compute the acceptance ratio: r = p(aa(\*)\|y)/p(aa(s)\|y) = {p(y\|aa(\*)) p(aa(\*))}/{p(y\|aa(s)) p(aa(s))}
 * 3. Sample u ~ Unif(0,1); aa(s+1) = ifelse(r>u,aa(\*),aa(s))
   
-From the above algorithm, aa(s+1) is only depending on aa(s). So the Metropolis algorithm generates a Markov Chain.
+From the above algorithm, aa(s+1) is only depending on aa(s). So the Metropolis algorithm generates a Markov Chain. 
+
+To improve the performance of the Markov chain, we need to choose J distribution properly. Most of the time, we could choose J as a U[aa(s)-delta,aa(s)+delta]. Then, choose a reasonable "delta" could improve your MCMC sampling. You could choose delta = SD[aa] to start.
+
+Comparing to the most simple grid sampling, the Metropolis algorithm helps to largely increase the sampling effeciency by restricting the newly sampled parameters to be the proposal distribution. If the proposal distribution is too wide and flat(delta is big, here), then it would be similar to grid sampling: low effeciency with a lot of rejections (low probability). In this case, you will get low ACR. Because of low ACR,you will have large chance aa(s+1) = aa(s), thus high ACF. 
+
+On the other hand, if the proposal function is too narrow, this means that you are sampling in a really small “grid” around aa(s) at each step, then you will have a high ACF because aa(\*) is too close to aa(s). At the same time, you will have high ACR because your new sampled value will be more likely to be effective[if r>=1, accept; if r<1, then you have Pro= r probility to accept. because aa(\*) is really close to aa(s), r should be really close to 1]. Meanwhile, it will take longer to get stationary if the starting point is too far away.
 
 If there are multiple parameters, we could:
 1. update a1(s+1) based on p(a1(\*),a2(s)\|y)/p(a1(s),a2(s)\|y)
 2. update a2(s+1) based on p(a1(s+1),a2(\*)\|y)/p(a1(s+1),a2(s)\|y)
 
-...
+```r
+
+#For the Metropolis algorithm, we need to specify 3 things:
+
+#1.the prior distribution for the parameters, here it is $\theta \sim Gamma(1,52)$
+
+#2.the hypothesized data distribution given the parameters. Here it is $Exp(\theta)$
+
+#3.the proposal symetric distribution to get theta*, here it is $U(\theta_i-\delta; \theta_i+\delta)$
+
+#Metropolis for Exp model
+## y is the survival times in weeks for 17 leukemia patients
+y <- c(65, 156, 100, 134, 16, 108, 121, 4, 39, 143, 56, 26, 22, 1, 1, 5, 65)
+#the typical survival time for patients given a similar treatment was 1 year (52 weeks).
+#assumed that the individual survival times followed an exponential distribution,  for which a reasonably non-informative prior is theta ~ Gamma(1, 52).
+#theta_prior ~ Gamma(1,52)
+alpha_prior=1
+beta_prior=52
+
+#Note, based on the current assumption, we could get posterior theta directionly:
+#theta_post ~ Gamma(1+17,52+sum(y)) = Gamma(18,1114). But here, I want to use Metropolis sampling method as a demo
+#par(mfrow=c(3,2))
+ACR  <- ACF <- EffectSampleSize <- NULL
+THETAA <- NULL
+delta2 <- 0.1
+delta2_testSet <- c(0.005+0.001*c(1:30))
+for(delta2 in delta2_testSet)  {
+
+   set.seed(1)
+   THETA  <- NULL
+   theta     <- 0.0001          # initial theta
+
+   acs   <- 0              # tracks number of proposal acceptances
+   S      <- 10000      # iterations 
+
+   for(s in 1:S) {
+
+      theta.star <- runif(1,theta-delta2,theta+delta2)
+      #
+      if(theta.star > 0 ){ #Only process when theta.start >0
+        log.al       <- sum( dexp(y,rate=theta.star,log=TRUE) -
+                                   dexp(y,rate=theta,log=TRUE)  )  +
+                                   dgamma(theta.star,shape=alpha_prior,rate=beta_prior,log=TRUE) -        
+                                   dgamma(theta,shape=alpha_prior,rate=beta_prior,log=TRUE) 
+
+        if( log(runif(1)) < log.al ){ theta<-theta.star; acs<-acs+1 }
+      }
+       THETA <- c(THETA,theta)  
+    }
+
+       ACR        <- c(ACR,acs/s) 
+       ACF         <- c(ACF,acf(THETA,plot=FALSE)$acf[2])
+       EffectSampleSize <- c(EffectSampleSize,effectiveSize(as.mcmc(THETA)))
+       #THETAA  <- cbind(THETAA,THETA)
+}
+
+{
+  par(mfrow=c(1,2))
+  plot(y=EffectSampleSize,x=delta2_testSet,xlab="Delta")
+  plot(y=ACR,x=ACF)
+}
+
+data.frame(Delta =delta2_testSet,ACR,ACF,EffectSampleSize)
+```
+
 ## Metropolis-Hastings algorithm
 Similar to Metropolis algorithm, change J(aa|aa(s)) to any distribution,and modify the acceptance ratio accordingly:
 * 1. Sample aa(*) ~ J(aa\|aa(s)), where J(aa\|aa(s)) is any proposal distribution.
