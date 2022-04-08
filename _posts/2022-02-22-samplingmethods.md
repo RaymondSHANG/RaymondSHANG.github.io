@@ -69,8 +69,6 @@ The back ground is you have 100 schools, and the mathscores of the students in e
 
 ![Semiconjugate priors for normal distributions](/img/in-post/normal_semiconjugate.png)
 
-<img src="/img/in-post/normal_semiconjugate.png" width="350" alt="accessibility text">
-
 ```r
 #Data set file: Y.mathscore.txt
 #In YY has two columns, school, and mathscore
