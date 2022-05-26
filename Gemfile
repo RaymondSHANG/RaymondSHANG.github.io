@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 gem 'jekyll-paginate'
-
+group :jekyll_plugins do
+  # ... other gems
+  gem "jekyll-tabs"
+end
 gem "jekyll", "~> 4.0"
 #gem "commonmarker"
 #gem pristine commonmarker --version 0.17.13
