@@ -60,7 +60,9 @@ print(f"hello,{name}")
 </div>
 
 # Raw code in md file
-```html
+Here, we need to use ```` to enclose the html code, as ``` are used inside.
+
+````html
 <ul id="profileTabs" class="nav nav-tabs">
     <li class="active"><a class="noCrossRef" href="#profile" data-toggle="tab">Profile</a></li>
     <li><a class="noCrossRef" href="#about" data-toggle="tab">About</a></li>
@@ -103,5 +105,5 @@ print(f"hello,{name}")
 </div>
 
 </div>
-```
+````
 ---
