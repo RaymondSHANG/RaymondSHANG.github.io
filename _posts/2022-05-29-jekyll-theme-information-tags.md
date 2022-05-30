@@ -60,10 +60,17 @@ Alternatively, you could also include note.html where you want it:
 {% include note.html content="Note alalallalala" %}
 ```
 
-## Alerts
+## Newversion
+The new version is based from [here](https://idratherbewriting.com/documentation-theme-jekyll/mydoc_alerts.html#about-alerts):
 
 {% include note.html content="Note alalallalala" %}
 
-{{note}} Note again {{end}}
+{{site.data.alerts.note}}
+<p>This is my note.</p>
+<pre>
+def foo(x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return x+1
+</pre>
+{{site.data.alerts.end}}
 
 ---
