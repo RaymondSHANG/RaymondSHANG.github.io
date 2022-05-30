@@ -14,13 +14,13 @@ tags: [jekyll,markdown,note,warning,tip,important,callout]
 
 In order to use these alerts or callouts, put this include at the top of your page, just below your frontmatter:
 
-```
+```bash
 {% include note.html %}
 ```
 
 Then, you could add note using the syntax:
 
-```
+```bash
 {{note}} your note {{end}}
 ```
 
@@ -28,9 +28,10 @@ Then, you could add note using the syntax:
 
 Alternatively, you could also include note.html where you want it:
 
-```
+```bash
 {% include note.html content="Note alalallalala" %}
 ```
+
 ## Alerts
 
 {% include note.html content="Note alalallalala" %}
