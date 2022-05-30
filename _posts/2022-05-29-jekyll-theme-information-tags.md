@@ -8,6 +8,8 @@ catalog: true
 author: "Yuan"
 tags: [jekyll,markdown,note,warning,tip,important,callout]
 ---
+{% include note.html %}
+
 >Fly high
 
 In order to use these alerts or callouts, put this include at the top of your page, just below your frontmatter:
