@@ -12,7 +12,7 @@ tags: [jekyll,markdown,note,warning,tip,important,callout]
 
 >Fly high
 
-Jekyll provide flexible ways to write alert information in your markdown blogs. I choose the one contributed by [tomjoht](https://github.com/tomjoht/documentation-theme-jekyll), which is the updated. Still, there is an order version, from [parpersson](https://github.com/parpersson/Manualmall), which was probably forked from tomjoht. 
+Jekyll provide flexible ways to write alert information in your markdown blogs. I choose the one contributed by [tomjoht](https://github.com/tomjoht/documentation-theme-jekyll), which is the updated. Still, there is an order version, from [parpersson](https://github.com/parpersson/Manualmall), which was probably forked from tomjoht. **The key point here is the css style predefined, and how to call them from your markdown files.**
 
 ## Older version
 Based on the order version, in order to use these alerts or callouts, put this include at the top of your page, just below your frontmatter, check [here](http://parpersson.github.io/Manualmall/alerts/):
@@ -80,7 +80,7 @@ And callouts below:
 
 
 
-## Newversion
+## New version
 Alternatively, you could also include note.html where you want it. The new version is based from [here](https://idratherbewriting.com/documentation-theme-jekyll/mydoc_alerts.html#about-alerts):
 
 ```
