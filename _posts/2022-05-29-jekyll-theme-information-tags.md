@@ -14,6 +14,14 @@ tags: [jekyll,markdown,note,warning,tip,important,callout]
 
 Jekyll provide flexible ways to write alert information in your markdown blogs. I choose the one contributed by [tomjoht](https://github.com/tomjoht/documentation-theme-jekyll), which is the updated. Still, there is an order version, from [parpersson](https://github.com/parpersson/Manualmall), which was probably forked from tomjoht. **The key point here is the css style predefined, and how to call them from your markdown files.**
 
+I failed to find "bs-callout" stype in my previous css files, after adding "customstyles.css" file downloaded from tomjoht to the head.html. All worked as expected.
+
+```html
+{%raw%}
+    <link rel="stylesheet" href="{{ "/css/customstyles.css" | prepend: site.baseurl }}">
+{%raw%}
+```
+
 ## Older version
 Based on the order version, in order to use these alerts or callouts, put this include at the top of your page, just below your frontmatter, check [here](http://parpersson.github.io/Manualmall/alerts/):
 
@@ -160,25 +168,17 @@ Callouts summary:
 
 ## Callout test
 
-<div class="callout callout-info" markdown="span">
+<div class="bs-callout bs-callout-info" markdown="span">
 This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
 
 ```html
 {% raw %}
-<div class="callout callout-info" markdown="span">
+<div class="bs-callout bs-callout-info" markdown="span">
 This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
 {% endraw %}
 ```
 
-## Test2
-
-<p class="callout info">A success message</p>
-<p class="callout success">A success message</p>
-<p class="callout warning">A success message</p>
-<p class="callout danger">A success message</p>
-
-Normal markdown text
 
 ---
