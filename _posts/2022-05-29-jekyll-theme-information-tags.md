@@ -166,17 +166,67 @@ Callouts summary:
 
 {% include callout.html content="This is warning callout. " type="warning" %}
 
+## Altert test
+
+<div class="alert alert-info" role="alert" markdown="span"><i class="fa fa-info-circle"></i> <b>Note:</b>
+This is a note alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-success" role="alert" markdown="span"><i class="fa-check-square-o"></i> <b>Tip:</b>
+This is a <b>TIP</b> alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-warning" role="alert" markdown="span"><i class="fa fa-warning"></i> <b>Important:</b>
+This is a Important alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-danger" role="alert" markdown="span"><i class="fa fa-exclamation-circle"></i> <b>Warning:</b>
+This is a Warning alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+Code for the alert test:
+
+```html
+
+<div class="alert alert-info" role="alert" markdown="span"><i class="fa fa-info-circle"></i> <b>Note:</b>
+This is a note alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-success" role="alert" markdown="span"><i class="fa-check-square-o"></i> <b>Tip:</b>
+This is a <b>TIP</b> alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-warning" role="alert" markdown="span"><i class="fa fa-warning"></i> <b>Important:</b>
+This is a Important alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+<div class="alert alert-danger" role="alert" markdown="span"><i class="fa fa-exclamation-circle"></i> <b>Warning:</b>
+This is a Warning alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
+</div>
+```
+
 ## Callout test
 
 <div class="bs-callout bs-callout-info" markdown="span">
 This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
 
+code for the callout test:
+
 ```html
 {% raw %}
 <div class="bs-callout bs-callout-info" markdown="span">
 This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
+<!-- 
+Other bs-callout-info include:
+"bs-callout bs-callout-danger"
+"bs-callout bs-callout-default"
+"bs-callout bs-callout-primary"
+"bs-callout bs-callout-success"
+"bs-callout bs-callout-info">
+"bs-callout bs-callout-warning">
+ -->
 {% endraw %}
 ```
 
