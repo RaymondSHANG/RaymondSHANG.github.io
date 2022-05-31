@@ -27,6 +27,17 @@ Then, you could add note using the syntax:
 {%raw%}{{note}} your note {{end}}{% endraw%}
 #Here, could change 'note' into 'tip','warning', or 'important'
 ```
+A summary of this kind of usage:
+
+{%raw%}
+| alert     | code                                      |
+| --------- | ----------------------------------------- |
+| note      | {{note}} your note {{end}}                |
+| tip       | {{tip}} your tip {{end}}                  |
+| warning   | {{warning}} your warning {{end}}          |
+| important | {{important}} your important info {{end}} |
+
+{%endraw%}
 
 {{note}} My note Test using capture {{end}}
 
@@ -41,6 +52,18 @@ And callouts below:
 {%raw%}{{callout_default}} your **callout_default** content {{end}}{% endraw%}
 
 ```
+
+{%raw%}
+| callout         | code                                                      |
+| --------------- | --------------------------------------------------------- |
+| callout_default | {{callout_default}} your callout_default content  {{end}} |
+| callout_primary | {{callout_primary}} your callout_primary content {{end}}  |
+| callout_success | {{callout_success}} your callout_success content {{end}}  |
+| callout_primary | {{callout_primary}} your callout_primary content {{end}}  |
+| callout_warning | {{callout_warning}} your callout_warning content {{end}}  |
+| callout_info    | {{callout_info}} your callout_info content {{end}}        |
+
+{%endraw%}
 
 {{callout_default}} your **callout_default** content {{end}}
 
