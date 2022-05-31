@@ -8,7 +8,7 @@ catalog: true
 author: "Yuan"
 tags: [jekyll,markdown,note,warning,tip,important,callout]
 ---
-{% include linkrefs.html %}
+{% include linksref.html %}
 
 >Fly high
 
@@ -28,7 +28,7 @@ Then, you could add note using the syntax:
 #Here, could change 'note' into 'tip','warning', or 'important'
 ```
 
-{{note}} My note Test {{end}}
+{{note}} My note Test using capture {{end}}
 
 {{tip}} your tip {{end}}
 
@@ -54,16 +54,24 @@ And callouts below:
 
 {{callout_info}} your callout_info content {{end}}
 
-Alternatively, you could also include note.html where you want it:
 
-```bash
+
+
+## Newversion
+Alternatively, you could also include note.html where you want it. The new version is based from [here](https://idratherbewriting.com/documentation-theme-jekyll/mydoc_alerts.html#about-alerts):
+
+```r
 {% include note.html content="Note alalallalala" %}
 ```
 
-## Newversion
-The new version is based from [here](https://idratherbewriting.com/documentation-theme-jekyll/mydoc_alerts.html#about-alerts):
-
 {% include note.html content="Note alalallalala" %}
+
+And note with multiple lines:
+
+{% include note.html content="This is my note. All the content I type here is treated as a single paragraph. <br/><br/> Now I'm typing on a  new line." %}
+
+
+Or if you want to include codes: 
 
 {{site.data.alerts.note}}
 <p>This is my note.</p>
@@ -72,5 +80,39 @@ def foo(x):<br>
 &nbsp;&nbsp;&nbsp;&nbsp;return x+1
 </pre>
 {{site.data.alerts.end}}
+
+Other alerts:
+
+{% include tip.html content="tip alalallalala" %}
+
+{% include warning.html content="warnings alalallalala" %}
+
+{% include important.html content="important alalallalala" %}
+
+And callouts:
+
+{% include callout.html content="This is my callout. It has a border on the left whose color you define by passing a type parameter. I typically use this style of callout when I have more information that I want to share, often spanning multiple paragraphs. " type="primary" %} 
+
+Callouts with multiple lines:
+
+{% include callout.html content="**Important information**: This is my callout. It has a border on the left whose color you define by passing a type parameter. I typically use this style of callout when I have more information that I want to share, often spanning multiple paragraphs. <br/><br/>Here I am starting a new paragraph, because I have lots of information to share. You may wonder why I'm using line breaks instead of paragraph tags. This is because Kramdown processes the Markdown here as a span rather than a div (for whatever reason). Be grateful that you can be using Markdown at all inside of HTML. That's usually not allowed in Markdown syntax, but it's allowed here." type="primary" %} 
+
+```r
+{% include callout.html content="**Important information**: This is my callout. It has a border on the left whose color you define by passing a type parameter. I typically use this style of callout when I have more information that I want to share, often spanning multiple paragraphs. <br/><br/>Here I am starting a new paragraph, because I have lots of information to share. You may wonder why I'm using line breaks instead of paragraph tags. This is because Kramdown processes the Markdown here as a span rather than a div (for whatever reason). Be grateful that you can be using Markdown at all inside of HTML. That's usually not allowed in Markdown syntax, but it's allowed here." type="primary" %} 
+# type could be danger, default, primary, success, info, and warning.
+```
+
+{% include callout.html content="This is danger callout. " type="danger" %} 
+
+{% include callout.html content="This is default callout. " type="default" %}
+
+{% include callout.html content="This is primary callout. " type="primary" %}
+
+{% include callout.html content="This is success callout. " type="success" %}
+
+{% include callout.html content="This is info callout. " type="info" %}
+
+{% include callout.html content="This is warning callout. " type="warning" %}
+
 
 ---
