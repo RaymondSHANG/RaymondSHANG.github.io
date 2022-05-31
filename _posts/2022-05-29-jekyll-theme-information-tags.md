@@ -66,7 +66,7 @@ Alternatively, you could also include note.html where you want it. The new versi
 
 {% include note.html content="Note alalallalala" %}
 
-And note with multiple lines:
+And note with multiple lines using `<br/><br/>` tags:
 
 {% include note.html content="This is my note. All the content I type here is treated as a single paragraph. <br/><br/> Now I'm typing on a  new line." %}
 
@@ -81,6 +81,19 @@ def foo(x):<br>
 </pre>
 {{site.data.alerts.end}}
 
+code for above:
+
+```
+{%raw%}
+{{site.data.alerts.note}}
+<p>This is my note.</p>
+<pre>
+def foo(x):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return x+1
+</pre>
+{{site.data.alerts.end}}
+{% endraw%}
+```
 Other alerts:
 
 {% include tip.html content="tip alalallalala" %}
@@ -98,11 +111,17 @@ Callouts with multiple lines:
 {% include callout.html content="**Important information**: This is my callout. It has a border on the left whose color you define by passing a type parameter. I typically use this style of callout when I have more information that I want to share, often spanning multiple paragraphs. <br/><br/>Here I am starting a new paragraph, because I have lots of information to share. You may wonder why I'm using line breaks instead of paragraph tags. This is because Kramdown processes the Markdown here as a span rather than a div (for whatever reason). Be grateful that you can be using Markdown at all inside of HTML. That's usually not allowed in Markdown syntax, but it's allowed here." type="primary" %} 
 
 ```
-{%raw%}{% include callout.html content="**Important information**: This is my callout. It has a border on the left whose color you define by passing a type parameter. I typically use this style of callout when I have more information that I want to share, often spanning multiple paragraphs. <br/><br/>Here I am starting a new paragraph, because I have lots of information to share. You may wonder why I'm using line breaks instead of paragraph tags. This is because Kramdown processes the Markdown here as a span rather than a div (for whatever reason). Be grateful that you can be using Markdown at all inside of HTML. That's usually not allowed in Markdown syntax, but it's allowed here." type="primary" %}{% endraw%}
+{%raw%}{% include callout.html content="**Important information**: This is my callout. <br/><br/>Here I am starting a new paragraph." type="primary" %}{% endraw%}
 # type could be danger, default, primary, success, info, and warning.
 ```
 
 Callouts summary:
+
+| Property | description                                                                                              |
+| -------- | -------------------------------------------------------------------------------------------------------- |
+| content  | The content for the callout.                                                                             |
+| type     | The style for the callout. Options are `danger`, `default`, `primary`, `success`, `info`, and `warning`. |
+
 
 {% include callout.html content="This is danger callout. " type="danger" %} 
 
