@@ -166,7 +166,7 @@ Callouts summary:
 
 {% include callout.html content="This is warning callout. " type="warning" %}
 
-## Altert test
+## Alert test
 
 <div class="alert alert-info" role="alert" markdown="span"><i class="fa fa-info-circle"></i> <b>Note:</b>
 This is a note alert. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
