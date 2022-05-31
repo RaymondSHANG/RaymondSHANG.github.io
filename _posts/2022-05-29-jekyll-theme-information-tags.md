@@ -158,5 +158,19 @@ Callouts summary:
 
 {% include callout.html content="This is warning callout. " type="warning" %}
 
+## Callout test
+
+<div class="callout callout-info" markdown="span">
+This is a callout. It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+```html
+{% raw %}
+<div class="callout callout-info" markdown="span">
+This is a callout. It can be used to make an aside without disrupting the flow of the main document.
+</div>
+
+{% endraw %}
+```
 
 ---
