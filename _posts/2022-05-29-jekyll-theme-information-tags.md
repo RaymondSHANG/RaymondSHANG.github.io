@@ -172,7 +172,7 @@ This is a callout. <br/><br/>It can be used to make an aside without disrupting 
 {% endraw %}
 ```
 
-### Test2
+## Test2
 
 <p class="callout info">A success message</p>
 <p class="callout success">A success message</p>
