@@ -161,16 +161,24 @@ Callouts summary:
 ## Callout test
 
 <div class="callout callout-info" markdown="span">
-This is a callout. It can be used to make an aside without disrupting the flow of the main document.
+This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
 
 ```html
 {% raw %}
 <div class="callout callout-info" markdown="span">
-This is a callout. It can be used to make an aside without disrupting the flow of the main document.
+This is a callout. <br/><br/>It can be used to make an aside without disrupting the flow of the main document.
 </div>
-
 {% endraw %}
 ```
+
+### Test2
+
+<p class="callout info">A success message</p>
+<p class="callout success">A success message</p>
+<p class="callout warning">A success message</p>
+<p class="callout danger">A success message</p>
+
+Normal markdown text
 
 ---
