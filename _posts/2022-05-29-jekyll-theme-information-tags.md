@@ -18,8 +18,8 @@ I failed to find "bs-callout" stype in my previous css files, after adding "cust
 
 ```html
 {%raw%}
-    <link rel="stylesheet" href="{{ "/css/customstyles.css" | prepend: site.baseurl }}">
-{%raw%}
+<link rel="stylesheet" href="{{ "/css/customstyles.css" | prepend: site.baseurl }}">
+{%endraw%}
 ```
 
 ## Older version
