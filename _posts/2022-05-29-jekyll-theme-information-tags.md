@@ -73,7 +73,7 @@ And callouts below:
 
 {%endraw%}
 
-{{callout_default}} your **callout_default** content {{end}}
+{{callout_default}} your <b>callout_default</b> content {{end}}
 
 {{callout_primary}} your callout_primary content {{end}}
 
