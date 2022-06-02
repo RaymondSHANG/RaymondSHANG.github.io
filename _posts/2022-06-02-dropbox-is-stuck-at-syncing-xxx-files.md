@@ -8,6 +8,8 @@ catalog: true
 author: "Yuan"
 tags: [Dropbox,Mac,syncing,setting]
 ---
+{% include linksref.html %}
+
 >Stay focused
 
 I have used Dropbox for more than 5 yrs now. Recently, the Dropbox desktop app is stuck at 'syncing 2 files' or 'indexing 2 files'. Furthermore, this made dropbox occupy too much CPU, memory, and network bands. I have to quit Dropbox if I want to work smoothly. 
@@ -44,5 +46,20 @@ It seems that there are 2 files I could not upload to the cloud due to the filen
 
 Unfortunately, clicking 'Go to file' link won't lead you anywhere, and you can **NOT** get any information about **WHERE ARE THOSE 2 FILES**. I really hate this kind of 'let you guess' without logs or detailed hints, such an awful design!
 
+I also tried to solve this by setting full disk access permissions to Dropbox:
+
+1. On your computer, click the Apple menu (Apple icon) in the top left corner of your screen.
+2. Click System Preferences. 
+3. Click Security & Privacy.  
+4. Click the Privacy tab. 
+5. In the bottom left corner, click the lock icon next to Click the lock to make changes. 
+Enter your Mac username and password. 
+6. In the menu on the left, scroll down and click Full Disk Access. 
+7. Check the box next to Dropbox. 
+8. Click Later.
+9. In the menu on the left, click Accessibility. 
+10. Check the box next to Dropbox. 
+11. Click the lock icon again. 
+12. Quit and relaunch the Dropbox desktop app.
 
 ---
