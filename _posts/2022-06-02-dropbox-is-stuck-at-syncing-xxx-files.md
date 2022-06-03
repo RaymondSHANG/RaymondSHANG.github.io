@@ -55,9 +55,15 @@ find -E . -regex '.*\|.*'
 find -E . -regex '.*[\\|\"|\<|\>|\:|\?|\*].*'
 #'/' and '.' is special, as they were in the path and postfix of a full path/filename.postfix
 find -E . -regex '.*/.*\..*\..*'
-
+find . -name "*fifo*"
+mdfind 'tag:Green'
 ```
 
+{{tip}}
+I finally found why I got this 'sync issue' shown here. <br/>
+It turned out that "tmp.fifo.read1" and "tmp.fifo.read2" are two files in another dropbox subdirectory. I thought the "Personal" shown in the fig above were the place where potential filename conflicts occur, as I do have one folder with the name of "Personal". And in that folder, I have much more filenames with either ":","<",or even "*". 
+<br/> After `find . -name "*fifo*"`, I found the location of "tmp.fifo.read1" and "tmp.fifo.read2". Then, I removed these two files, and this "sync issues" is gone!
+{{end}}
 I also tried to solve this by setting full disk access permissions to Dropbox:
 
 1. On your computer, click the Apple menu (Apple icon) in the top left corner of your screen.
