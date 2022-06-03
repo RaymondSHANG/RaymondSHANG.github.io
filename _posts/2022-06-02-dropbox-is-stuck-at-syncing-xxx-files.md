@@ -46,6 +46,18 @@ It seems that there are 2 files I could not upload to the cloud due to the filen
 
 Unfortunately, clicking 'Go to file' link won't lead you anywhere, and you can **NOT** get any information about **WHERE ARE THOSE 2 FILES**. I really hate this kind of 'let you guess' without logs or detailed hints, such an awful design!
 
+Based on the filename issue, I tried to search filenames with '/\."<>:?*' using 'find':
+
+```bash
+#Test with '|'
+find -E . -regex '.*\|.*'
+#\."<>:?*
+find -E . -regex '.*[\\|\"|\<|\>|\:|\?|\*].*'
+#'/' and '.' is special, as they were in the path and postfix of a full path/filename.postfix
+find -E . -regex '.*/.*\..*\..*'
+
+```
+
 I also tried to solve this by setting full disk access permissions to Dropbox:
 
 1. On your computer, click the Apple menu (Apple icon) in the top left corner of your screen.
