@@ -57,6 +57,7 @@ find -E . -regex '.*[\\|\"|\<|\>|\:|\?|\*].*'
 find -E . -regex '.*/.*\..*\..*'
 find . -name "*fifo*"
 mdfind 'tag:Green'
+
 ```
 
 {{tip}}
