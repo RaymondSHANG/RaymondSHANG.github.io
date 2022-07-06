@@ -148,7 +148,7 @@ pip install torchxxx.whl
 pip install torchaudioxxx.whl
 pip install torchvisionxxx.whl
 pip install torchdistxxx.whl
-python -c "import torch;print(torch.cuda.is_available())"
+python -c "import torch;print(torch.__version__);print(torch.cuda.is_available())"
 #should return True to show pytorch successfully configured.
 ```
 ---
