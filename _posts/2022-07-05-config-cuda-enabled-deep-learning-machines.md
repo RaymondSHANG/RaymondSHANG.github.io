@@ -30,7 +30,7 @@ pip --default-timeout=10000 install xxx
 
 ```
 
-## General steps to config a pytorch cuda dl platform
+# General steps to config a pytorch cuda dl platform
 
 A good updated tutorial [here by CtrlZ1](https://blog.csdn.net/qq_41076797/article/details/116448817)， and [here by 米饭的白色
 ](https://blog.csdn.net/mifangdebaise/article/details/124404955)
