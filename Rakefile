@@ -45,6 +45,7 @@ task :post do
     #post.puts "header-img: \"img/home-bg.jpg\""
     post.puts "tags: []"
     post.puts "---"
+    post.puts "{% include linksref.html %}"
     post.puts "---"
   end
 end # task :post
