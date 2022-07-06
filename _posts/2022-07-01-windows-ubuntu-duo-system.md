@@ -50,13 +50,13 @@ UEFI and Bios(or Legacy) are two such firmware interfaces used by all most all p
 To begin with, we need to know the latest UEFI
 
 {{tip}}
-<b>UEFI/GPT vs Bios(Legacy)/MBR</b></br></br>
-1. UEFI is short for Extensible Firmware Interface (EFI) or its version 2.x variant, Unified EFI (UEFI)</br></br>
-2. <b>UEFI</b> match with <b>GPT</b> harddisk partitions, which support > 2.2TB (To 9 million TB) spaces of your harddisk. <b>Bios</b> matches with <b>MBR</b> harddisk partitions, which only support less than 2.2TB harddisk space.</br></br>
-3. If you installed all OS in the <b>same</b> harddisk, you only need EFI installed in that harddisk. If you installed your OS in two different harddisks, you need EFI installed in both harddisks.</br></br>
-4. During the POST procedure, the UEFI firmware scans all of the bootable storage devices that are connected to the system for a valid GUID Partition Table (GPT).The UEFI firmware scans the GPTs to find an EFI Service Partition to boot from. If the EFI bootable partition is not found, the firmware may revert to the old Legacy Boot method. If both UEFI boot and Legacy boot fail, you may receive the disk boot failure error message. </br></br>
-5. UEFI is faster than Bios. </br></br>
-6. UEFI offers security like "Secure Boot", which prevents the computer from booting from unauthorized/unsigned applications. This helps in preventing rootkits, but also hampers dual-booting, as it treats other OS as unsigned applications. You may need to disable secure boot to install your duo systems. (Currently, only Windows and Ubuntu are signed OS??Not sure)</br></br>
+<b>UEFI/GPT vs Bios(Legacy)/MBR</b><br><br>
+1. UEFI is short for Extensible Firmware Interface (EFI) or its version 2.x variant, Unified EFI (UEFI)<br><br>
+2. <b>UEFI</b> match with <b>GPT</b> harddisk partitions, which support > 2.2TB (To 9 million TB) spaces of your harddisk. <b>Bios</b> matches with <b>MBR</b> harddisk partitions, which only support less than 2.2TB harddisk space.<br><br>
+3. If you installed all OS in the <b>same</b> harddisk, you only need EFI installed in that harddisk. If you installed your OS in two different harddisks, you need EFI installed in both harddisks.<br><br>
+4. During the POST procedure, the UEFI firmware scans all of the bootable storage devices that are connected to the system for a valid GUID Partition Table (GPT).The UEFI firmware scans the GPTs to find an EFI Service Partition to boot from. If the EFI bootable partition is not found, the firmware may revert to the old Legacy Boot method. If both UEFI boot and Legacy boot fail, you may receive the disk boot failure error message. <br><br>
+5. UEFI is faster than Bios. <br><br>
+6. UEFI offers security like "Secure Boot", which prevents the computer from booting from unauthorized/unsigned applications. This helps in preventing rootkits, but also hampers dual-booting, as it treats other OS as unsigned applications. You may need to disable secure boot to install your duo systems. (Currently, only Windows and Ubuntu are signed OS??Not sure)<br><br>
 7. During ubuntu installing process, if you use the manual partitioning ("Something else"), the difference is that you will have to set the /boot/efi mount point to the UEFI partition. And if there was not any UEFI partition on your HDD, you first will have to create it.
 {{end}}
 

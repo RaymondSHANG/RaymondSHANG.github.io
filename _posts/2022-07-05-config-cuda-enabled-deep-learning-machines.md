@@ -32,8 +32,8 @@ pip --default-timeout=10000 install xxx
 
 ## General steps to config a pytorch cuda dl platform
 
-A good updated tutorial (here by CtrlZ1)[https://blog.csdn.net/qq_41076797/article/details/116448817]， and (here by 米饭的白色
-)[https://blog.csdn.net/mifangdebaise/article/details/124404955]
+A good updated tutorial [here by CtrlZ1](https://blog.csdn.net/qq_41076797/article/details/116448817)， and [here by 米饭的白色
+](https://blog.csdn.net/mifangdebaise/article/details/124404955)
 
 Currently, I choose cuda11.6+cudnn8.4.1+pytorch for both my windows and ubuntu system.
 
@@ -106,15 +106,15 @@ Samples/1_Utilities/bandwidthTest/bandwidthTest
 Under windows, you could find deviceQuery.ext, just run it in cmd.
 
 ## cudnn test
-version 8.4.1.50 install failed if I follow the install-guide from nvidia. Solution from (dishant.daredevil)[https://forums.developer.nvidia.com/t/e-version-8-3-1-22-1-cuda10-2-for-libcudnn8-was-not-found/200801/9]
+version 8.4.1.50 install failed if I follow the install-guide from nvidia. Solution from [dishant.daredevil](https://forums.developer.nvidia.com/t/e-version-8-3-1-22-1-cuda10-2-for-libcudnn8-was-not-found/200801/9)
 
 {{tip}} <b>From dishant.daredevil</b>
-After step -</br></br>
-sudo apt-key add /var/cudnn-local-repo-*/7fa2af80.pub</br></br>
-You will have the directory /var/cudnn-local-repo-ubuntu2004-8.4.0.27 (with your ubuntu version and cudnn downloaded)</br></br>
-Inside this directory, you will be having three .deb files.</br></br>
-just do for all the deb files- </br></br>
-sudo gdebi xxx.deb</br></br>
+After step -<br><br>
+sudo apt-key add /var/cudnn-local-repo-*/7fa2af80.pub<br><br>
+You will have the directory /var/cudnn-local-repo-ubuntu2004-8.4.0.27 (with your ubuntu version and cudnn downloaded)<br><br>
+Inside this directory, you will be having three .deb files.<br><br>
+just do for all the deb files- <br><br>
+sudo gdebi xxx.deb<br><br>
 which will install cudnn. 
 {{end}}
 
