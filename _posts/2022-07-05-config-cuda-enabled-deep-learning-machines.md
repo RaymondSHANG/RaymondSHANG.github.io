@@ -52,15 +52,14 @@ A common steps for both installations:
 # Other tips
 ## 1. Remove nouveau
 NVIDIA-SMI has failed because it couldn‘t communicate with the NVIDIA driver.
-1. check nouveau
+### check nouveau
    
 ```bash
 lsmod | grep nouveau
 ```
 
 If return nothing. Then OK.
-
-2. Remove nouveau
+### Remove nouveau
 
 ```bash
 sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
