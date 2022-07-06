@@ -8,6 +8,7 @@ catalog: true
 author: "Yuan"
 tags: [cuda, cuDNN, cudatoolkits, pytorch, tensorflow]
 ---
+{% include linksref.html %}
 > 勿以恶小而为之，勿以善小而不为
 
 I spent the whole weekend trying to install a cuda-enabled deep learning machine. Similar to most of other tasks, if you are in the right way, you could finish them in 30 mins. But if you are not familiar with them, after try, error and google search, you need a whole weekend!

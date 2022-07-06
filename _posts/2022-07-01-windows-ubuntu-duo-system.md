@@ -14,7 +14,7 @@ tags: [Windows,Ubuntu,Duo boot]
 I bought a new PC: Dell Precision3650 Tower for deep learning and large scale computing. This PC has 2 SSD harddrive (256GB + 1TB) and 1 HDD harddrive (4TB). 
 
 
-In this poster, I will only focus on how the duo boot systems are installed, for my own record. There are a lot tutorials on line, and some of those are really confusing, mainly due to the mixing of UEFI/GPT and Bios/MBR. I found a good one here (win10 +ubuntu20.04双系统安装：双硬盘+nvidia独立显卡_柚子=_=的博客)[https://www.cxyzjd.com/article/weixin_41878226/107386606].
+In this poster, I will only focus on how the duo boot systems are installed, for my own record. There are a lot tutorials on line, and some of those are really confusing, mainly due to the mixing of UEFI/GPT and Bios/MBR. I found a good one here [win10 +ubuntu20.04双系统安装：双硬盘+nvidia独立显卡_柚子=_=的博客](https://www.cxyzjd.com/article/weixin_41878226/107386606).
 
 A general process to install the dua boot system:
 
@@ -39,7 +39,7 @@ A general process to install the dua boot system:
       NTFS, 500 GB for other documents(Volume D:)
       NTFS, Remaining 3.5TB for data.
 
-To best understand the installation process, we need to know the boot procesure， from (Vaibhav Kandwal)[https://www.freecodecamp.org/news/uefi-vs-bios/]:
+To best understand the installation process, we need to know the boot procesure， from [Vaibhav Kandwal](https://www.freecodecamp.org/news/uefi-vs-bios/):
 
 1. You press the power button on your laptop/desktop.
 2. The CPU starts up, but needs some instructions to work on (remember, the CPU always needs to do something). Since the main memory is empty at this stage, CPU defers to load instructions from the <b>firmware chip</b> on the motherboard and begins executing instructions.
