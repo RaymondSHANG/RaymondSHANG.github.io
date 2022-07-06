@@ -61,13 +61,14 @@ lsmod | grep nouveau
 If return nothing. Then OK.
 
 2. Remove nouveau
+
 ```bash
 sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
 sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
 sudo update-initramfs -u
 sudo reboot
 ```
-## Uninstall cuda and nvidia drivers
+## 2. Uninstall cuda and nvidia drivers
 
 ```bash
 sudo apt-get --purge remove "*cublas*" "cuda*" "nsight*" 
@@ -81,7 +82,7 @@ sudo /usr/bin/nvidia-uninstall
 ```
 
 
-## cuda test
+## 3. cuda install and cuda test
 After installing cuda, add cuda/bin and lib to path, such as in .bashrc
 If you have nvidia driver already installed, either uninstall it, or do not include nvidia driver when you install cuda. Remember, your cuda version should match your nvidia version.
 
@@ -105,8 +106,10 @@ Samples/1_Utilities/bandwidthTest/bandwidthTest
 
 Under windows, you could find deviceQuery.ext, just run it in cmd.
 
-## cudnn test
-version 8.4.1.50 install failed if I follow the install-guide from nvidia. Solution from [dishant.daredevil](https://forums.developer.nvidia.com/t/e-version-8-3-1-22-1-cuda10-2-for-libcudnn8-was-not-found/200801/9)
+## 4. cudnn install and cudnn test
+For windows, it's direct, just unzip and merge cudnn files to cuda directories.
+
+For ubuntu, version 8.4.1.50 install failed if I follow the install-guide from nvidia. Solution from [dishant.daredevil](https://forums.developer.nvidia.com/t/e-version-8-3-1-22-1-cuda10-2-for-libcudnn8-was-not-found/200801/9)
 
 {{tip}} <b>From dishant.daredevil</b>
 After step -<br><br>
@@ -136,7 +139,7 @@ make
 #You could also make and run other samples in the samples_v8 directory
 ```
 
-## make your dlenv enviroment
+## 5. make your dlenv enviroment
 
 ```bash
 conda create --name py39 python=3.9
@@ -146,7 +149,7 @@ conda activate py39
 #conda env list
 ```
 
-## pytorch test
+## 6. pytorch test
 ```bash
 #after downloading 3/4 whl from https://download.pytorch.org/whl/torch_stable.html, 
 #cuXXX/torchXXX-cp39xxxx-linux_x86_64.whl, or -win_amd64.whl
