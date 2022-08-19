@@ -2,7 +2,7 @@
 layout: post
 title: "Generate automatic reports using R markdown"
 subtitle: "Parameters from R to yaml to markdown"
-date: 2022-08-16 16:41:57
+date: 2022-08-18 16:41:57
 header-style: text
 catalog: true
 author: "Yuan"
