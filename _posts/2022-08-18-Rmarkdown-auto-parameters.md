@@ -86,7 +86,7 @@ By default, when you knit a XXX.md file, a XXX.pdf (or XXX.html, based on you ou
 To overcome this, you could either rename your output file, or specify <i>output_file</i> when you call "rmarkdown::render()" function as shown above.\
 {{note}}
 So far, I do not find a way to specify flexible to render inside a yaml header, and set flexible output_file there. <br>
-A close solution is from [Floris Padt](https://stackoverflow.com/questions/28500096/r-markdown-variable-output-name) in stackoverflow. However, the output filename is fixed in this solution(Shown below).
+A close solution is from <a href="https://stackoverflow.com/questions/28500096/r-markdown-variable-output-name">Floris Padt</a> in stackoverflow. However, the output filename is fixed in this solution(Shown below).
 {{end}}
 ````
 ---
