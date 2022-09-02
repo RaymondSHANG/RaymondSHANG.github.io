@@ -111,5 +111,38 @@ print(
 
 }
 
+
+````
+
+## 4.Change fig.width and fig.height Dynamically Within an R Markdown Chunk
+This part is from [Michael J Williams' blog ](http://michaeljw.com/blog/post/subchunkify/)
+````
+# First,define function
+```
+subchunkify <- function(g, fig_height=7, fig_width=5) {
+  g_deparsed <- paste0(deparse(
+    function() {g}
+  ), collapse = '')
+
+  sub_chunk <- paste0("\n`","``{r sub_chunk_", floor(runif(1) * 10000), 
+                            ", fig.height=",fig_height, 
+                            ", fig.width=", fig_width, 
+                            ", echo=FALSE}",
+                        "\n(",g_deparsed,")()",
+                        "\n`","``
+                        ")
+
+  cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
+}
+```
+
+#Using subchunkify function to define dynamic figsize
+```{r echo=FALSE, results='asis'}
+g <- ggplot(economics, aes(date, unemploy)) + 
+  geom_line()
+for (i in seq(2, 5)) {
+  subchunkify(g, i / 2, i)
+}
+```
 ````
 ---
