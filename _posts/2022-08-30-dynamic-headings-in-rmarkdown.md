@@ -129,8 +129,7 @@ subchunkify <- function(g, fig_height=7, fig_width=5) {
                             ", fig.width=", fig_width, 
                             ", echo=FALSE}",
                         "\n(",g_deparsed,")()",
-                        "\n`","``
-                        ")
+                        "\n`","``\n")
 
   cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
 }
@@ -143,6 +142,20 @@ g <- ggplot(economics, aes(date, unemploy)) +
 for (i in seq(2, 5)) {
   subchunkify(g, i / 2, i)
 }
+```
+````
+
+## 5. Set specific cell colors for DT
+````
+```{r}
+library(DT)
+df_tmp <- data.frame(a=c("AA","BB"),Color=c("#E41A1C","#377EB8"))
+
+datatable(df_tmp,
+          options = list(
+            columnDefs = list(list(className = 'dt-center', targets = "_all"))
+            )
+          ) %>% DT::formatStyle(columns = "Color", color=styleEqual(df_tmp$Color,df_tmp$Color))#Or backgroundColor = styleEqual(df_tmp$Color,df_tmp$Color)
 ```
 ````
 ---

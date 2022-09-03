@@ -118,6 +118,13 @@ plot(cars)
 library(leaflet)
 leaflet() %>% addTiles()
 ```
+# Set root.dir
+```{r}
+#Set working directory
+#The working directory starts to change in the following chunks after the chuck that contains knitr::opts_knit$set(root.dir = ...).
+knitr::opts_knit$set(root.dir = params$wdir)
+
+```
 
 ````
 ---
