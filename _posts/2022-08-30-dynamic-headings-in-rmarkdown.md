@@ -119,12 +119,17 @@ This part is from [Michael J Williams' blog ](http://michaeljw.com/blog/post/sub
 ````
 # First,define function
 ```
-subchunkify <- function(g, fig_height=7, fig_width=5) {
+figNum=0
+subchunkify <- function(g, fig_height=7, fig_width=5,chunkname="plot") {
   g_deparsed <- paste0(deparse(
     function() {g}
   ), collapse = '')
+  if(figNum >= 100000){figNum=0}
+  figNum = figNum+1
+  chunkname = paste0(chunkname,".",figNum)
+#  sub_chunk <- paste0("\n`","``{r sub_chunk_", floor(runif(1) * 10000), 
 
-  sub_chunk <- paste0("\n`","``{r sub_chunk_", floor(runif(1) * 10000), 
+  sub_chunk <- paste0("\n`","``{r ",chunkname, 
                             ", fig.height=",fig_height, 
                             ", fig.width=", fig_width, 
                             ", echo=FALSE}",
@@ -137,10 +142,12 @@ subchunkify <- function(g, fig_height=7, fig_width=5) {
 
 #Using subchunkify function to define dynamic figsize
 ```{r echo=FALSE, results='asis'}
-g <- ggplot(economics, aes(date, unemploy)) + 
+g1 <- ggplot(economics, aes(date, unemploy)) + 
   geom_line()
+g2 <- ggplot(economics, aes(date, unemploy)) + 
+  geom_point()
 for (i in seq(2, 5)) {
-  subchunkify(g, i / 2, i)
+  subchunkify(g1, i / 2, i)
 }
 ```
 ````
