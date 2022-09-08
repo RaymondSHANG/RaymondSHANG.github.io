@@ -165,4 +165,34 @@ datatable(df_tmp,
           ) %>% DT::formatStyle(columns = "Color", color=styleEqual(df_tmp$Color,df_tmp$Color))#Or backgroundColor = styleEqual(df_tmp$Color,df_tmp$Color)
 ```
 ````
+
+## 6. Group by specific table columns for DT
+````
+```{r}
+#options(DT.options = list(columnDefs = list(
+#                                          list(className = 'dt-center', targets = "_all"),
+#                                          list(visible=FALSE, targets=c(0))
+#                                          )
+#                          )
+#        )
+
+dt_demographics2[1,1] <- NA
+colnames(dt_demographics2)
+#[1] "Group2" "Group"  "M"      "F"
+datatable(dt_demographics2,
+          rownames = FALSE, 
+          extensions = c('RowGroup','Buttons'), 
+          options = list(
+            ordering=F,
+            rowGroup = list(dataSrc=c(0),
+                            emptyDataGroup=NULL),#Group by first column, Do not group the first row(with NA values)
+             columnDefs = list(
+                                list(visible=FALSE, targets=c(0))
+                            ), #Set first column not visible
+            dom = 'Bfrtip',
+            buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+          )
+        )
+```
+````
 ---
