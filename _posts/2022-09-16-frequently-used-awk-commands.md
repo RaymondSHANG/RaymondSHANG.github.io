@@ -123,6 +123,13 @@ echo -e "Apple Juice\nApple Pie\nApple Tart\nApple Cake" | awk '/Apple (Juice|Ca
 echo "apple apple\npineapple apple\n" | awk 'sub(/apple/, "nut")'
 echo "apple apple\npineapple apple\n" | awk 'gsub(/apple/, "nut")'
 
+# Regx with variables
+## awk can match against a variable if you don't use the // regex markers
+## need to build up the required regex as a string, by adding "$"
+regex = dom"$"
+if ( $1 ~ regex ) {
+  print $0;
+}
 ```
 
 # Examples by Practice
@@ -137,7 +144,37 @@ awk '(NR==FNR{arr[$1];next}($1 in arr){print $1}' file1.txt file2.txt
 awk '(NR==FNR){arr[$1]=$2;next}($1 in arr){print "SNP:",$1, "P-Value1:",arr[$1], "P-Value2:", $2}' file1.txt file2.txt
 ```
 
-## 
+## An example of awk script
+From [Steve](https://stackoverflow.com/questions/11534173/how-to-use-awk-variables-in-regular-expressions)\
+```awk
+BEGIN {
+    FS = "[. ]"
+    OFS = "."
+}
+
+FNR == NR {
+    domain[$1] = $0
+    next
+}
+
+FNR < NR {
+    if ($2 in domain) {
+        for ( i = 2; i < NF; i++ ) {
+            if ($i != "") {
+                line = (line ? line OFS : "") $i
+            }
+        }
+        total[line] += $NF
+        line = ""
+    }
+}
+
+END {
+    for (i in total) {
+        printf "%s\t%s\n", i, total[i]
+    }
+}
+```
 
 
 ---
