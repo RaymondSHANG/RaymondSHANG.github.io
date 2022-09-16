@@ -80,6 +80,7 @@ The awk program defines a number of special variables that can be referenced or 
 
 ## System functions in awk
 The awk program defines a number of special variables that can be referenced or reset inside a program.\
+
 |                  Function Name | Definition                                                                                                                                                    | Example                                                                                                                              | Meaning                                                                         |
 | -----------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------ |
 |                       int(num) | get int of number                                                                                                                                             | awk 'BEGIN{print int(3.534);print int(4);print int(-5.223);print int(-5);}'                                                          | print int(num)                                                                  |
