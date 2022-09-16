@@ -126,11 +126,11 @@ echo "apple apple\npineapple apple\n" | awk 'gsub(/apple/, "nut")'
 
 # Regx with variables
 ## awk can match against a variable if you don't use the // regex markers
-## need to build up the required regex as a string, by adding "$"
-regex = dom"$"
-if ( $1 ~ regex ) {
-  print $0;
-}
+## need to build up the required regex as a string
+echo "apple apple\npineapple apple\n" | awk 'BEGIN{r = "eapp"} $0~r'
+# Using variables from bash terminal
+rex=eapp
+echo "apple apple\npineapple apple\n" | awk -v r="$rex" '$0~r'
 ```
 
 # Examples by Practice
