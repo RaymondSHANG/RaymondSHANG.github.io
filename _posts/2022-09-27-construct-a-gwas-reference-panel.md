@@ -111,6 +111,14 @@ I checked the BETA(APOE4) , and BETA(APOE2) values of these 3 different summary 
 
 The detailed GWAS summary results listed below:
 
+In IGAP2013:
+
+| Chromosome | Position | MarkerName | Effect_allele | Non_Effect_allele | Beta    | SE     | Pvalue    |
+| ---------- | -------- | ---------- | ------------- | ----------------- | ------- | ------ | --------- |
+| 19         | 45411941 | rs429358   | C             | T                 | 1.3503  | 0.0272 | 6.70e-536 |
+| 19         | 45412079 | rs7412     | T             | C                 | -0.3871 | 0.0395 | 1.234e-22 |
+
+
 In Kunkle2019:
 
 | Chromosome | Position | MarkerName | Effect_allele | Non_Effect_allele | Beta    | SE     | Pvalue    |
