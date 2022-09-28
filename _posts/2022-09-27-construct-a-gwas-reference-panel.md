@@ -89,21 +89,25 @@ In this poster, I only add GWAS ref panel part. A reference panel is very useful
    If instead your aim is to construct a prediction model (i.e., to use MegaPRS), then the reference panel needs only contain predictors for which you have summary statistics. 
 
 ## Choose of GWAS summary dataset
-So far, there are 3 big AD related GWAS results to be used.
-1. Kunkle 2019, 94437 individuals, $35274$ clinical AD, $59163$ controls.
-2. Jensen 2019, $455 258$ individuals including clinical diagnosed AD and AD-by-proxy, and controls(71880 cases including 46613 proxy, 383378 controls including 318246 proxy)
-3. Douglas P.Wightman 2021, $1 126 563$ individuals, 90338 AD cases (46613 AD by proxy),1036225 controls (318246 proxy). 
+So far, there are 4 big AD related GWAS results to be used.
+1. IGAP 2013, which is the first stage IGAP GWAS results. This was broadly used and refered before, but a little outdated.
+2. Kunkle 2019, 94437 individuals, $35274$ clinical AD, $59163$ controls.
+3. Jensen 2019, $455 258$ individuals including clinical diagnosed AD and AD-by-proxy, and controls(71880 cases including 46613 proxy, 383378 controls including 318246 proxy)
+4. Douglas P.Wightman 2021, $1 126 563$ individuals, 90338 AD cases (46613 AD by proxy),1036225 controls (318246 proxy). 
 {{note}}
-Note that study 3 is an extension of study 2. Study 2 includes Study 1. Study 1 only include clinically diagnosed LOADs.
+Note that study 4 is an extension of study 3. Study 3 includes Study 2. Study 2 include data from Study 1. Study 1 and study 2 only include clinically diagnosed LOADs. 
 {{end}}
 
+   
 I checked the BETA(APOE4) , and BETA(APOE2) values of these 3 different summary statistics, they are very different:
 
 |       Study | BETA(APOE4) | BETA(APOE2) |
 | ----------: | :---------: | :---------: |
+|    IGAP2013 |    1.35     |   -0.3871   |
 |  Kunkle2019 |    1.20     |    -0.47    |
 |  Jensen2019 |    0.16     |   -0.088    |
 | Douglas2021 |     NA      |   -0.084    |
+
 
 The detailed GWAS summary results listed below:
 
@@ -148,7 +152,7 @@ $MAF(APOE2) = 0.072$ as shown in Jenson 2019, so we could calculate BETA(APOE2) 
 
 {{end}}
 
-Since the differences are large, and I decide to choose Kunkle2019 which include only the clinical diagosed data.
+Since the differences are large, and I decide to choose Kunkle2019 which include only the clinical diagosed data, and their APOE beta values are more close to IGAP2013, which is well recognized. 
 
 
 
