@@ -22,7 +22,7 @@ It turned out that $h^2_{snp}$ is just the surface part of an iceberg:
 - Narrow-sense heritability only refer to additive effects: $h^2=\sigma_g^2/\sigma_P^2$. Thus, in most heritability analysis, predictors that explain more than 1% of phenotypic variance are removed and modelled separately.
 - The additive model for phenotype Y vs genetics, a good review by [Noah Zaitlen and Peter Kraft](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3432754/):
   
-  $y_j=m+\sum{h_i*z_{ij}} + \epsilon_j$
+  $y_j=m+\sum{h_i*z_{ij}} + \epsilon_j$         (1)
 
   Here: $z_{ij}=\dfrac{g_{ij}-2*p_j}{\sqrt{2p_j(1-p_j)}}$, $p_j$ is MAF for $SNP_j$, $z_{ij}$ is normalized genotypes, so $var(z_{ij})==1$.\
   Y is normalized to have variance 1. $\epsilon_j$ is from environmental
@@ -39,11 +39,16 @@ It turned out that $h^2_{snp}$ is just the surface part of an iceberg:
   
   $h^2=Var(Z^Th) = h^TVar(Z^T)h = h^TRh=(R^{-1}\beta)^TR(R^{-1}\beta)=(\beta)^{T}R^{-1}\beta$
 
+- In Equation (1), most of the time, there are much much more $h_i$ to estimate than the sample size. Thus, people in the field apply a bayesian approach, assuming various prior distributions for $h_i$ in their calculation models. 
 
+- In the task of heritability estimation, $VAR(h_i)$ is also an important variable to estimate. Based on the assumptions for $VAR(h_i)$, there are different heritability models:
+  - GCTA model: uniform $VAR(h_i)$ over all SNPs.
+  - LDAK model: $VAR(h_i)$ is related to MAF ($p_i$), and LD.
+  - The field is still envoling, more complicated models were developped. But after all, they are all models
 
 {{note}}
 
-For pedigree studies involving monozygotic (MZ) twins and dizygotic (DZ) twins, heritability can be estimated as twice the difference between phenotypic correlations for MZ and DZ twin pairs:<br/>
+For pedigree studies involving monozygotic (MZ) twins and dizygotic (DZ) twins, heritability can be estimated by Falconer's formula as twice the difference between phenotypic correlations for MZ and DZ twin pairs:<br/>
 $H^2=2(r_{MZ}−r_{DZ})$⁠ <br/>
 This is easy to be understood:<br/>
 $r$ is defined as correlation coefficient, which represents the percentage of the covariance of (X,Y) explained by variance of X, and variance of Y. <br/>
