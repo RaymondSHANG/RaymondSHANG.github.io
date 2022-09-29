@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Construct a GWAS reference panel"
-subtitle: "for almost everywhere usage in GWAS related studies"
+title: "Alzheimer's PRS calculations (1)"
+subtitle: "Choose base GWAS and Reference Panel"
 date: 2022-09-27 14:19:59
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [GWAS, plink, 1000 Genomes Project, imputations, summary statistics]
+tags: [Heritability Models, GWAS, plink, 1000 Genomes Project, imputations, summary statistics]
 ---
 {% include linksref.html %}
 > I did not mean to learn GWAS, but it happened.
@@ -46,7 +46,7 @@ It turned out that $h^2_{snp}$ is just the surface part of an iceberg:
   - LDAK model: $VAR(h_i)$ is related to MAF ($p_i$), and LD.
   - The field is still envoling, more complicated models were developped. But after all, they are all models. Some models are useful under certain conditions.
 
-{{note}}
+{{note}}<br/>
 
 For pedigree studies involving monozygotic (MZ) twins and dizygotic (DZ) twins, heritability can be estimated by Falconer's formula as twice the difference between phenotypic correlations for MZ and DZ twin pairs:<br/>
 $H^2=2(r_{MZ}−r_{DZ})$⁠ <br/>
@@ -70,7 +70,7 @@ The whole process to calculate individual SNP heritability is very complicated, 
 {{note}}<br/>
 1. It would be very useful if we could automatically assign an individual's race based on his/her genetics information, and then choose the ref panel automatically, and calculate race specific heritability model parameters.<br/>
 2. All applications of SumHer require a tagging file, which records the (relative) expected heritability tagged by each predictor. To create this tagging file requires a (well-matched) Reference Panel(imputed or sequencing data, retaining SNPs with MAF above 0.005 and information score above 0.8)<br/>
-3. At the time of Sept 28, 2022. Based on [Dougspeed's suggestions](http://dougspeed.com/calculate-taggings/): <br/>
+3. At the time of Sept 28, 2022. Based on <a href="http://dougspeed.com/calculate-taggings/">[Dougspeed's suggestions]</a>: <br/>
    When analysing human data, we recommend using the BLD-LDAK Model to estimate SNP Heritability or Heritability Enrichments (for pre-defined categories), using the LDAK-Thin Model to estimate Genetic Correlations, and using the BLD-LDAK+Alpha Model to estimate the selection-related parameter alpha. When analysing non-human data, we recommend always using the LDAK-Thin Model.
 {{end}}
 
@@ -140,8 +140,8 @@ In Douglas2021:
 | 19  | 45411941  | C            | T           | inf   | 0.0       | 762544 |
 | 19  | 45412079  | T            | C           | -26.7 | 5.40e-157 | 762701 |
 
-{{note}}
-Based on [mobius and atlas.akhan](https://www.biostars.org/p/319584/) and [Nature genetics: Integration of summary data from GWAS and eQTL studies predicts complex trait gene targets](https://www.nature.com/articles/ng.3538) <br/>
+{{note}}<br/>
+Based on <a href="https://www.biostars.org/p/319584/">mobius and atlas.akhan</a> and <a href="https://www.nature.com/articles/ng.3538">Nature genetics: Integration of summary data from GWAS and eQTL studies predicts complex trait gene targets</a><br/>
 
 Var(Y|X) is the variance of the residual under linear regression and N is the sample size <br/>
 assuming both Y and X are transformed to have unit variance and mean zero<br/>
@@ -154,14 +154,137 @@ $Var(beta) = \frac{Var(Y|X)}{N}$ <br/>
 
 Thus <br/>
 <br/>
-$BETA =  \frac{z}{\sqrt{2*MAF*(1-MAF)*(n+z*z)}}$ <br/>
+$beta =  \frac{z}{\sqrt{2*MAF*(1-MAF)*(n+z*z)}}$ <br/>
 <br/>
-$MAF(APOE2) = 0.072$ as shown in Jenson 2019, so we could calculate BETA(APOE2) based on Douglas 2021.
+$MAF(APOE2) = 0.072$ as shown in Jenson 2019, so we could calculate beta(APOE2) based for dataset Douglas 2021.
 
+<br/><br/>
+In some other situations, you might need to convert beta value to odd ratio though:<br/>
+$odd ratio = e^{beta}$
+<br/>
 {{end}}
 
 Since the differences are large, and I decide to choose Kunkle2019 which include only the clinical diagosed data, and their APOE beta values are more close to IGAP2013, which is well recognized. 
 
+## Choose reference Panel for Alzheimer's summary statistics
+> This is written on Sept 28, 2022. <br/>
+> Though the research community is trying to increase the diversity of individuals involved in Alzheimer's studies, it is still a fact that most data available so far are based on non-Hispanic Whites(NHW).<br/>
+> Hopefully, a couple of years later, when I read this again, we have analysis benifit all population. <br/>
+> This is my dream, could also be our dream.
+
+Following the dataset of Kunkle2019, I decide to choose European data from [the 1000 genomes project](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/).The 1000 Genomes Project, which contains samples of European, Asian and African ancestry.
+
+### Generate reference panel using plink
+You could always generate reference panel from 1000 genomes project using plink2. Or you could downloaded from [plink2 resource](https://www.cog-genomics.org/plink/2.0/resources#1kg_phase3), and do filtering afterwards.
+
+```bash
+#!/bin/ksh
+
+#Step 1
+#Download sample IDs and extract Europeans
+wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/integrated_call_samples_v3.20130502.ALL.panel
+awk < integrated_call_samples_v3.20130502.ALL.panel '($3=="EUR"){print $1, $1}' > eur.keep
+#$3=="EUR" && $2!="FIN"
+
+#Step 2
+#Download vcf.gz data
+for j in {1..22}; do
+        #wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/\
+        #ALL.chr$j.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz
+        #http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chr4.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz
+        cd vcf
+        wget http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chr$j.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz
+        
+done
+#wget -O "vcf/chrX.vcf.gz" "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chrX.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.vcf.gz"
+wget -O "vcf/chrX.vcf.gz" "http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chrX.phase3_shapeit2_mvncall_integrated_v1b.20130502.genotypes.vcf.gz"
+
+#wget -O "vcf/chrY.vcf.gz" "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chrY.phase3_integrated_v2a.20130502.genotypes.vcf.gz"
+wget -O "vcf/chrY.vcf.gz" "http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ALL.chrY.phase3_integrated_v1b.20130502.genotypes.vcf.gz"
+
+#Step 3, make bed file using plink
+cd ..
+for i in {1..22}; do
+    plink --vcf vcf/ALL.chr$j.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz \
+                --make-bed --out chr$j --maf 0.01 --keep eur.keep
+
+    #plink --vcf "chr"$i".vcf.gz" --make-bed --out "chr"$i
+done
+plink --vcf vcf/chrX.vcf.gz --make-bed --out chrX --maf 0.01 --keep eur.keep
+plink --vcf vcf/chrY.vcf.gz --make-bed --out chrY --maf 0.01 --keep eur.keep
+#Step 3
+#Now join these together, excluding multi-allelic SNPs and those with duplicate positions
+#The fam files omit sex information. This is problematic only when we wish to carry out QC on the Y chromosome SNPs: PLINK drops heterozygous Y genotypes if we do not affirm the sex of the samples in chrY.fam. We do this by changing the values in the sex code column from 0 (‘unknown’) to 1 (‘male’).
+sed -i 's/0 0 0 -9/0 0 1 -9/' chrY.fam
+
+rm list.txt; for j in {1..22}; do echo chr$j >> list.txt; done
+echo chrX >> list.txt
+echo chrY >> list.txt
+./ldak5.linux --make-bed ref --mbfile list.txt --exclude-odd YES --exclude-dups YES
+```
+{{note}}<br/>
+1. The above ldak5.linux command may not work in some ldak versions. <br/>
+2. Under: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/, now only have v5b version of vcf.gz data. Unlike the v5a files, rsIDs were not filled in v5b; if you want to use them, you have to fill them in yourself. <br/> Still, we could download from: http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ <br/>
+3. A more convinient way is to download the 1000 genome dataset directly from <a href="https://www.cog-genomics.org/plink/2.0/resources#1kg_phase3">plink2 data resource</a><br/>
+{{end}}
+
+### Get ref panel using plink2 resources
+
+This part is mostly coming from [dougspeed](https://dougspeed.com/reference-panel/)
+```bash
+# Step 1
+# download files from plink2
+# The links in here may be changed in future
+# "-O" to specify output file name
+#wget -O phase3_corrected.psam "https://www.dropbox.com/s/yozrzsdrwqej63q/phase3_corrected.psam?dl=1"
+wget https://www.dropbox.com/s/y6ytfoybz48dc0u/all_phase3.pgen.zst
+wget https://www.dropbox.com/s/odlexvo8fummcvt/all_phase3.pvar.zst
+wget https://www.dropbox.com/s/6ppo144ikdzery5/phase3_corrected.psam
+
+# Decompress pgen.zst to pgen
+plink2 --zst-decompress all_phase3_ns.pgen.zst > all_phase3_ns.pgen
+plink2 --zst-decompress all_phase3_ns.pvar.zst > all_phase3_ns.pvar
 
 
+# Step2, 
+# get EUR populations
+awk < phase3_corrected.psam '($5=="EUR"){print 0, $1}' > eur.keep
+
+# Step3
+#Use PLINK2 to convert to binary PLINK format for Europeans, restricting to autsomal SNPs with MAF>0.01 (and excluding duplicates and SNPs with name ".")
+echo "." > exclude.snps
+
+## "vzs" modifier to directly operate with pvar.zst
+# "--chr 1-22" excludes all variants not on the listed chromosomes
+# "--output-chr 26" uses numeric chromosome codes
+# "--max-alleles 2": PLINK 1 binary does not allow multi-allelic variants
+# "--rm-dup" removes duplicate-ID variants
+# "--set-missing-var-id" replaces missing IDs with a pattern
+plink2 --make-bed --out raw --pgen all_phase3_ns.pgen --pvar all_phase3_ns.pvar --psam phase3_corrected.psam --maf 0.01 --autosome --snps-only just-acgt --max-alleles 2 --rm-dup exclude-all --exclude exclude.snps --keep eur.keep
+
+
+# Step 4
+# modify predictor names with Chr:BP format
+#The genotype data will now be stored in binary PLINK format in the files raw.bed, raw.bim and raw.fam. The following commands insert population information and sex into the fam file and replace predictor names with generic names of the form Chr:BP
+awk '(NR==FNR){arr[$1]=$5"_"$6;ars[$1]=$4;next}{$1=$2;$2=arr[$1];$5=ars[$1];print $0}' phase3_corrected.psam raw.fam > clean.fam
+awk < raw.bim '{$2=$1":"$4;print $0}' > clean.bim
+awk < raw.bim '{print $1":"$4, $2}' > ref.names
+cp raw.bed clean.bed
+
+# Step 5
+#Download genetic distances, then insert these using PLINK1.9
+
+wget https://www.dropbox.com/s/slchsd0uyd4hii8/genetic_map_b37.zip
+unzip genetic_map_b37.zip
+plink1.9 --bfile clean --cm-map genetic_map_b37/genetic_map_chr@_combined_b37.txt --make-bed --out ref
+
+# Step 6
+#make a reduced dataset, that contains only non-ambiguous SNPs in the summary statistics file
+awk < ../../kunkle2019/Kunkle_etal_Stage1_results.txt '(NR>1 && (($4=="A"&&$5=="C") || ($4=="A"&&$5=="G") || ($4=="C"&&$5=="A") || ($4=="C"&&$5=="T") || ($4=="G"&&$5=="A") || ($4=="G"&&$5=="T") || ($4=="T"&&$5=="C") || ($4=="T"&&$5=="G"))){print $1":"$2}' > AD_Kunkle.snps
+
+#Check how many snps were kept:
+wc AD_Kunkle.snps
+#8911903   8911903 103762049 AD_Kunkle.snps
+./ldak.out --make-bed ref.AD --bfile ref --extract AD_Kunkle.snps
+```
 ---
