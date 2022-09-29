@@ -285,6 +285,6 @@ awk < ../../kunkle2019/Kunkle_etal_Stage1_results.txt '(NR>1 && (($4=="A"&&$5=="
 #Check how many snps were kept:
 wc AD_Kunkle.snps
 #8911903   8911903 103762049 AD_Kunkle.snps
-./ldak.out --make-bed ref.AD --bfile ref --extract AD_Kunkle.snps
+ldak.linux --make-bed ref.AD --bfile ref --extract AD_Kunkle.snps
 ```
 ---
