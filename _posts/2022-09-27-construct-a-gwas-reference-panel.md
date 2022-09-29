@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Alzheimer's PRS calculations (1)"
+title: "Construct a GWAS reference panel for AD"
 subtitle: "Choose base GWAS and Reference Panel"
 date: 2022-09-27 14:19:59
 header-style: text
