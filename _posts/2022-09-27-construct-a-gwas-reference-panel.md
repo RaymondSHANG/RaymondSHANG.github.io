@@ -254,6 +254,7 @@ awk < phase3_corrected.psam '($5=="EUR"){print 0, $1}' > eur.keep
 #Use PLINK2 to convert to binary PLINK format for Europeans, restricting to autsomal SNPs with MAF>0.01 (and excluding duplicates and SNPs with name ".")
 echo "." > exclude.snps
 
+
 ## "vzs" modifier to directly operate with pvar.zst
 # "--chr 1-22" excludes all variants not on the listed chromosomes
 # "--output-chr 26" uses numeric chromosome codes
@@ -261,6 +262,11 @@ echo "." > exclude.snps
 # "--rm-dup" removes duplicate-ID variants
 # "--set-missing-var-id" replaces missing IDs with a pattern
 plink2 --make-bed --out raw --pgen all_phase3_ns.pgen --pvar all_phase3_ns.pvar --psam phase3_corrected.psam --maf 0.01 --autosome --snps-only just-acgt --max-alleles 2 --rm-dup exclude-all --exclude exclude.snps --keep eur.keep
+
+#Another way to get duplicated snps:
+#plink --bfile raw --write-snplist --out ./all_snps_EUR
+#cat all_snps_EUR.snplist | sort | uniq -d > duplicated_snps.snplist
+#plink --bfile raw --exclude duplicated_snps.snplist --make-bed --out raw2
 
 
 # Step 4
@@ -281,7 +287,10 @@ plink1.9 --bfile clean --cm-map genetic_map_b37/genetic_map_chr@_combined_b37.tx
 # Step 6
 #make a reduced dataset, that contains only non-ambiguous SNPs in the summary statistics file
 awk < ../../kunkle2019/Kunkle_etal_Stage1_results.txt '(NR>1 && (($4=="A"&&$5=="C") || ($4=="A"&&$5=="G") || ($4=="C"&&$5=="A") || ($4=="C"&&$5=="T") || ($4=="G"&&$5=="A") || ($4=="G"&&$5=="T") || ($4=="T"&&$5=="C") || ($4=="T"&&$5=="G"))){print $1":"$2}' > AD_Kunkle.snps
+#Check duplicate, if return NULL, then no duplicate, else remove duplicate. Here for AD_Kunkle.snps, do duplicate
+awk < AD_Kunkle.snps '{print $1}'|sort|uniq -d
 
+awk '(!seen[$1]++)' AD_Kunkle.snps > AD_Kunkle.removeDuplicate.snps
 #Check how many snps were kept:
 wc AD_Kunkle.snps
 #8911903   8911903 103762049 AD_Kunkle.snps
