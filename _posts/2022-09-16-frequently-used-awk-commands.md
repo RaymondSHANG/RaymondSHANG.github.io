@@ -74,7 +74,7 @@ The awk program defines a number of special variables that can be referenced or 
 |            NR | Total number of lines/records processed                           | <code>awk '1;NR == 11{exit}' inputfile</code>                                            | Print the first 11 lines                                                                                                           |
 |           FNR | the record number (typically the line number) in the current file | <code>awk '{if(NR==FNR){arr[$1];next}}($1 in arr){print $1}' file1 file2</code>          | first store Column 1 of the first file (in the variable arr), then test whether elements in Column 1 of the second file are in arr |
 |            NF | Number of field in the current record                             | <code>awk NF</code>                                                                      | Delete all blank lines from a file: If NF==0, not print; Else print $0;                                                            |
-|           OFS | Output file separator                                             | <code>awk ‘BEGIN{FS=",";OFS=";"}NR==4, NR==8 {print NR,$1,$2}’ sample_summary.csv</code> | print line#,$1,\\$2 from line4 to line8,separated by ";"                                                                           |
+|           OFS | Output file separator                                             | <code>awk ‘BEGIN{FS=",";OFS=";"}NR==4, NR==8 {print NR,$1,$2}’ sample_summary.csv</code> | print line#,\$1,\$2 from line4 to line8,separated by ";"                                                                           |
 |            RS | record separator                                                  | <code>awk 'BEGIN{RS="\n"};1;NR==2{exit}' file1</code>                                    | set record separator to "\n"                                                                                                       |
 |           ORS | output record separator                                           | <code>awk 'BEGIN{ORS="\n\n"};1;NR==4{exit}' file1</code>                                 | set output record separator to "\n\n"                                                                                              |
 
@@ -149,9 +149,9 @@ awk '(NR==FNR){arr[$1]=$2;next}($1 in arr){print "SNP:",$1, "P-Value1:",arr[$1],
 ## Remove duplicates
 Remove duplicates in file1.$1, keep only the first record.<br/>
 Step by step intepretations:<br/>
-1. check $1 in seen, if not: seen[$1]=0;
-2. check <raw>!seen[$1], if TRUE: {print $0}</raw>;
-3. seen[$1]++;
+1. check \$1 in seen, if not: seen[\$1]=0;
+2. check !seen[\$1], if TRUE: {print \$0};
+3. seen[\$1]++;
 
 ```bash
 awk '(!seen[$1]++)' file1.txt >file1_rmDuplicate.txt
