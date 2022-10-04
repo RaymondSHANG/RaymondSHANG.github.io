@@ -43,6 +43,7 @@ $E(h_i^2) =  \sigma^2$         (3) <br/>
 
 In Many softwares, such as GCTA, LDSC, Lassosum, LDpred, they are using uniform $\sigma^2$ model, where $\sigma^2$ is constant for all SNPs.<br/>
 Some other software,such as LDAK, assume $\sigma_i^2$ is affected by MAF, LD, and information score, and have a general form of:<br/>
+
 $\sigma_i^2 \propto (p_i(1-p_i))^{1+\alpha}*w_i*r_i$         (4)<br/>
 
 Here: 
@@ -51,6 +52,7 @@ Here:
 3. $r_i \in [0,1]$ is an information score measuring genotype certainty so theat high-quality SNPs contribute more than low-quality ones.<br/>
 
 <span style="text-align:center"><b>Model Comparisons</b></span>
+
 | Model            | $\alpha$ | $w_i$                                                    | Comments                                                                                                                                               | implementation in LDAK software                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ---------------- | -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <b>GCTA</b>      | -1       | 1                                                        | Constatnt expected varianace of $h_i$ accross genome                                                                                                   | In LDAK, this model is achieved by adding the options --ignore-weights YES and --power -1 when Calculating Kinships or Calculating Taggings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -64,26 +66,23 @@ To get BLD-LDAK weightsThis part is directly from Dougspeed's website.<br/>
 1. Get the 64 annotations: downloaded the folder 1000G_Phase3_baselineLD_v2.1_ldscores.tgz from https://data.broadinstitute.org/alkesgroup/LDSCORE. Within this folder, the .annot.gz files contain the 74 annotations of the Baseline LD Model. The BLD-LDAK Model uses Annotations 1-58 and 59-64.<br/>
 
 2. Extracted all 74 annotations (plus Annotation 0, the base category) using the following commands:<br/>
+
+
+3. Exclude the 10 MAF bins using these two commands:<br/>
    
+{{end}}
+
 ```bash
+
 rm bld0 base{1..74}
 for j in {1..22}; 
 do 
    gunzip -c baselineLD_v1.1/baselineLD.$j.annot.gz | awk '(NR>1){for(j=1;j<=74;j++){if($(5+j)!=0){print $1":"$2, $(5+j) >> "base"j}}print $1":"$2 >> "bld0"}'; 
 done
-```
-<br/>
 
-3. Exclude the 10 MAF bins using these two commands:<br/>
-   
-```bash
 for j in {1..58}; do cp base$j > bld$j; done
 for j in {59..64}; do cp base$((10+j)) bld$j; done
 ```
-
-<br/>
-{{end}}
-
 
 # Bash script
 The below one is from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
