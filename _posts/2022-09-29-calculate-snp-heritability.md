@@ -49,6 +49,42 @@ Here:
 1. $p_i$ is MAF of $SNP_i$;<br/>
 2. $w_i$ is a SNP specific weight that is a function of the inverse of the LD score of $SNP_i$, so SNPs in regions of low LD contribute more than those in high LD regions;<br/>
 3. $r_i \in [0,1]$ is an information score measuring genotype certainty so theat high-quality SNPs contribute more than low-quality ones.<br/>
+
+<span style="text-align:center"><b>Model Comparisons</b></span>
+| Model            | $\alpha$ | $w_i$                                                    | Comments                                                                                                                                               | implementation in LDAK software                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ---------------- | -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <b>GCTA</b>      | -1       | 1                                                        | Constatnt expected varianace of $h_i$ accross genome                                                                                                   | In LDAK, this model is achieved by adding the options --ignore-weights YES and --power -1 when Calculating Kinships or Calculating Taggings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| <b>LDAK</b>      | -0.25    | $w_i$                                                    | Adding LD, for high LD regions, $w_i$ should be smaller                                                                                                | In LDAK, this model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> provides the LDAK Weightings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <b>LDAK-Thin</b> | -0.25    | $I_iw_i$                                                 | $I_i$ indicates whether SNP remains after thinning for duplicate SNPs                                                                                  | In LDAK, the LDAK-Thin Model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> gives weight one to the SNPs that remain after Thinning Predictors with options --window-kb 100 and --window-prune 0.98.                                                                                                                                                                                                                                                                                                                                                                            |
+| <b>LDSC</b>      | -1       | $\sum_{j=1}^{74}{\tau_ja_{ji}} + \tau_{75}$              | $a$ values could be derived from <a href="https://alkesgroup.broadinstitute.org/LDSCORE/">LDSC website</a>                                             | To implement this model in LDAK, you should first download the Baseline LD annot.gz files from the LDSC website, then use these to make files called baselineLD1, baselineLD2, ..., baselineLD74 (where baselineLDk has two columns, providing the SNP names then values of Annotation k). You would then use Calculate Taggings adding --annotation-number 74, --annotation-prefix baselineLD, --ignore-weights YES and --power -1. <br/> Equivalently, you could make an extra file called baselineLD75 that contains the names of all SNPs, then replace --annotation-number 74 and --annotation-prefix baselineLD with --partition-number 75 and --partition-prefix baselineLD. |
+| <b>BLD-LDAK</b>  | -0.25    | $\sum_{j=1}^{64}{\tau_jb_{ji}} + \tau_{65}w_i+\tau_{66}$ | where b1, b2, ..., b64 are the non-MAF annotations from the Baseline LD Model and $w_i$ is the LDAK weighting (computed using only high-quality SNPs). | 1. Download the files bld1, bld2, ..., bld64 from the <a href="https://storage.googleapis.com/broad-alkesgroup-public/LDSCORE/1000G_Phase3_baselineLD_v2.1_ldscores.tgz">BLD-LDAK Annotations</a>.<br/>2. Next calculate the LDAK Weightings and rename them bld65.<br/>3. Calculate Taggings adding --annotation-number 65, --annotation-prefix bld, --ignore-weights YES and --power -0.25.                                                                                                                                                                                                                                                                                       |
+
+{{note}}<br/>
+To get BLD-LDAK weightsThis part is directly from Dougspeed's website.<br/>
+1. Get the 64 annotations: downloaded the folder 1000G_Phase3_baselineLD_v2.1_ldscores.tgz from https://data.broadinstitute.org/alkesgroup/LDSCORE. Within this folder, the .annot.gz files contain the 74 annotations of the Baseline LD Model. The BLD-LDAK Model uses Annotations 1-58 and 59-64.<br/>
+
+2. Extracted all 74 annotations (plus Annotation 0, the base category) using the following commands:<br/>
+   
+```bash
+rm bld0 base{1..74}
+for j in {1..22}; 
+do 
+   gunzip -c baselineLD_v1.1/baselineLD.$j.annot.gz | awk '(NR>1){for(j=1;j<=74;j++){if($(5+j)!=0){print $1":"$2, $(5+j) >> "base"j}}print $1":"$2 >> "bld0"}'; 
+done
+```
+<br/>
+
+3. Exclude the 10 MAF bins using these two commands:<br/>
+   
+```bash
+for j in {1..58}; do cp base$j > bld$j; done
+for j in {59..64}; do cp base$((10+j)) bld$j; done
+```
+
+<br/>
+{{end}}
+
+
 # Bash script
 The below one is from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 

@@ -222,6 +222,7 @@ echo chrX >> list.txt
 echo chrY >> list.txt
 ./ldak5.linux --make-bed ref --mbfile list.txt --exclude-odd YES --exclude-dups YES
 ```
+
 {{note}}<br/>
 1. The above ldak5.linux command may not work in some ldak versions. <br/>
 2. Under: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/, now only have v5b version of vcf.gz data. Unlike the v5a files, rsIDs were not filled in v5b; if you want to use them, you have to fill them in yourself. <br/> Still, we could download from: http://hgdownload.cse.ucsc.edu/gbdb/hg19/1000Genomes/phase3/ <br/>
@@ -231,6 +232,7 @@ echo chrY >> list.txt
 ### Get ref panel using plink2 resources
 
 This part is mostly coming from [dougspeed](https://dougspeed.com/reference-panel/)
+
 ```bash
 # Step 1
 # download files from plink2
@@ -287,7 +289,7 @@ plink1.9 --bfile clean --cm-map genetic_map_b37/genetic_map_chr@_combined_b37.tx
 # Step 6
 #make a reduced dataset, that contains only non-ambiguous SNPs in the summary statistics file
 awk < ../../kunkle2019/Kunkle_etal_Stage1_results.txt '(NR>1 && (($4=="A"&&$5=="C") || ($4=="A"&&$5=="G") || ($4=="C"&&$5=="A") || ($4=="C"&&$5=="T") || ($4=="G"&&$5=="A") || ($4=="G"&&$5=="T") || ($4=="T"&&$5=="C") || ($4=="T"&&$5=="G"))){print $1":"$2}' > AD_Kunkle.snps
-#Check duplicate, if return NULL, then no duplicate, else remove duplicate. Here for AD_Kunkle.snps, do duplicate
+#Check duplicate, if return NULL, then no duplicate, else remove duplicate. Here for AD_Kunkle.snps, do duplicate.
 awk < AD_Kunkle.snps '{print $1}'|sort|uniq -d
 
 awk '(!seen[$1]++)' AD_Kunkle.snps > AD_Kunkle.removeDuplicate.snps
