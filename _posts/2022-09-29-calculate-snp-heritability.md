@@ -53,39 +53,108 @@ Here:
 
 <span style="text-align:center"><b>Model Comparisons</b></span>
 
-| Model            | $\alpha$ | $w_i$                                                    | Comments                                                                                                                                               | implementation in LDAK software                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ---------------- | -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <b>GCTA</b>      | -1       | 1                                                        | Constatnt expected varianace of $h_i$ accross genome                                                                                                   | In LDAK, this model is achieved by adding the options --ignore-weights YES and --power -1 when Calculating Kinships or Calculating Taggings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| <b>LDAK</b>      | -0.25    | $w_i$                                                    | Adding LD, for high LD regions, $w_i$ should be smaller                                                                                                | In LDAK, this model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> provides the LDAK Weightings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| <b>LDAK-Thin</b> | -0.25    | $I_iw_i$                                                 | $I_i$ indicates whether SNP remains after thinning for duplicate SNPs                                                                                  | In LDAK, the LDAK-Thin Model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> gives weight one to the SNPs that remain after Thinning Predictors with options --window-kb 100 and --window-prune 0.98.                                                                                                                                                                                                                                                                                                                                                                            |
-| <b>LDSC</b>      | -1       | $\sum_{j=1}^{74}{\tau_ja_{ji}} + \tau_{75}$              | $a$ values could be derived from <a href="https://alkesgroup.broadinstitute.org/LDSCORE/">LDSC website</a>                                             | To implement this model in LDAK, you should first download the Baseline LD annot.gz files from the LDSC website, then use these to make files called baselineLD1, baselineLD2, ..., baselineLD74 (where baselineLDk has two columns, providing the SNP names then values of Annotation k). You would then use Calculate Taggings adding --annotation-number 74, --annotation-prefix baselineLD, --ignore-weights YES and --power -1. <br/> Equivalently, you could make an extra file called baselineLD75 that contains the names of all SNPs, then replace --annotation-number 74 and --annotation-prefix baselineLD with --partition-number 75 and --partition-prefix baselineLD. |
-| <b>BLD-LDAK</b>  | -0.25    | $\sum_{j=1}^{64}{\tau_jb_{ji}} + \tau_{65}w_i+\tau_{66}$ | where b1, b2, ..., b64 are the non-MAF annotations from the Baseline LD Model and $w_i$ is the LDAK weighting (computed using only high-quality SNPs). | 1. Download the files bld1, bld2, ..., bld64 from the <a href="https://storage.googleapis.com/broad-alkesgroup-public/LDSCORE/1000G_Phase3_baselineLD_v2.1_ldscores.tgz">BLD-LDAK Annotations</a>.<br/>2. Next calculate the LDAK Weightings and rename them bld65.<br/>3. Calculate Taggings adding --annotation-number 65, --annotation-prefix bld, --ignore-weights YES and --power -0.25.                                                                                                                                                                                                                                                                                       |
+| Model                 | $\alpha$ | $w_i$                                                    | Comments                                                                                                                                               | implementation summary in LDAK software                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------------- | -------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <b>GCTA</b>           | -1       | 1                                                        | Constatnt expected varianace of $h_i$ accross genome                                                                                                   | In LDAK, this model is achieved by adding the options --ignore-weights YES and --power -1 when Calculating Kinships or Calculating Taggings.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| <b>LDAK</b>           | -0.25    | $w_i$                                                    | Adding LD, for high LD regions, $w_i$ should be smaller                                                                                                | In LDAK, this model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> provides the LDAK Weightings.                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| <b>LDAK-Thin</b>      | -0.25    | $I_iw_i$                                                 | $I_i$ indicates whether SNP remains after thinning for duplicate SNPs                                                                                  | In LDAK, the LDAK-Thin Model is achieved by adding the options --weights <weightsfile> and --power -0.25 when Calculating Kinships or Calculating Taggings, where <weightsfile> gives weight one to the SNPs that remain after Thinning Predictors with options --window-kb 100 and --window-prune 0.98.                                                                                                                                                                                                                                                                                                                                     |
+| <b>LDSC</b>           | -1       | $\sum_{j=1}^{74}{\tau_ja_{ji}} + \tau_{75}$              | $a$ values could be derived from <a href="https://alkesgroup.broadinstitute.org/LDSCORE/">LDSC website</a>                                             | 1. Download the Baseline LD annot.gz files from the LDSC website, then make files called baselineLD1,..., baselineLD74 (where baselineLD$k has two columns, providing the SNP names then values of Annotation k). same as <b>BLD-LDAK</b> model below. <br/> 2. Calculate Taggings adding --annotation-number 74, --annotation-prefix baselineLD, --ignore-weights YES and --power -1. <br/> <b>Equivalently</b>, you could make an extra file called baselineLD75 that contains the names of all SNPs, then replace --annotation-number 74 and --annotation-prefix baselineLD with --partition-number 75 and --partition-prefix baselineLD. |
+| <b>BLD-LDAK</b>       | -0.25    | $\sum_{j=1}^{64}{\tau_jb_{ji}} + \tau_{65}w_i+\tau_{66}$ | where b1, b2, ..., b64 are the non-MAF annotations from the Baseline LD Model and $w_i$ is the LDAK weighting (computed using only high-quality SNPs). | 1. Download the files bld1, bld2, ..., bld64 from the <a href="https://storage.googleapis.com/broad-alkesgroup-public/LDSCORE/1000G_Phase3_baselineLD_v2.1_ldscores.tgz">BLD-LDAK Annotations</a>.<br/>2. Next calculate the LDAK Weightings from your reference panel and rename them bld65.<br/>3. Calculate Taggings adding --annotation-number 65, --annotation-prefix bld, --ignore-weights YES and --power -0.25.                                                                                                                                                                                                                      |
+| <b>BLD-LDAK+Alpha</b> | -0.25    | $\sum_{j=1}^{64}{\tau_jb_{ji}} + \tau_{65}w_i+\tau_{66}$ | where b1, b2, ..., b64 are the non-MAF annotations from the Baseline LD Model and $w_i$ is the LDAK weighting (computed using only high-quality SNPs). | The 67-parameter BLD-LDAK+Alpha Model generalizes the BLD-LDAK Model by allowing alpha to vary (instead of fixing it to -0.25). <br/> 1. Get 65 bld files the same as BLD-LDAK model;<br/> 2. Create 31 instances of the model, corresponding to alpha equals -1, -0.95, ..., 0.45, 0.5; <br/> 3. For each alpha, calculate tagggins adding --annotation-number 65, --annotation-prefix bld, --ignore-weights YES and --power - alpha<br/>                                                                                                                                                                                                   |
 
 {{note}}<br/>
-To get BLD-LDAK weightsThis part is directly from Dougspeed's website.<br/>
+To get BLD-LDAK weights. (This part is directly from Dougspeed's website.)<br/>
 1. Get the 64 annotations: downloaded the folder 1000G_Phase3_baselineLD_v2.1_ldscores.tgz from https://data.broadinstitute.org/alkesgroup/LDSCORE. Within this folder, the .annot.gz files contain the 74 annotations of the Baseline LD Model. The BLD-LDAK Model uses Annotations 1-58 and 59-64.<br/>
 
-2. Extracted all 74 annotations (plus Annotation 0, the base category) using the following commands:<br/>
+2. Extracted all 74 annotations (plus Annotation 0, the base category), <code>print chr:position,LD_annotation</code> and merge that from chr1:22 into one bld file <br/>
 
 
-3. Exclude the 10 MAF bins using these two commands:<br/>
+3. Exclude the 10 MAF(59:68) bins <br/>
    
 {{end}}
 
-```bash
+### Bash script for above task of extracting LDSC_scores to get bld0:64:<br/>
 
+```bash
+#Remove bld0 and base1~base74
 rm bld0 base{1..74}
+#Extract LD annotations for each annotations and merge into base$j
 for j in {1..22}; 
 do 
-   gunzip -c baselineLD_v1.1/baselineLD.$j.annot.gz | awk '(NR>1){for(j=1;j<=74;j++){if($(5+j)!=0){print $1":"$2, $(5+j) >> "base"j}}print $1":"$2 >> "bld0"}'; 
+   gunzip -c baselineLD_v2.1/baselineLD.$j.annot.gz | awk '(NR>1){for(i=1;j<=74;i++){if($(5+i)!=0){print $1":"$2, $(5+i) >> "base"i}}print $1":"$2 >> "bld0"}'; 
 done
 
-for j in {1..58}; do cp base$j > bld$j; done
-for j in {59..64}; do cp base$((10+j)) bld$j; done
+#Rename base to bld
+for j in {1..58}; do mv base$j bld$j; done
+for j in {59..64}; do mv base$((10+j)) bld$j; done
 ```
 
-# Bash script
-The below one is from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
+### Bash script for to get bld65
+
+<ul id="divideMerge" class="nav nav-tabs">
+    <li class="active"><a class="noCrossRef" href="#divideMerge" data-toggle="tab">Divide and Merge</a></li>
+    <li><a class="noCrossRef" href="#divideMerge2" data-toggle="tab">Divide and Merge Version2</a></li>
+    <li><a class="noCrossRef" href="#allInOne" data-toggle="tab">All In One Version</a></li>
+    
+</ul>
+
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="divideMerge" markdown="1">
+
+```bash
+#Calculate LDAK SNP weights; here, we calculate weights separately for each chromosome then merge
+#The on-screen instructions explain how to further parallelize (use --calc-weights not --calc-weights-all) 
+for j in {1..22}; do
+ldak.linux --cut-weights alz_chr$j --bfile AD.ref --extract alz.txt --chr $j
+ldak.linux --calc-weights-all alz_chr$j --bfile AD.ref --extract alz.txt --chr $j
+done
+
+#Merge weights across chromosomes
+cat alz_chr{1..22}/weights.short > bld65
+
+```
+
+</div>
+
+<div role="tabpanel" class="tab-pane" id="allInOne" markdown="1">
+
+```bash
+ldak.linux --cut-weights sections --bfile AD.ref --extract alz.txt
+for j in {1..22}; do
+ldak.linux --calc-weights sections --bfile AD.ref --section $j --extract alz.txt
+done
+ldak.linux --join-weights sections --bfile AD.ref 
+
+cp sections/weights.short bld65
+
+```
+
+</div>
+
+<div role="tabpanel" class="tab-pane" id="allInOne" markdown="1">
+
+```bash
+# Alternatively, we could just run all of chromesomes as one
+ldak.linux --cut-weights sections --bfile AD.ref --extract alz.txt 
+ldak.linux --calc-weights-all sections --bfile AD.ref --extract alz.txt 
+cp sections/weights.short bld65
+
+#The weightings will be saved in <folder>/weights.short; this contains only predictors with non-zero weightings (as predictors with zero weighting can be ignored). A more detailed version will be saved in <folder>/weights.all; for each predictor, this reports the weighting, the number of neighbours (how many predictors were within the window), the tagging (the sum of squared-correlations with predictors within the window), the information score of the predictor and a "check" (the total tagging of the predictor after weighting; if the weightings are accurate, this value should match the information score).
+```
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+### 
+# Bash script for Alzheimer's BLD-LDAK model
+The below one is modified from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 
 ```bash
 
@@ -120,7 +189,7 @@ cat mhc.snps alz.out > alz.excl
 #Calculate LDAK SNP weights; here, we calculate weights separately for each chromosome then merge
 #The on-screen instructions explain how to further parallelize (use --calc-weights not --calc-weights-all) 
 for j in {1..22}; do
-./ldak5.linux --cut-weights alz_chr$j --bfile ref --extract alz.txt --chr $j
+./ldak5.linux --cut-weights alz_chr$j --bfile AD.ref --extract alz.txt --chr $j
 ./ldak5.linux --calc-weights-all alz_chr$j --bfile ref --extract alz.txt --chr $j
 done
 
