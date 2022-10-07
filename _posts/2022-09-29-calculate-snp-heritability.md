@@ -44,7 +44,7 @@ $E(h_i^2) =  \sigma^2$         (3) <br/>
 In Many softwares, such as GCTA, LDSC, Lassosum, LDpred, they are using uniform $\sigma^2$ model, where $\sigma^2$ is constant for all SNPs.<br/>
 Some other software,such as LDAK, assume $\sigma_i^2$ is affected by MAF, LD, and information score, and have a general form of:<br/>
 
-$\sigma_i^2$     $\propto$     $(p_i(1-p_i))^{1+\alpha}*w_i*r_i$         (4)<br/>
+$\sigma_i^2$     $\propto$     $(p_i(1-p_i))^{1+\alpha}w_{i}r_{i}$         (4)<br/>
 
 Here: 
 1. $p_i$ is MAF of $SNP_i$;<br/>
