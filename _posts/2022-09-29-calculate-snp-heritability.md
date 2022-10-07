@@ -11,7 +11,7 @@ tags: [SumHer,GWAS,Heritability Model,tagging,awk]
 {% include linksref.html %}
 > 夫英雄者，胸怀大志，腹有良谋，有包藏宇宙之机，吞吐天地之志者也。
 
-# Calculating taggings
+# Taggings in heritability modeling
 All applications of SumHer require a tagging file, which records the (relative) expected heritability tagged by each predictor.
 Recommendations from [Dougspeed](http://dougspeed.com/calculate-taggings/):
 1.  To create this tagging file requires a (well-matched) Reference Panel. Using an extensive panel (e.g., imputed or sequencing data, retaining SNPs with MAF above 0.005 and information score above 0.8).
@@ -116,7 +116,7 @@ cat alz_chr{1..22}/weights.short > bld65
 
 </div>
 
-<div role="tabpanel" class="tab-pane" id="allInOne" markdown="1">
+<div role="tabpanel" class="tab-pane" id="divideMerge2" markdown="1">
 
 ```bash
 ldak.linux --cut-weights sections --bfile AD.ref --extract alz.txt
@@ -152,7 +152,113 @@ cp sections/weights.short bld65
 
 
 
-### 
+# Calculating taggings
+Below, showed tagging calculations in ldak software in different heritability models. This document is mainly from [Dougspeed](https://dougspeed.com/calculate-taggings/)<br/>
+The main parameter is <code>--calc-tagging <outfile></code>. <br/>
+This requires the options
+
+--bfile/--gen/--sp/--speed <datastem> - to specify the genetic data files (see File Formats).
+
+--weights <weightsfile> or --ignore-weights YES - to specify the predictor weightings (if using a weightsfile, this should have two columns, that provide predictor names then weightings. <b>Note in BLD-LDAK models, this weights is in bld65</b>).
+
+--power <float> - to specify how predictors are scaled.
+
+--window-cm <float> - to specify the window size (how far to search for tagging predictors). It generally suffices to use 1cM. If the genetic data files do not contain genetic distances, an approximate solution is to instead use --window-kb 1000.
+
+You can use --keep <keepfile> and/or --remove <removefile> to restrict to a subset of samples, and --extract <extractfile> and/or --exclude <excludefile> to restrict to a subset of predictors (for more details, see Data Filtering).
+
+To provide SNP annotations, you should use either --partition-number <integer> and --partition-prefix <prefix>, or --annotation-number <integer> and --annotation-prefix <prefix> (more details below).
+
+To save the heritability matrix, add --save-matrix YES (necessary if performing Prediction).
+
+To parallelize this process, you can add --chr <integer> to calculate taggings for each chromosome separately, then combine these with the argument --join-tagging <output>, using the option --taglist <tagstems> to specify the per-chromosome tagging files (see the example below).
+## GCTA / LDSC
+Most simple model is GCTA. For LDSC, it also assumes <code>--power -1</code>. But I do not understand where to implement LDSC scores in ldak.linux.
+
+```bash
+ldak.linux --calc-tagging GCTA --bfile human --ignore-weights YES --power -1 --window-cm 1
+```
+## LDAK
+Here, we need <code>--weights bld65</code> where 'bld65' comes from BLD-LDAK models shown above, is the LDAK weights.
+
+```bash
+ldak.linux --calc-tagging LDAK --bfile human --weights bld65 --power -.25 --window-cm 1
+```
+## LDAK-Thin
+The taggings are saved in LDAK-Thin.tagging.
+
+<ul id="divideMerge" class="nav nav-tabs">
+    <li class="active"><a class="noCrossRef" href="#allInOne_thin" data-toggle="tab">All In One Version</a></li>
+    <li><a class="noCrossRef" href="#divideMerge_thin" data-toggle="tab">Divide and Merge</a></li>
+    <li><a class="noCrossRef" href="#targetSNPs" data-toggle="tab">taggings for target SNPs</a></li>
+    
+</ul>
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="allInOne_thin" markdown="1">
+
+```bash
+# 1. Create a weightsfile that gives weighting one to the predictors that remain after thinning for duplicates
+#  Predictors are given weighting one in the file weights.thin. Other predictors are with weight zero.
+ldak.linux --thin thin --bfile human --window-prune .98 --window-kb 100
+awk < thin.in '{print $1, 1}' > weights.thin
+
+# 2. Calculate tagging
+ldak.linux --calc-tagging LDAK-Thin --bfile human --weights weights.thin --power -.25 --window-cm 1 --save-matrix YES
+
+#The taggings are saved in LDAK-Thin.tagging.
+```
+
+</div>
+
+<div role="tabpanel" class="tab-pane" id="divideMerge_thin" markdown="1">
+
+```bash
+ldak.linux --thin thin --bfile human --window-prune .98 --window-kb 100
+awk < thin.in '{print $1, 1}' > weights.thin
+
+for j in {1..22}; do
+ldak.linux --calc-tagging LDAK-Thin$j --bfile human --weights weights.thin --power -.25 --window-cm 1 --chr $j
+done
+
+rm list.txt; for j in {1..22}; do echo "LDAK-Thin$j.tagging" >> list.txt; done
+ldak.linux --join-tagging LDAK-Thin --taglist list.txt
+
+```
+
+</div>
+
+<div role="tabpanel" class="tab-pane" id="targetSNPs" markdown="1">
+
+```bash
+ldak.out --calc-tagging LDAK-Thin.gwas --bfile human --weights weights.thin --power -.25 --window-cm 1 --regression-predictors gwasSummarySNPs.txt
+```
+
+</div>
+
+</div>
+
+
+
+
+
+## BLD-LDAK
+
+```bash
+#Note here we ignore-weights and add it to bld65 in --annotation-prefix
+ldak.linux --calc-tagging BLD-LDAK --bfile ref.AD --ignore-weights YES --power -.25 --window-cm 1 --annotation-number 65 --annotation-prefix bld
+```
+
+## BLD-LDAK+Alpha
+
+```bash
+for j in {-20..10}; 
+do
+   alpha=`echo $j | awk '{print -$1/20}'`; 
+   echo $alpha
+   ldak.linux --calc-tagging BLD-LDAK+Alpha.$j --bfile human --ignore-weights YES --power $alpha --window-cm 1 --annotation-number 65 --annotation-prefix bld
+done
+```
+
 # Bash script for Alzheimer's BLD-LDAK model
 The below one is modified from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 
