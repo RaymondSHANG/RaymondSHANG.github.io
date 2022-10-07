@@ -44,7 +44,7 @@ $E(h_i^2) =  \sigma^2$         (3) <br/>
 In Many softwares, such as GCTA, LDSC, Lassosum, LDpred, they are using uniform $\sigma^2$ model, where $\sigma^2$ is constant for all SNPs.<br/>
 Some other software,such as LDAK, assume $\sigma_i^2$ is affected by MAF, LD, and information score, and have a general form of:<br/>
 
-$\sigma_i^2$     $\propto$     $(p_i(1-p_i))^{1+\alpha}*w_i*r_i$          (4)<br/>
+$\sigma_i^2$     $\propto$     $(p_i(1-p_i))^{1+\alpha}*w_i*r_i$         (4)<br/>
 
 Here: 
 1. $p_i$ is MAF of $SNP_i$;<br/>
@@ -154,7 +154,7 @@ cp sections/weights.short bld65
 
 # Calculating taggings
 Below, showed tagging calculations in ldak software in different heritability models. This document is mainly from [Dougspeed](https://dougspeed.com/calculate-taggings/)<br/>
-The main parameter is <code>--calc-tagging <outfile></code>. <br/>
+The main parameter is <code>--calc-tagging outfile </code>. <br/>
 This requires the options
 
 --bfile/--gen/--sp/--speed <datastem> - to specify the genetic data files (see File Formats).
@@ -399,6 +399,8 @@ ldak.linux --calc-tagging BLD-LDAK --bfile ../h1000/hg19/ref.AD --ignore-weights
 cd ../kunkle2019
 ldak.linux --sum-hers alz_bldldak --tagfile ../SumHer/BLD-LDAK.tagging --summary alz_kunkle2019.txt --cutoff 0.01 --matrix BLD-LDAK.matrix --check-sums NO
 
+#SNP level heritability is in alz_bldldak.ind.hers, Merge with gwas summary stat
+awk '(NR==FNR){h[$1]=$2;next;}(FNR==1){print $1,$2,$3,$4,$5,"h",$6;next;}(h[$1]){print $1,$2,$3,$4,$5,h[$1],$6}' alz_bldldak.ind.hers alz_kunkle2019.txt >alzHer_kunkle2019.txt
 
 #Estimates of SNP heritability will be in alz_bldldak.hers
 
