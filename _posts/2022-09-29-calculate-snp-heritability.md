@@ -284,8 +284,10 @@ cat mhc.snps alz.out > alz.excl
 {{important}}<br/>
 Previously, we recommended first using <code>--remove-tags outfile</code> to identify predictors tagging loci that explain more than 1% of phenotypic variance, then excluding these using <code>--extract extractfile</code> and/or <code>--exclude excludefile</code>. <br/>
 <b>However</b>, this can now be done more easily using the option <code>--cutoff float </code>; for example, to remove predictors that explain more than 1% of phenotypic variance, add <code>--cutoff 0.01</code> (note that this will not also remove predictors tagging the large-effect loci, but in practice, we find this makes little difference).<br/>
+Actually, whether we need to exclude MHC region is still debatable, and we could try both models.<br/>
 {{end}}
 # Bash script for Alzheimer's BLD-LDAK model
+
 The below one is modified from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 
 ```bash
