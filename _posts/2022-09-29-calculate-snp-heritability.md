@@ -44,7 +44,7 @@ $E(h_i^2) =  \sigma^2$         (3) <br/>
 In Many softwares, such as GCTA, LDSC, Lassosum, LDpred, they are using uniform $\sigma^2$ model, where $\sigma^2$ is constant for all SNPs.<br/>
 Some other software,such as LDAK, assume $\sigma_i^2$ is affected by MAF, LD, and information score, and have a general form of:<br/>
 
-$\sigma_i^2\propto(p_i(1-p_i))^{1+\alpha}*w_i*r_i$         (4)<br/>
+$\sigma_i^2$     $\propto$     $(p_i(1-p_i))^{1+\alpha}*w_i*r_i$          (4)<br/>
 
 Here: 
 1. $p_i$ is MAF of $SNP_i$;<br/>
@@ -242,10 +242,10 @@ ldak.out --calc-tagging LDAK-Thin.gwas --bfile human --weights weights.thin --po
 
 
 ## BLD-LDAK
-
+The results will be saved in BLD-LDAK.tagging, and the heritability matrix will be saved in BLD-LDAK.matrix.<br/>
 ```bash
 #Note here we ignore-weights and add it to bld65 in --annotation-prefix
-ldak.linux --calc-tagging BLD-LDAK --bfile ref.AD --ignore-weights YES --power -.25 --window-cm 1 --annotation-number 65 --annotation-prefix bld
+ldak.linux --calc-tagging BLD-LDAK --bfile ref.AD --ignore-weights YES --power -.25 --window-cm 1 --annotation-number 65 --annotation-prefix bld --save-matrix YES
 ```
 
 ## BLD-LDAK+Alpha
@@ -286,84 +286,132 @@ Previously, we recommended first using <code>--remove-tags outfile</code> to ide
 <b>However</b>, this can now be done more easily using the option <code>--cutoff float </code>; for example, to remove predictors that explain more than 1% of phenotypic variance, add <code>--cutoff 0.01</code> (note that this will not also remove predictors tagging the large-effect loci, but in practice, we find this makes little difference).<br/>
 Actually, whether we need to exclude MHC region is still debatable, and we could try both models.<br/>
 {{end}}
-# Bash script for Alzheimer's BLD-LDAK model
+
+## Calculate heritabilities for each SNP
+To estimate SNP heritability, the first step is to obtain a tagging file.<br/>
+The second step is to regress (correctly-formatted) Summary Statistics onto the tagging file.<br/>
+
+The main argument is <code>--sum-hers outfile</code>
+
+This requires the options
+
+<code>--tagfile taggingfile</code> - to specify the tagging file
+
+<code>--summary sumsfile</code> - to specify the file containing the summary statistics.
+
+LDAK will report an error if the summary statistics file does not provide summary statistics for all predictors in the tagging file. If a relatively small proportion of predictors are affected (say less than 20%), it should be OK to override this error by adding --check-sums NO.
+
+```bash
+ldak.linux --sum-hers alz_bldldak --tagfile BLD-LDAK.tagging --summary alz_kunkle2019.txt --exclude alz.excl
+
+#Using BLD-LDAK model
+## Different version of commands
+ldak.out --sum-hers snpher1 --summary alz_kunkle2019.txt --tagfile BLD-LDAK.tagging
+ldak.out --sum-hers snpher2 --summary alz_kunkle2019.txt --tagfile BLD-LDAK.tagging --exclude alz.excl
+ldak.out --sum-hers snpher3 --summary alz_kunkle2019.txt --tagfile BLD-LDAK.tagging --cutoff 0.01
+## Calculate predictor level heritabilities
+ldak.out --sum-hers snpher3 --summary alz_kunkle2019.txt --tagfile ../SumHer/BLD-LDAK.tagging --cutoff 0.01 --matrix ../SumHer/BLD-LDAK.matrix --check-sums NO
+
+#Using LDAK-Thin model
+ldak.out --sum-hers snpher-thin --summary alz_kunkle2019.txt --tagfile ../SumHer/LDAK-Thin.tagging
+```
+
+To compare the LDAK-Thin and BLD-LDAK Models, we can examine the model fits (measured by loglSS) in the files snpher.extra. First it is important to confirm the log likelihoods are the same (in this case, both -854), as this indicates that the two model fits were computed using the same predictors and predictor weightings (and thus ensures a fair comparison). Next, we see that the alternative likelihood for the one-parameter LDAK-Thin Model is -826 (i.e., 28 above the null), while the alternative likelihood for the 66-parameter BLD-LDAK Model is -854 (41 above the null).
+
+# Wrap-up script for Alzheimer's BLD-LDAK model
 
 The below one is modified from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 
 ```bash
-
-#Tidy alzheimers summary statistics - the paper tells us there were 17008 cases and 37154 controls
-#If possible, compute a chi-squared test statistic (otherwise, could use P)
+# Step 1
+#Tidy alzheimers summary statistics - Get the format of:
+#Chr:Position A1 A2 dir STAT N
+#If possible, compute a chi-squared test statistic for STAT (otherwise, could use P)
 #For linear regression, can use (beta/SD)^2, for logistic regression, (log.odds/SD)^2
-awk < IGAP_stage_1.txt '(NR>1){snp=$3;a1=$4;a2=$5;dir=$6;stat=($6/$7)*($6/$7);n=17008+37154}(NR==1)\
-{print "Predictor A1 A2 Direction Stat n"}(NR>1 && (a1=="A"||a1=="C"||a1=="G"||a1=="T") \
-&& (a2=="A"||a2=="C"||a2=="G"||a2=="T")){print snp, a1, a2, dir, stat, n}' > alz.txt
+awk < Kunkle_etal_Stage1_results.txt '(NR>1){snp=$3;a1=$4;a2=$5;dir=$6;stat=($6/$7)*($6/$7);n=73926}(NR==1)\
+{print "Predictor A1 A2 Direction Stat n"}(NR>1 && ((a1 ~/^[AT]$/ && a2 ~ /^[CG]$/) || (a1 ~/^[CG]$/ && a2 ~ /^[AT]$/)) {print snp, a1, a2, dir, stat, n}' > alz_kunkle2019.txt
 
 #Check for duplicates using the unix functions sort and uniq
 #If this command results in no output, it means all predictors are unique
-awk < alz.txt '{print $1}' | sort | uniq -d | head
+awk < alz_kunkle2019.txt '{print $1}' | sort | uniq -d | head
+# Or 
+awk < alz_kunkle2019.txt 'seen[$1]++' | head
+
 #If there are duplicates, we can remove then using
-mv alz.txt alz2.txt; awk '!seen[$1]++' alz2.txt > alz.txt
+mv alz_kunkle2019.txt alz2.txt; awk '!seen[$1]++' alz2.txt > alz_kunkle2019.txt
+
+# Step 1.1, get ref.AD reference based on EUR population and SNPs in alz_kunkle2019.txt. (Finished in previous blog)
 
 #Get list of MHC SNPs (from reference panel)
 awk < ref.bim '($1==6 && $4>25000000 && $4<34000000){print $2}' > mhc.snps
 
 #Identify large-effect SNPs (those explaining more than 1% of phenotypic variance)
 #This command uses the fact that the variance explained by each SNP is stat/(stat+n)
-awk < alz.txt '(NR>1 && $5>$6/99){print $1}' > alz.big
+awk < alz_kunkle2019.txt '(NR>1 && $5>$6/99){print $1}' > alz.big
 #Find SNPs tagging the alzheimers large-effect loci (within 1cM and correlation squared >.1)
-./ldak5.linux --remove-tags alz --bfile ref --top-preds alz.big --window-cm 1 --min-cor .1
+ldak5.linux --remove-tags alz --bfile ../h1000/hg19/ref.AD --top-preds alz.big --window-cm 1 --min-cor .1
 
 #Create exclusion files, containing mhc and (for alzheimers) SNPs tagging large-effect SNPs
 cat mhc.snps alz.out > alz.excl
 
+# Step 2. Calculate taggings using BLD-LDAK model
 #Estimate SNP heritability. To estimate $\htsnp$ there are two steps: first we compute a (1-part) tagfile which contains $q_j + \sum_{l \in N_j} q_l r^2_{jl}$ for each SNP; then we perform the regression to estimate $\htsnp$. To compute an LDAK tagfile, we must first compute LDAK weights; this can take a few hours, but can be efficiently parallelized.
-
-
-#Calculate LDAK SNP weights; here, we calculate weights separately for each chromosome then merge
-#The on-screen instructions explain how to further parallelize (use --calc-weights not --calc-weights-all) 
-for j in {1..22}; do
-./ldak5.linux --cut-weights alz_chr$j --bfile AD.ref --extract alz.txt --chr $j
-./ldak5.linux --calc-weights-all alz_chr$j --bfile ref --extract alz.txt --chr $j
+## Step 2.1 Get bld0-64
+#Download LDSC scores v2.1, baseline in LDSC folder and extract
+cd ../SumHer/LDSC
+mkdir BLD_LDAK
+cd BLD_LDAK
+#Remove bld0 and base1~base74
+rm bld0 base{1..74}
+#Extract LD annotations for each annotations and merge into base$j
+for j in {1..22}; 
+do 
+   gunzip -c ../1000G_Phase3_baselineLD_v2.1_ldscores/baselineLD.$j.annot.gz | awk '(NR>1){for(i=1;j<=74;i++){if($(5+i)!=0){print $1":"$2, $(5+i) >> "base"i}}print $1":"$2 >> "bld0"}'; 
+   echo "chr$j finished\n"
 done
 
-#Merge weights across chromosomes
-cat alz_chr{1..22}/weights.short > alz.weights
+#Rename base to bld
+for j in {1..58}; do mv base$j bld$j; done
+for j in {59..64}; do mv base$((10+j)) bld$j; done
 
-#Calculate the (1-part) LDAK tagfile
-./ldak5.linux --calc-tagging alz_ldak --bfile ref --extract alz.txt --weights alz.weights --power -.25 --window-cm 1
+## Step 2.2 Calculate LDAK SNP weights
+#here, we calculate weights separately for each chromosome then merge
+#The on-screen instructions explain how to further parallelize (use --calc-weights not --calc-weights-all) 
+cd ../..
 
+ldak.linux --cut-weights sections --bfile ../h1000/hg19/ref.AD
+for j in {1..22}; do
+ldak.linux --calc-weights sections --bfile ../h1000/hg19/ref.AD --section $j
+done
+ldak.linux --join-weights sections --bfile ../h1000/hg19/ref.AD
+
+cp sections/weights.short LDSC/BLD_LDAK/bld65
+
+## 2.3 Calculate taggings, save weight matrix
+ldak.linux --calc-tagging BLD-LDAK --bfile ../h1000/hg19/ref.AD --ignore-weights YES --power -.25 --window-cm 1 --annotation-number 65 --annotation-prefix LDSC/BLD_LDAK/bld --save-matrix YES
+
+#Calculate the (1-part) LDAK Model tagfile
+#ldak5.linux --calc-tagging alz_ldak --bfile ref --extract alz.txt --weights bld65 --power -.25 --window-cm 1
+
+# Step 3. Calculate SNP heritabilies
 #Perform the regression (remember to exclude the MHC / large-effect SNPs)
 #Pay attention to the screen output (for this example it says I should add --check-sums NO)
-./ldak5.linux --sum-hers alz_ldak --tagfile alz_ldak.tagging --summary alz.txt --exclude alz.excl
+cd ../kunkle2019
+ldak.linux --sum-hers alz_bldldak --tagfile ../SumHer/BLD-LDAK.tagging --summary alz_kunkle2019.txt --cutoff 0.01 --matrix BLD-LDAK.matrix --check-sums NO
 
 
-#Estimates of SNP heritability will be in alz_ldak.hers
+#Estimates of SNP heritability will be in alz_bldldak.hers
 
-#To instead use the GCTA Model, use --ignore-weights YES and --power -1 when computing the tagfile
-#This takes longer (as it uses all SNPs), but we can calculate separately for each chromosome then merge
-for j in {1..22}; do
-./ldak5.linux --calc-tagging alz_gcta$j --bfile ref --extract alz.txt --ignore-weights YES \
---power -1 --window-cm 1 --chr $j
-done
-#Join the tagfiles across chromosomes
-rm list.txt; for j in {1..22}; do echo "alz_gcta$j.tagging" >> list.txt; done
-./ldak5.linux --join-tagging alz_gcta --taglist list.txt
-
-#Then perform the regression (again will have to add --check-sums NO)
-./ldak5.linux --sum-hers alz_gcta --tagfile alz_gcta.tagging --summary alz.txt --exclude alz.excl
-
+# Other related
 #Estimate confounding bias. We recommend estimating the scaling factor $C$, but SumHer can also estimate the LDSC intercept $1+A$. There is no need to compute a new tagfile, just add \verb|--genomic-control YES| or \verb|--intercept YES| when performing the regression.
 
 
 #Estimate the scaling factor C
-./ldak5.linux --sum-hers alz_ldak.gcon --tagfile alz_ldak.tagging --summary alz.txt --exclude alz.excl \
---genomic-control YES
-#The scaling factor will be in alz_ldak.gcon.extra
+ldak.linux --sum-hers alz_bldldak.gcon --tagfile ../SumHer/BLD-LDAK.tagging --summary alz_kunkle2019.txt --exclude alz.excl --genomic-control YES
+#The scaling factor will be in alz_bldldak.gcon.extra
 
 #Estimate the intercept 1+A
-./ldak5.linux --sum-hers alz_gcta.cept --tagfile alz_gcta.cept.tagging --summary alz.txt --exclude alz.excl \
---intercept YES
+ldak.linux --sum-hers alz_gcta.cept --tagfile ../SumHer/BLD-LDAK.tagging --summary alz_kunkle2019.txt --exclude alz.excl --intercept YES
 #The intercept will be in alz_gcta.cept.extra
 
 ```
