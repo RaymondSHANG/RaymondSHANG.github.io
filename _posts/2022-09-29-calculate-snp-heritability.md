@@ -259,6 +259,32 @@ do
 done
 ```
 
+# Estimate SNP heritability
+SNPs with unusually large effect sizes may not be accommodated by the assumed heritability model, thus may be treated separately. In Alzheimer's, APOE4 is well known large risk factor and the most successful PRS models are those treat APOE and other genetic risk factors separately, and tream APOE as fixed effects.<br/>
+
+SNP-heritability analysis in humans usually omit the ~9Mb of the extended MHC region on chromosome six because of:
+1. large effect size, particularly for immune-related traits;
+2. unusual patterns of LD in this region.
+
+This could be achieved by:<br/>
+```bash
+#Get list of MHC SNPs (from reference panel), for hg19 genome structure
+awk < ../h1000/hg19/ref.AD.bim '($1==6 && $4>25000000 && $4<34000000){print $2}' > mhc.snps
+
+#Identify large-effect SNPs (those explaining more than 1% of phenotypic variance)
+#This command uses the fact that the variance explained by each SNP is stat/(stat+n)
+awk < alz_kunkle2019.txt '(NR>1 && $5>$6/99){print $1}' > alz.big
+#Find SNPs tagging the alzheimers large-effect loci (within 1cM and correlation squared >.1)
+ldak5.linux --remove-tags alz --bfile ../h1000/hg19/ref.AD --targets alz.big --window-cm 1 --min-cor .1
+
+#Create exclusion files, containing mhc and (for alzheimers) SNPs tagging large-effect SNPs
+cat mhc.snps alz.out > alz.excl
+```
+
+{{important}}<br/>
+Previously, we recommended first using <code>--remove-tags outfile</code> to identify predictors tagging loci that explain more than 1% of phenotypic variance, then excluding these using <code>--extract extractfile</code> and/or <code>--exclude excludefile</code>. <br/>
+<b>However</b>, this can now be done more easily using the option <code>--cutoff float </code>; for example, to remove predictors that explain more than 1% of phenotypic variance, add <code>--cutoff 0.01</code> (note that this will not also remove predictors tagging the large-effect loci, but in practice, we find this makes little difference).<br/>
+{{end}}
 # Bash script for Alzheimer's BLD-LDAK model
 The below one is modified from [dougspeed](https://dougspeed.com/wp-content/uploads/refpanel_format_snpher_confounding.txt)
 
