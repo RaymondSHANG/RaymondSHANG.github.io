@@ -159,7 +159,7 @@ echo "PostgreSQL connected";
    ```bash
    mysql.exe -u root -p -h localhost < C:/Web/Apache24/htdocs/sql/mydb_schema.sql
    #Or
-   mysql.exe -u gatechUser -p cs6400_fa22_team006 -h localhost < C:/Web/Apache24/htdocs/sql/mydb_schema.sql
+   mysql.exe -u username -p schemaname -h localhost < C:/Web/Apache24/htdocs/sql/mydb_schema.sql
    ```
 
 6. Some useful MySQL commands:
@@ -169,5 +169,93 @@ echo "PostgreSQL connected";
    show tables;
    DESCRIBE usertable;
    ```
+7. Test MySQL connectsion
+   - conmsql.php
+    ```php
+    // Connect
+    //DB_HOST,DB_PORT,DB_USER,DB_PASS,DB_SCHEMA,DB_PORT
+    define('DB_HOST', "localhost");
+    define('DB_PORT', "3306");
+    define('DB_USER', "username");
+    define('DB_PASS', "password");
+    define('DB_SCHEMA', "dbname");
 
+    $db = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_SCHEMA, DB_PORT);
+
+    if (mysqli_connect_errno())
+    {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error() . NEWLINE;
+        echo "Running on: ". DB_HOST . ":". DB_PORT . '<br>' . "Username: " . DB_USER . '<br>' . "Password: " . DB_PASS . '<br>' ."Database: " . DB_SCHEMA;
+        phpinfo();   //unsafe, but verbose for learning. 
+        exit();
+    }
+    echo "connect success";
+    // Query
+    $query = sprintf("SELECT * FROM users WHERE user='%s' AND password='%s'",
+                mysql_real_escape_string($user),
+                mysql_real_escape_string($password));
+    $result = mysqli_query($db, $query);
+    $count = mysqli_num_rows($result);
+    if (!empty($result) && ($count > 0) ) {
+        echo "do somethin";
+        while($row = mysqli_fetch_arrays($result)){
+            echo "do somethin";
+        }
+    }
+    // Insert
+    $query = "INSERT INTO tablename (email, username, date_insertion) " .
+				 "VALUES ('{$_SESSION['email']}', '$username',  NOW())";
+    $queryID = mysqli_query($db, $query);
+    
+    if ($queryID  == False) {  //INSERT, UPDATE, DELETE, DROP return True on Success  / False on Error
+        //insertion fail
+        array_push($error_msg, "INSERT ERROR: xxxxx! <br>" . __FILE__ ." line:". __LINE__ );
+    } 
+    // Update
+    $email = mysqli_real_escape_string($db, $_GET['username']);
+
+	$query = "UPDATE tablename " .
+			 "SET date_insertion = NOW() " .
+			 "WHERE email = '{$_SESSION['email']}' " .
+			 "AND username = '$username'";
+
+	$result = mysqli_query($db, $query);
+
+    if (mysqli_affected_rows($db) == -1) {
+        //update fail
+        array_push($error_msg,  "UPDATE ERROR: tablename ... <br>".  __FILE__ ." line:". __LINE__ );
+	}
+    // Delete
+    $email = mysqli_real_escape_string($db, $_GET['email']);
+
+	$query = "DELETE FROM tablename " .
+			 "WHERE email = '$email'";
+    
+	$result = mysqli_query($db, $query);
+    if (mysqli_affected_rows($db) == -1) {
+        //deletion fail
+        array_push($error_msg,  "DELETE ERROR: tablename".$email."...<br>" . __FILE__ ." line:". __LINE__ );
+	}
+    // A very useful function
+    $showQueries=True;
+    $showCounts=True;
+    $query_msg=[];
+    define('NEWLINE',"<br/>");
+    if($showQueries){
+        if(is_bool($result)) {
+            array_push($query_msg,  $query . ';' . NEWLINE);
+            
+            if( mysqli_errno($db) > 0 ) {
+                array_push($error_msg,  'Error# '. mysqli_errno($db) . ": " . mysqli_error($db));
+            }
+        } else {          
+            if($showCounts){
+            array_push($query_msg,  $query . ';');
+            array_push($query_msg,  "Result Set Count: ". mysqli_num_rows($result). NEWLINE);
+            } else {
+                array_push($query_msg,  $query . ';'. NEWLINE);
+            }
+        } 
+    }
+    ```
 ---
