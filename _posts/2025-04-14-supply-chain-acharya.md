@@ -16,5 +16,8 @@ The Kaggle Notebook for this blogpost could be found at:
 
 {{note}} [Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1) {{end}}
 
+{% note %}
+[Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1)
+{% endnote %}
 
 ---
