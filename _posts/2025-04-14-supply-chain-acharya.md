@@ -12,6 +12,7 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 
 >A supply chain is only as strong as its weakest data point.
 
+# Kaggle Notebook
 The Kaggle Notebook for this blogpost could be found at:
 
 {{note}} [Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1) {{end}}
@@ -20,4 +21,5 @@ The Kaggle Notebook for this blogpost could be found at:
 [Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1)
 {% endnote %}
 
+# Overview
 ---
