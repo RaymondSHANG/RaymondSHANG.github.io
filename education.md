@@ -4,10 +4,9 @@ title: Education
 ---
 
 ## Work Experience
-
-- Research Assistant Professor, University of Arizona, 2020
-
-- Research Specialist, Principle, University of Arizona, 2017-2019
+- Research Scientist, University of Arizona
+    - Research Assistant Professor, University of Arizona, 2020
+    - Research Specialist, Principle, University of Arizona, 2017-2019
     -	Omics Data Management: Oversaw the storage, preprocessing, and sharing of lab omics data (RNA-Seq, single-nuclear RNA-Seq, metabolomics, lipidomics, metadata) across 20+ datasets from 500+ animal models (mouse, rat, human tissue). Ensured timely data release post-publication.
     - Data Compliance & Governance: Managed and tracked data use agreements and applications, ensuring compliance with UK Biobank, NACC, ADNI, ROSMAP, Synapse, FHS, and other datasets.
     - Bioinformatics Training & Support: Trained junior researchers in bioinformatics pipelines, including statistical analysis and inferences, differential expression, pathway analysis, and network analysis.
