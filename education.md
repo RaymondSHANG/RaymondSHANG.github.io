@@ -26,10 +26,10 @@ PhytoSERM NCT05664477), supporting the $37M Phase II Allopregnanolone trial (NCT
 
 ### Education
 
---Computer Science (Machine Learning Specification), Master of Science, Georgia Institute of Technology, 2020
+- Computer Science (Machine Learning Specification), Master of Science, Georgia Institute of Technology, Dec 2024
 
---Statistics, Master of Science, University of Arizona, 2020
+- Statistics, Master of Science, University of Arizona, 2020
 
---Biochemistry, Doctor of Philosophy, Hong Kong Univerisyt of Science and Technology,2014
+- Biochemistry, Doctor of Philosophy, Hong Kong Univerisyt of Science and Technology,2014
 
---Bioinformatics, Bachelor of Science, Shanghai Jiaotong University 2009
+- Bioinformatics, Bachelor of Science, Shanghai Jiaotong University 2009
