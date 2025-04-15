@@ -1,10 +1,10 @@
 # Site settings
 title: Yuan Blog
-SEOTitle: 我的博客 | Yuan Blog
+SEOTitle: Yuan Blog
 header-img: img/home-bg.jpg
 email: shangyuan5000@gmail.com
-description: "关于科学，数据，生命 | 这里是 @Yuan 的个人博客，记录我的世界。"
-keyword: "Yuan Blog, 博客, 个人网站, Big Data, Bioinformatics, Statistics"
+description: "Exploring Science, Data, and Life – @Yuan’s blog and digital notebook"
+keyword: "Yuan Blog, Blogpost, Generative AI, Big Data, LLM, Machine Learning, Bioinformatics, Statistics"
 url: "RaymondSHANG.github.io" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
