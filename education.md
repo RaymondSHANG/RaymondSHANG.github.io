@@ -3,7 +3,7 @@ layout: page
 title: Education
 ---
 
-### Work Experience
+## Work Experience
 
 - Research Assistant Professor, University of Arizona, 2020
 
@@ -24,7 +24,7 @@ PhytoSERM NCT05664477), supporting the $37M Phase II Allopregnanolone trial (NCT
     - Target Search & Optimization: Designed regular expression-based feature matching for target discovery. Optimized a peptide targeting MAGUK proteins, potentially linked to Autism.
     - Automated Literature Mining: Implemented web crawlers and keyword-based searches to extract relevant evidence from scientific literature.
 
-### Education
+## Education
 
 - Computer Science (Machine Learning Specification), Master of Science, Georgia Institute of Technology, Dec 2024
 
