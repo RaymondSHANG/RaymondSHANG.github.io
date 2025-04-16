@@ -52,13 +52,13 @@ This SQLite database models a multi-echelon supply chain with 14 relational tabl
 
 - Timestamps enable lead time analysis (e.g., actual vs. planned).
 
-Design Notes
+## Design Notes
 
-Simulated variability: Actual lead times derive from ReceivedDt - OrderDt calculations.
+- Simulated variability: Actual lead times derive from ReceivedDt - OrderDt calculations.
 
-Stockout diagnosis uses joins across sales, inventory, and shipment tables.
+- Stockout diagnosis uses joins across sales, inventory, and shipment tables.
 
-Foreign keys (not shown) enforce referential integrity for all relationships.
+- Foreign keys (not shown) enforce referential integrity for all relationships.
 
 This schema supports AI agent training by providing traceable data linkages to answer questions like "Was the egg stockout caused by vendor delays or demand spikes?" through timestamp and quantity comparisons.
 
@@ -66,6 +66,7 @@ This schema supports AI agent training by providing traceable data linkages to a
 Based on the database described above, we developped a data simulation pipeline for the supply chain system, designed to generate realistic inventory scenarios while maintaining referential integrity.
 
 - 1. Initialize Static Entities
+
 ```python
 # Generate core tables (once)
 vendors = pd.DataFrame({
@@ -89,6 +90,7 @@ items = pd.DataFrame({
 })
 ```
 - 2. Define Network Relationships
+
 ```python
 # Assign vendors to DCs (with lead times)
 vendor_dc = pd.DataFrame({
@@ -106,6 +108,7 @@ store_dc = pd.DataFrame({
 ```
 
 - 3. Simulate Demand & Orders
+
 ```python
 def generate_daily_demand(store_id, item_id, date):
     base_demand = 10  # μ
@@ -123,6 +126,7 @@ for date in dates:
 ```
 
 - 4. Order Fulfillment with Variability
+
 ```python
 def process_orders():
     for _, order in orders.iterrows():
@@ -135,7 +139,9 @@ def process_orders():
 ```
 
 # Evaluation samples
+
 ## Inject Failure Scenarios
+
 ```python
 # Force a vendor delay for eggs (Item_id=1)
 vendor_ships.loc[vendor_ships.Item_id == 1, 'ShipDt'] += pd.Timedelta(days=3)
@@ -145,6 +151,7 @@ store_sales.loc[(store_sales.Store_id == 5) & (store_sales.Sales_dt == '2024-01-
 ```
 
 ## Inventory Reconciliation
+
 ```python
 def update_inventory():
     for store_id in range(1,31):
