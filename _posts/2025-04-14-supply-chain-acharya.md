@@ -67,97 +67,111 @@ Based on the database described above, we developped a data simulation pipeline 
 
 - 1. Initialize Static Entities
 
-```python
-# Generate core tables (once)
-vendors = pd.DataFrame({
-    'Vendor_name': [f'Vendor_{i}' for i in range(1,11)],
-    'VendorCity': np.random.choice(['NYC', 'Chicago', 'LA'], 10)
-})
+    ```python
+    # Generate core tables (once)
+    vendors = pd.DataFrame({
+        'Vendor_name': [f'Vendor_{i}' for i in range(1,11)],
+        'VendorCity': np.random.choice(['NYC', 'Chicago', 'LA'], 10)
+    })
 
-dcs = pd.DataFrame({
-    'DC_name': ['East_DC', 'West_DC'],
-    'DCCity': ['NYC', 'LA']
-})
+    dcs = pd.DataFrame({
+        'DC_name': ['East_DC', 'West_DC'],
+        'DCCity': ['NYC', 'LA']
+    })
 
-stores = pd.DataFrame({
-    'Store_name': [f'Store_{i}' for i in range(1,31)],
-    'StoreCity': np.random.choice(['Boston', 'Seattle', 'Miami'], 30)
-})
+    stores = pd.DataFrame({
+        'Store_name': [f'Store_{i}' for i in range(1,31)],
+        'StoreCity': np.random.choice(['Boston', 'Seattle', 'Miami'], 30)
+    })
 
-items = pd.DataFrame({
-    'Item_name': ['Eggs', 'Milk', ...],  # 20 items
-    'price': np.round(np.random.uniform(1.0, 10.0, 20), 2)
-})
-```
+    items = pd.DataFrame({
+        'Item_name': ['Eggs', 'Milk', ...],  # 20 items
+        'price': np.round(np.random.uniform(1.0, 10.0, 20), 2)
+    })
+    ```
 - 2. Define Network Relationships
 
-```python
-# Assign vendors to DCs (with lead times)
-vendor_dc = pd.DataFrame({
-    'Vendor_id': np.repeat(range(1,11), 2),  # 10 vendors x 2 DCs
-    'DC_id': [1,2]*10,
-    'Vendor_DC_LT': np.random.randint(3,7, 20)  # System Lead Time (SLT)
-})
+    ```python
+    # Assign vendors to DCs (with lead times)
+    vendor_dc = pd.DataFrame({
+        'Vendor_id': np.repeat(range(1,11), 2),  # 10 vendors x 2 DCs
+        'DC_id': [1,2]*10,
+        'Vendor_DC_LT': np.random.randint(3,7, 20)  # System Lead Time (SLT)
+    })
 
-# Assign stores to DCs
-store_dc = pd.DataFrame({
-    'Store_id': range(1,31),
-    'DC_id': [1]*15 + [2]*15,  # 15 stores per DC
-    'DC_StoreLT': np.random.randint(1,3, 30)
-})
-```
+    # Assign stores to DCs
+    store_dc = pd.DataFrame({
+        'Store_id': range(1,31),
+        'DC_id': [1]*15 + [2]*15,  # 15 stores per DC
+        'DC_StoreLT': np.random.randint(1,3, 30)
+    })
+    ```
 
 - 3. Simulate Demand & Orders
 
-```python
-def generate_daily_demand(store_id, item_id, date):
-    base_demand = 10  # μ
-    noise = np.random.normal(0, 1)  # σ=1
-    return max(1, int(base_demand + noise))  # Ensure ≥1
+    ```python
+    def generate_daily_demand(store_id, item_id, date):
+        base_demand = 10  # μ
+        noise = np.random.normal(0, 1)  # σ=1
+        return max(1, int(base_demand + noise))  # Ensure ≥1
 
-# Generate 30 days of forecasts/sales
-dates = pd.date_range('2024-01-01', periods=30)
-for date in dates:
-    for store_id in range(1,31):
-        for item_id in range(1,21):
-            forecast = 10  # Constant forecast
-            actual = generate_daily_demand(store_id, item_id, date)
-            # Write to StoreFC and StoreSales tables
-```
+    # Generate 30 days of forecasts/sales
+    dates = pd.date_range('2024-01-01', periods=30)
+    for date in dates:
+        for store_id in range(1,31):
+            for item_id in range(1,21):
+                forecast = 10  # Constant forecast
+                actual = generate_daily_demand(store_id, item_id, date)
+                # Write to StoreFC and StoreSales tables
+    ```
 
 - 4. Order Fulfillment with Variability
 
-```python
-def process_orders():
-    for _, order in orders.iterrows():
-        # Simulate vendor delay (ALT = SLT + randomness)
-        alt = vendor_dc.loc[(order.Vendor_id, order.DC_id), 'Vendor_DC_LT'] 
-        alt += np.random.randint(-1, 2)  # -1/0/+1 day variability
-        
-        ship_date = order.OrderDt + pd.Timedelta(days=alt)
-        # Write to VendorShips, DCReceipts, etc.
-```
+    ```python
+    def process_orders():
+        for _, order in orders.iterrows():
+            # Simulate vendor delay (ALT = SLT + randomness)
+            alt = vendor_dc.loc[(order.Vendor_id, order.DC_id), 'Vendor_DC_LT'] 
+            alt += np.random.randint(-1, 2)  # -1/0/+1 day variability
+            
+            ship_date = order.OrderDt + pd.Timedelta(days=alt)
+            # Write to VendorShips, DCReceipts, etc.
+    ```
 
 # Evaluation samples
 
 ## Inject Failure Scenarios
 
-```python
-# Force a vendor delay for eggs (Item_id=1)
-vendor_ships.loc[vendor_ships.Item_id == 1, 'ShipDt'] += pd.Timedelta(days=3)
+    ```python
+    # Force a vendor delay for eggs (Item_id=1)
+    vendor_ships.loc[vendor_ships.Item_id == 1, 'ShipDt'] += pd.Timedelta(days=3)
 
-# Simulate demand spike for Store 5
-store_sales.loc[(store_sales.Store_id == 5) & (store_sales.Sales_dt == '2024-01-15'), 'Sales'] *= 2
-```
+    # Simulate demand spike for Store 5
+    store_sales.loc[(store_sales.Store_id == 5) & (store_sales.Sales_dt == '2024-01-15'), 'Sales'] *= 2
+    ```
 
 ## Inventory Reconciliation
 
-```python
-def update_inventory():
-    for store_id in range(1,31):
-        for date in dates:
-            eod_qty = bod_qty + receipts - sales  # Simplified logic
-            # Write to InventoryOH
-```
+    ```python
+    def update_inventory():
+        for store_id in range(1,31):
+            for date in dates:
+                eod_qty = bod_qty + receipts - sales  # Simplified logic
+                # Write to InventoryOH
+    ```
+# Saving data for AI agents
 
+```python
+import sqlite3
+
+db_file = "SupplyChainABC.db"
+db_conn = sqlite3.connect(db_file)
+# Insert DataFrame into SQL table, replace if table exists
+df.to_sql('my_table', db_conn, if_exists='replace', index=False)
+
+# Close connection
+db_conn.close()
+
+print("DataFrame inserted into SQLite successfully!")
+```
 ---
