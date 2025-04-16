@@ -17,9 +17,7 @@ The Kaggle Notebook for this blogpost could be found at:
 
 {{note}} [Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1) {{end}}
 
-{% note %}
-[Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1)
-{% endnote %}
+
 
 # Overview
 This project simulates a multi-tier supply chain network with 10 vendors (suppliers), 2 distribution centers (DCs), and 30 stores to analyze inventory disruptions. Each supplier provides 2 unique items, shipped to DCs with system-defined lead times (SLT), though actual deliveries (ALT) may vary due to delays. DCs then distribute items to stores, where daily demand follows a normal distribution (e.g., average 10 units ± random deviation). Calendars for shipping/receiving at each node introduce delays if orders fall on non-operational days. The simulation models common failure scenarios—like vendor delays or unexpected demand spikes—that lead to stockouts (e.g., "Why did Store X run out of eggs?"). By generating timestamped data on orders, shipments, and inventory levels, the system trains an AI agent to diagnose root causes, such as identifying whether a stockout resulted from late supplier deliveries, forecasting errors, or DC bottlenecks. The goal is to enable the agent to answer targeted supply chain queries using a combination of function calls (to fetch data) and chain-of-thought reasoning (to trace disruptions across the network).
