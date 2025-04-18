@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Supply Chain Acharya - Part 1"
+title: "Supply Chain Acharya - Data simulation details"
 subtitle: "Gen AI Capstone 2025Q1"
 date: 2025-04-14 20:06:35
 header-style: text
