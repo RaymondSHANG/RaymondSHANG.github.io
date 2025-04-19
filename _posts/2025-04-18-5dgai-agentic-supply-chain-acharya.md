@@ -137,5 +137,5 @@ This analytical component transforms raw simulation data into actionable insight
 - Help diagnose root causes like incorrect lead times or missed order windows
 - Explain the logic behind replenishment quantities and forecast mismatches
 
-
+## Demo of Supply Chain Acharya
 ---
