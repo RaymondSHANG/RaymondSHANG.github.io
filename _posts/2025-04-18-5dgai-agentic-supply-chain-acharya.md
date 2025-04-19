@@ -43,12 +43,12 @@ Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these roo
 </a>) {{end}}
 
 We created a 30-day simulation of demand and replenishment for a small but representative network:
-•	2 Distribution Centers (DCs)
-•	10 Suppliers
-•	30 Stores
-•	20 Items (2 per supplier in each store)
-•	Simulated lead times between vendors, DCs, and stores
-•	Calendar-based logic for shipping and receiving 
+    - 2 Distribution Centers (DCs)
+    - 10 Suppliers
+    - 30 Stores
+    - 20 Items (2 per supplier in each store)
+    - Simulated lead times between vendors, DCs, and stores
+    - Calendar-based logic for shipping and receiving 
 
 This setup allows us to inject disturbances, model replenishment strategies, and understand the downstream effects of seemingly small parameter changes.
 
