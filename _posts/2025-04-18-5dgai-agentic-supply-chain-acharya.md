@@ -138,4 +138,6 @@ This analytical component transforms raw simulation data into actionable insight
 - Explain the logic behind replenishment quantities and forecast mismatches
 
 ## Demo of Supply Chain Acharya
+
+
 ---
