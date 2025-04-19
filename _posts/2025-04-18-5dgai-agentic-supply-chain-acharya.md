@@ -68,10 +68,8 @@ Based on the usage senario and database structure, We aimed to develop an AI age
 
 To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
 
-```bash
-Welcome → Human → Manager → (Loop back to Human) → SQL Gen → SQL Exec → Root Cause → END
-          ↑____________| (Max 4 times)
-```
+![LangGraph for Supply Chain Acharya](/img/in-post/lang_graph.png)
+
 
 ### What Can Supply Chain Acharya Do?
 •	Answer questions like: "Why did this item stock out on Day 10?"
