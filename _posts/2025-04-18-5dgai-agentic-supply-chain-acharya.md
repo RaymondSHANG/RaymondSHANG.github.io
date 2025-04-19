@@ -19,17 +19,17 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
 </a>) {{end}}
 
 ### Highlights
-🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
+#### 🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
 
-Interpret natural language supply chain issues
+-   Interpret natural language supply chain issues
 
-Dynamically generate and execute SQL queries
+-   Dynamically generate and execute SQL queries
 
-Analyze and explain root causes of failures
+-   Analyze and explain root causes of failures
 
-Loop back for clarification if data is insufficient
+-   Loop back for clarification if data is insufficient
 
-🧩 Gen AI Capabilities Used
+#### 🧩 Gen AI Capabilities Used
 
 ✅ Function Calling (for SQL schema-aware generation)
 
