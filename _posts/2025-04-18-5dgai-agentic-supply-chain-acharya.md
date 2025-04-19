@@ -119,18 +119,23 @@ This agent executes the SQL queries, retrieves results from the Digital Twin dat
 #### Agent-04: Root Cause Analyzer
 This analytical component transforms raw simulation data into actionable insights by diagnosing the underlying causes of supply chain disruptions. Using a structured Chain-of-Thought framework, it systematically: (1) isolates critical patterns from the results, (2) generates prioritized corrective recommendations, and (3) proposes strategic follow-up questions to deepen the investigation when warranted. By revealing the fundamental "why" behind operational breakdowns, the agent empowers decision-makers with evidence-based understanding - converting retrospective analysis into proactive resolution strategies while maintaining full interpretive transparency throughout the diagnostic process.
 
+### 🛠️ Technology Stack & Generative AI Capabilities
+
+| Component                  | Role                          | Key AI Capabilities                          |
+|----------------------------|-------------------------------|---------------------------------------------|
+| **Gemini Pro** (via LangChain) | Core reasoning engine         | • Function calling<br>• Few-shot prompting<br>• Dynamic context handling |
+| **LangGraph**              | Stateful workflow orchestrator | • Agent collaboration<br>• Memory persistence<br>• Conditional routing |
+| **OpenAI/Vertex AI**       | Structured output generation  | • JSON-mode completion<br>• Controlled generation<br>• Role-based prompts |
+| **Pandas + SQLite**        | Data processing backbone      | • SQL-based analysis<br>• Tabular diagnostics<br>• Data validation |
+| **Agentic Workflow**       | Task automation framework     | • Manager-agent delegation<br>• Self-correcting loops<br>• Context-aware rerouting |
+| **Google Colab**           | Development environment       | • Reproducible experiments<br>• Notebook-as-interface<br>• Scalable prototyping |
+
 
 ### What Can Supply Chain Acharya Do?
-•	Answer questions like: "Why did this item stock out on Day 10?"
-•	Trace inventory flows across the supply chain
-•	Help diagnose root causes like incorrect lead times or missed order windows
-•	Explain the logic behind replenishment quantities and forecast mismatches
+- Answer questions like: "Why did this item stock out on Day 10?"
+- Trace inventory flows across the supply chain
+- Help diagnose root causes like incorrect lead times or missed order windows
+- Explain the logic behind replenishment quantities and forecast mismatches
 
-### Why It Matters
-This proof-of-concept lays the groundwork for:
-•	Scalable decision support tools for large retailers
-•	Explainable AI in operational environments
-•	Improved training for replenishment analysts
-•	Faster diagnosis of recurring inventory issues
 
 ---
