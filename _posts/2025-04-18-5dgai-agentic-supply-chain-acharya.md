@@ -20,17 +20,25 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
 
 ### Highlights
 🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
--   Interpret natural language supply chain issues
--   Dynamically generate and execute SQL queries
--   Analyze and explain root causes of failures
--   Loop back for clarification if data is insufficient
+
+Interpret natural language supply chain issues
+
+Dynamically generate and execute SQL queries
+
+Analyze and explain root causes of failures
+
+Loop back for clarification if data is insufficient
 
 🧩 Gen AI Capabilities Used
 
 ✅ Function Calling (for SQL schema-aware generation)
+
 ✅ Agents (Manager, SQL Generator, Executor, Clarifier, Analyzer)
+
 ✅ Stateful Workflow via LangGraph (loopback for clarification)
+
 ✅ Structured Output / JSON Mode
+
 ✅ Few-shot Prompting using Chain-of-Thought (CoT)
 
 ## Problem Overview: Why Are the Shelves Empty—or Overflowing?
