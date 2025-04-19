@@ -51,59 +51,7 @@ This setup allows us to inject disturbances, model replenishment strategies, and
 
 Details of the supply chain network could be viewed below
 
-```mermaid
-graph TD;
-    SP1-->DC1;
-    SP2-->DC1;
-    SP3-->DC1;
-    SP4-->DC1;
-    SP5-->DC1;
-    SP6-->DC1;
-    SP7-->DC1;
-    SP8-->DC1;
-    SP9-->DC1;
-    SP10-->DC1;
-    SP1-->DC2;
-    SP2-->DC2;
-    SP3-->DC2;
-    SP4-->DC2;
-    SP5-->DC2;
-    SP6-->DC2;
-    SP7-->DC2;
-    SP8-->DC2;
-    SP9-->DC2;
-    SP10-->DC2;
-    DC1-->ST1;
-    DC1-->ST2;
-    DC1-->ST3;
-    DC1-->ST4;
-    DC1-->ST5;
-    DC1-->ST6;
-    DC1-->ST7;
-    DC1-->ST8;
-    DC1-->ST9;
-    DC1-->ST10;
-    DC1-->ST11;
-    DC1-->ST12;
-    DC1-->ST13;
-    DC1-->ST14;
-    DC1-->ST15;
-    DC2-->ST16;
-    DC2-->ST17;
-    DC2-->ST18;
-    DC2-->ST19;
-    DC2-->ST20;
-    DC2-->ST21;
-    DC2-->ST22;
-    DC2-->ST23;
-    DC2-->ST24;
-    DC2-->ST25;
-    DC2-->ST26;
-    DC2-->ST27;
-    DC2-->ST28;
-    DC2-->ST29;
-    DC2-->ST30;
-```
+![supply network](/img/in-post/supply_network.png)
 
 ## Tech Stack
 •	Python for simulation and logic
