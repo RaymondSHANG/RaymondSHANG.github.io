@@ -38,6 +38,9 @@ With this assistant, we could just tell it what we want, and it would:
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
 
 ## Digital Twin of a retail supply chain network
+{{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1
+</a>) {{end}}
 
 We created a 30-day simulation of demand and replenishment for a small but representative network:
 •	2 Distribution Centers (DCs)
@@ -49,16 +52,18 @@ We created a 30-day simulation of demand and replenishment for a small but repre
 
 This setup allows us to inject disturbances, model replenishment strategies, and understand the downstream effects of seemingly small parameter changes.
 
-Details of the supply chain network could be viewed below
+Details of the supply chain network could be viewed below, and 
+[Kaggle Notebook for Digital Twin of a retail supply chain network](https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1)
 
 ![supply network](/img/in-post/supply_network.png)
 
-## Tech Stack
-•	Python for simulation and logic
-•	SQLite for structured data management
-•	Pandas for data analysis
-•	GenAI (ChatGPT) as the question-answering interface
-•	Visualizations using Matplotlib/Plotly for insights
+## Supply Chain Acharya – A Multi-Agent System for Intelligent Supply Chain Diagnosis
+
+Based on the usage senario and database structure, We aimed to develop an AI agent system that could: 
+- Understand vague human queries
+- Auto-generate SQL to explore relevant supply data
+- Identify bottlenecks & root causes
+- Present results in structured, readable form
 
 ## What Can Supply Chain Acharya Do?
 •	Answer questions like: "Why did this item stock out on Day 10?"
