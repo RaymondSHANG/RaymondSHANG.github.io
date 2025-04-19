@@ -19,17 +19,14 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
 </a>) {{end}}
 
 ### Highlights
-#### 🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
+🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
 
 -   Interpret natural language supply chain issues
-
 -   Dynamically generate and execute SQL queries
-
 -   Analyze and explain root causes of failures
-
 -   Loop back for clarification if data is insufficient
 
-#### 🧩 Gen AI Capabilities Used
+🧩 Gen AI Capabilities Used
 
 ✅ Function Calling (for SQL schema-aware generation)
 
@@ -90,7 +87,37 @@ Based on the usage senario and database structure, We aimed to develop an AI age
 
 To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
 
+
+
+### LangGraph for Supply Chain Acharya
+We design our multi-agent AI system shown below
 ![LangGraph for Supply Chain Acharya](/img/in-post/lang_graph.png)
+
+This **LangGraph** workflow orchestrates a **six-node** supply chain analysis pipeline powered by four specialized **AI agents**. The process begins when users enter through the **Welcome Node** that provides initial instructions before proceeding to the Human Node for interaction. Here, users submit their supply chain questions, which then route to the **Manager Agent** for validation. Using **Chain-of-Thought (CoT)** reasoning, the Manager Agent determines whether the input requires clarification (looping back to the **Human Node**) or contains sufficient detail to proceed downstream. This iterative refinement continues until the input meets quality thresholds or reaches the maximum allowed clarification attempts.
+
+Once validated, the workflow progresses through three analytical stages:
+- The **SQL Generator Agent** transforms the refined input into executable, schema-aware database queries.
+
+- The **SQL Executor Agent** runs these queries against the supply chain database. The results were wrapped in **JSON format** and were sent to **Root Cause Analyzer Agent**
+
+- The **Root Cause Analyzer Agent** gets the query results and the original questions in dictionary format. Then,this agent employs LLM + CoT reasoning to diagnose core issues,and present evidence-backed conclusions.
+
+
+
+#### Agent-01: Manager Agent
+Acts as the coordinator for user interactions.It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensures every query is handled efficiently and passed to the right downstream node. If more information is required, it will loop back to human node to get more information.
+
+#### Agent-02: SQL Generation Agent
+This agent translates validated user queries into executable, schema-aware SQL code. It uses dynamic prompting and metadata to understand the query structure. It returns a well-formed SQL query to fetch the requested insights.
+
+This agent acts as the bridge between natural language and database execution.
+
+#### Agent-03: SQL Execution Agent
+This agent executes the SQL queries, retrieves results from the Digital Twin database and formats the output for easy interpretation. 
+
+
+#### Agent-04: Root Cause Analyzer
+This analytical component transforms raw simulation data into actionable insights by diagnosing the underlying causes of supply chain disruptions. Using a structured Chain-of-Thought framework, it systematically: (1) isolates critical patterns from the results, (2) generates prioritized corrective recommendations, and (3) proposes strategic follow-up questions to deepen the investigation when warranted. By revealing the fundamental "why" behind operational breakdowns, the agent empowers decision-makers with evidence-based understanding - converting retrospective analysis into proactive resolution strategies while maintaining full interpretive transparency throughout the diagnostic process.
 
 
 ### What Can Supply Chain Acharya Do?
