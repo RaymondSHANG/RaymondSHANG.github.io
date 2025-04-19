@@ -14,10 +14,24 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 
 ## Kaggle Notebook
 The Kaggle Notebook for this blogpost (including code implementations and demos) could be found at:
-
 {{note}} [Kaggle Notebook for Supply Chain Acharya: A GenAI-Powered Digital Twin](<a href="https://www.kaggle.com/code/toshall/agentic-supply-chain-acharya" target="_blank" rel="noopener noreferrer">
   https://www.kaggle.com/code/toshall/agentic-supply-chain-acharya
 </a>) {{end}}
+
+### Highlights
+🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
+-   Interpret natural language supply chain issues
+-   Dynamically generate and execute SQL queries
+-   Analyze and explain root causes of failures
+-   Loop back for clarification if data is insufficient
+
+🧩 Gen AI Capabilities Used
+
+✅ Function Calling (for SQL schema-aware generation)
+✅ Agents (Manager, SQL Generator, Executor, Clarifier, Analyzer)
+✅ Stateful Workflow via LangGraph (loopback for clarification)
+✅ Structured Output / JSON Mode
+✅ Few-shot Prompting using Chain-of-Thought (CoT)
 
 ## Problem Overview: Why Are the Shelves Empty—or Overflowing?
 Imagine walking into your local store looking for eggs, only to find the shelves bare. Or picture a store associate asking, "Why are we getting so many eggs we can’t sell?" These everyday questions reflect a deeper issue in the retail supply chain: inventory mismanagement. Whether it’s understocking that disappoints customers or overstocking that drives up waste and cost, the underlying problem is surprisingly complex.
