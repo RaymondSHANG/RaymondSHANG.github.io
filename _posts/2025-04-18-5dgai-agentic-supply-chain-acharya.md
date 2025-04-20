@@ -27,24 +27,15 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
 </a>) {{end}}
 
 ### Highlights
-🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
+This project leverages Generative AI to develop an intelligent assistant designed to enhance supply chain management. The system employs a multi-agent architecture, utilizing LangGraph to orchestrate decision-making and interactions among the agents. To improve the accuracy of question reasoning and data retrieval, the project incorporates several advanced prompting techniques and tools:
 
--   Interpret natural language supply chain issues
--   Dynamically generate and execute SQL queries
--   Analyze and explain root causes of failures
--   Loop back for clarification if data is insufficient
+- ✅ Multi-Agent System with LangGraph: LangGraph is used to define the workflow and communication pathways between 4 different Generative AI agents designed for specific tasks, enabling collaborative problem-solving within the supply chain context.
+- ✅ Few-Shot Prompting and Chain-of-Thought Prompting: These prompting strategies are employed to guide the LLMs in generating more accurate and reasoned responses, particularly when dealing with complex supply chain queries. We are 4 Agents here, based on the designed task, each agent used their own specific prompt optimized for their tasks using Few-Shot Prompting and Chain-of-Thought Prompting.
+- ✅ Function Calling: This technique is utilized to retrieve relevant data schemas, database constraints, and query results from external data sources (supply chain database), ensuring the agents have access to necessary information.
+- ✅ Structured output for Agent Communication: Agents exchange information in JSON format, providing a standardized and structured way to share data and updates throughout the decision-making process.
 
-🧩 Gen AI Capabilities Used
+By combining these technologies, the project aims to create a more robust and optimized approach to supply chain management, enabling more informed and efficient decision-making.
 
-✅ Function Calling (for SQL schema-aware generation)
-
-✅ Agents (Manager, SQL Generator, Executor, Clarifier, Analyzer)
-
-✅ Stateful Workflow via LangGraph (loopback for clarification)
-
-✅ Structured Output / JSON Mode
-
-✅ Few-shot Prompting using Chain-of-Thought (CoT)
 
 ## Problem Overview: Why Are the Shelves Empty—or Overflowing?
 Imagine walking into your local store looking for eggs, only to find the shelves bare. Or picture a store associate asking, "Why are we getting so many eggs we can’t sell?" These everyday questions reflect a deeper issue in the retail supply chain: inventory mismanagement. Whether it’s understocking that disappoints customers or overstocking that drives up waste and cost, the underlying problem is surprisingly complex.
