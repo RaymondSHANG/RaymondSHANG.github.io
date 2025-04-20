@@ -57,14 +57,14 @@ With this assistant, we could just tell it what we want, and it would:
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
 
 ### Digital Twin of a retail supply chain network
-{{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1" target="_blank" rel="noopener noreferrer">
-  https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1
+{{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
 </a>) {{end}}
 
 We created a 30-day simulation of demand and replenishment for a small but representative network:
 -    2 Distribution Centers (DCs)
 -    10 Suppliers
--    20 Stores
+-    30 Stores
 -    20 Items (2 per supplier in each store)
 -    Simulated lead times between vendors, DCs, and stores
 -    Calendar-based logic for shipping and receiving 
@@ -72,7 +72,7 @@ We created a 30-day simulation of demand and replenishment for a small but repre
 This setup allows us to inject disturbances, model replenishment strategies, and understand the downstream effects of seemingly small parameter changes.
 
 Details of the supply chain network could be viewed below, and 
-[Kaggle Notebook for Digital Twin of a retail supply chain network](https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v1)
+[Kaggle Notebook for Digital Twin of a retail supply chain network](https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3)
 
 ![supply network](/img/in-post/supply_network.png)
 The Suppliers send items to DCs, and DCs distribute items to Stores on demand. Everyday, each store will generate sales for each item based on normal distribution and simultation. Then, the stores create orders based on sales and forecasts. The orders were sent to Suppliers, which will prepare items shipments to each store through DCs. The lead time of each order varies and were simulated through normal distribution.
