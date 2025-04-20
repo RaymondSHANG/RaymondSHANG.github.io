@@ -15,7 +15,9 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 # Kaggle Notebook
 The Kaggle Notebook for this blogpost could be found at:
 
-{{note}} [Kaggle Notebook 1: Supply Chain Data Simulation](https://www.kaggle.com/code/sonneygeorge/scacharyav1) {{end}}
+{{note}} [Kaggle Notebook 1: Supply Chain Data Simulation](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
+</a>) {{end}}
 
 
 
@@ -65,101 +67,86 @@ This schema supports AI agent training by providing traceable data linkages to a
 # Data simulation
 Based on the database described above, we developped a data simulation pipeline for the supply chain system, designed to generate realistic inventory scenarios while maintaining referential integrity.
 
-- 1. Initialize Static Entities
-
+### 1. Simulate DC, Vendors, Stores, and Items
+Randomly choose 2 DC city names, 10 Vendors, 30 Stores, and 20 daily used Items. An example code for generating DC table shown below
     ```python
-    # Generate core tables (once)
-    vendors = pd.DataFrame({
-        'Vendor_name': [f'Vendor_{i}' for i in range(1,11)],
-        'VendorCity': np.random.choice(['NYC', 'Chicago', 'LA'], 10)
-    })
+        # 1. DC
+        # Get 5 random cities from the top 50
+        import random
 
-    dcs = pd.DataFrame({
-        'DC_name': ['East_DC', 'West_DC'],
-        'DCCity': ['NYC', 'LA']
-    })
+        max_DC_Number = 2
+        top_50_us_cities = [
+        "New York, NY", "Los Angeles, CA", "Chicago, IL", 
+        "Houston, TX", "Phoenix, AZ", "Philadelphia, PA",
+        "San Antonio, TX", "San Diego, CA", "Dallas, TX",
+        "San Jose, CA", "Austin, TX", "Jacksonville, FL",
+        "Fort Worth, TX", "Columbus, OH", "Charlotte, NC",
+        "San Francisco, CA", "Indianapolis, IN", "Seattle, WA",
+        "Denver, CO", "Washington, DC", "Boston, MA",
+        "El Paso, TX", "Nashville, TN", "Detroit, MI",
+        "Oklahoma City, OK", "Portland, OR", "Las Vegas, NV",
+        "Memphis, TN", "Louisville, KY", "Baltimore, MD",
+        "Milwaukee, WI", "Albuquerque, NM", "Tucson, AZ",
+        "Fresno, CA", "Sacramento, CA", "Kansas City, MO",
+        "Mesa, AZ", "Atlanta, GA", "Omaha, NE",
+        "Colorado Springs, CO", "Raleigh, NC", "Miami, FL",
+        "Virginia Beach, VA", "Oakland, CA", "Minneapolis, MN",
+        "Tulsa, OK", "Arlington, TX", "New Orleans, LA",
+        "Wichita, KS", "Cleveland, OH"
+        ]
 
-    stores = pd.DataFrame({
-        'Store_name': [f'Store_{i}' for i in range(1,31)],
-        'StoreCity': np.random.choice(['Boston', 'Seattle', 'Miami'], 30)
-    })
+        # random_cities = random.sample(top_50_us_cities, 2)
 
-    items = pd.DataFrame({
-        'Item_name': ['Eggs', 'Milk', ...],  # 20 items
-        'price': np.round(np.random.uniform(1.0, 10.0, 20), 2)
-    })
+        # print(random_cities)
+        # DCCity = [top_50_us_cities[n] for n in range(max_DC_Number)]
+
+        DCCity = [top_50_us_cities[n] for n in range(max_DC_Number)]
+        DC_name = ["DC_" + DCCity[n] for n in range(max_DC_Number)]
+        #print(DCCity,DC_name)
+        DC = pd.DataFrame({
+            "DC_name": DC_name,
+            "DCCity": DCCity})
+        DC
+
+        # insert 
+        db_name = 'SupplyChainABC2.db'
+        table_name = 'DC'
+        insert_dataframe_to_sqlite(DC, db_name, table_name)
+        execute_query("select * from DC")
     ```
-- 2. Define Network Relationships
+### 2. Simulate VendorDC, VendorItem, StoreDC
+Each vendors will ships to all DC(VendorDC);
+Each Store only get items from One DC (StoreDC);
+Each Item go to One Vendor (VendorItem);
+Each Store sells all Items.
 
-    ```python
-    # Assign vendors to DCs (with lead times)
-    vendor_dc = pd.DataFrame({
-        'Vendor_id': np.repeat(range(1,11), 2),  # 10 vendors x 2 DCs
-        'DC_id': [1,2]*10,
-        'Vendor_DC_LT': np.random.randint(3,7, 20)  # System Lead Time (SLT)
-    })
+### 3. StoreFC
+Forcast the sales of each item in each store using Normal Distributions with different mean and variance for each item and store for each date
 
-    # Assign stores to DCs
-    store_dc = pd.DataFrame({
-        'Store_id': range(1,31),
-        'DC_id': [1]*15 + [2]*15,  # 15 stores per DC
-        'DC_StoreLT': np.random.randint(1,3, 30)
-    })
-    ```
+### 4. StoreSales
+Simulate the first day of sales, where we assume enough inventory. This first day sales could be a random factor multiply by StoreFC at Step3.
 
-- 3. Simulate Demand & Orders
+### 5. InventoryOH
+Simulate the first day InventoryOH based on the first day StoreSales at Step4, so that inventory at the begin of day should be larger than sales. Generate end of day inventories based on sales, and the begin of day inventories.
 
-    ```python
-    def generate_daily_demand(store_id, item_id, date):
-        base_demand = 10  # μ
-        noise = np.random.normal(0, 1)  # σ=1
-        return max(1, int(base_demand + noise))  # Ensure ≥1
+### 6. orders
+Simulate orders based on these steps:
+-     Caculate OUTL = (LT + RT + SSdays) * FC
+-     Calculate OP  = (LT + 0.5 * RT + SSdays) * FC
+-     OH = EODQty
+-     OO = Orderqty for all outstanding orders -  even if ordered today it is expected to be delivered within LT+RT window
+-     Calculate AvailableInv = OH + OO
+-     Rule: Create an Order = if AvailableInv < OP , (OUTL - AvailableInv) else 0
 
-    # Generate 30 days of forecasts/sales
-    dates = pd.date_range('2024-01-01', periods=30)
-    for date in dates:
-        for store_id in range(1,31):
-            for item_id in range(1,21):
-                forecast = 10  # Constant forecast
-                actual = generate_daily_demand(store_id, item_id, date)
-                # Write to StoreFC and StoreSales tables
-    ```
+### 7. Update StoreReceipts, DCReceipts
+Based on Orders, simulate StoreReceipts and DCReceipts.
 
-- 4. Order Fulfillment with Variability
 
-    ```python
-    def process_orders():
-        for _, order in orders.iterrows():
-            # Simulate vendor delay (ALT = SLT + randomness)
-            alt = vendor_dc.loc[(order.Vendor_id, order.DC_id), 'Vendor_DC_LT'] 
-            alt += np.random.randint(-1, 2)  # -1/0/+1 day variability
-            
-            ship_date = order.OrderDt + pd.Timedelta(days=alt)
-            # Write to VendorShips, DCReceipts, etc.
-    ```
-
-# Evaluation samples
-
-## Inject Failure Scenarios
-
-    ```python
-    # Force a vendor delay for eggs (Item_id=1)
-    vendor_ships.loc[vendor_ships.Item_id == 1, 'ShipDt'] += pd.Timedelta(days=3)
-
-    # Simulate demand spike for Store 5
-    store_sales.loc[(store_sales.Store_id == 5) & (store_sales.Sales_dt == '2024-01-15'), 'Sales'] *= 2
-    ```
-
-## Inventory Reconciliation
-
-    ```python
-    def update_inventory():
-        for store_id in range(1,31):
-            for date in dates:
-                eod_qty = bod_qty + receipts - sales  # Simplified logic
-                # Write to InventoryOH
-    ```
 # Saving data for AI agents
+After generating db, we could upload it as dataset, make it public so others could use it.
+
+
+Example code
 
 ```python
 import sqlite3
