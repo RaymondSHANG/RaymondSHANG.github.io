@@ -197,7 +197,18 @@ After user clarify their questions, **supplychain_agent** will feature the the w
 
 
 #### Prompt of the Agent
-Acts as the coordinator for user interactions.It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensures every query is handled efficiently and passed to the right downstream node. If more information is required, it will loop back to human node to get more information.
+The agent acts as the coordinator for user interactions. It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensure every query is handled efficiently and directed to the appropriate downstream node. If further information is required for clarification, it initiates a loop back to the human node to gather the necessary details.
+
+Furthermore, the prompt establishes key constraints and formatting guidelines:
+
+* The agent must use provided tools (e.g., list_tables(), describe_table()) to explore the database schema and avoid asking the user for table or column names.
+SQL queries should only be generated after the agent has understood the schema.
+* Ambiguous terms should be resolved by querying the database for options and presenting them to the user for selection.
+* The final response must adhere to a specified bullet-point format, clearly stating the root cause of the issue and providing actionable recommendations.
+
+By providing this detailed set of instructions, the prompt aims to ensure consistent, accurate, and helpful responses from the agent, mimicking the expertise of a supply chain analyst.
+
+
  * Prompt for the Agent
 
 ```python
@@ -263,12 +274,13 @@ Acts as the coordinator for user interactions.It validates user input by checkin
 
 
 ### What Can Supply Chain Acharya Do?
-- Answer questions like: "Why did this item stock out on Day 10?"
-- Trace inventory flows across the supply chain
-- Help diagnose root causes like incorrect lead times or missed order windows
-- Explain the logic behind replenishment quantities and forecast mismatches
 
-## Demo of Supply Chain Acharya
+-   Answer questions like: "Why did this item stock out on Day 10?"
+-   Trace inventory flows across the supply chain
+-   Help diagnose root causes like incorrect lead times or missed order windows
+-   Explain the logic behind replenishment quantities and forecast mismatches
+
+### Demo of Supply Chain Acharya
 
 Below showed a user case of how Supply Chain Acharya work.
 
