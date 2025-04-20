@@ -430,6 +430,9 @@ This analytical component transforms raw simulation data into actionable insight
 
 ## Demo of Supply Chain Acharya
 
+Below showed a user case of how Supply Chain Acharya work.
+
+![Supply Chain Acharya Demo](/img/in-post/demo_supplyChain.png)
 
 ## ✍️ Authors
 
