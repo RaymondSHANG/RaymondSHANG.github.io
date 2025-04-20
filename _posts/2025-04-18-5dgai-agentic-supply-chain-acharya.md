@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Supply Chain Acharya: A GenAI-Powered Digital Twin to Solve Retail Inventory Mysteries"
+title: "Supply Chain Acharya: A GenAI-Powered Expert Assistant to Solve Retail Supply Chain Challenges"
 subtitle: "Gen AI Capstone 2025Q1 by Kaggle"
 date: 2025-04-18 14:24:45
 header-style: text
@@ -35,7 +35,6 @@ This project leverages Generative AI to develop an intelligent assistant designe
 - ✅ Structured Output: The primary agent and the clarification node exchange information in dict format within the LangGraph workflow, providing a standardized and structured way to share data and updates throughout the decision-making process. Additionally, the final response from agent is formated so that human could read easily.
 
 By combining these technologies, the project aims to create a more robust and optimized approach to supply chain management, enabling more informed and efficient decision-making.
-
 
 ### Problem Overview: Why Are the Shelves Empty—or Overflowing?
 Imagine walking into your local store looking for eggs, only to find the shelves bare. Or picture a store associate asking, "Why are we getting so many eggs we can’t sell?" These everyday questions reflect a deeper issue in the retail supply chain: inventory mismanagement. Whether it’s understocking that disappoints customers or overstocking that drives up waste and cost, the underlying problem is surprisingly complex.
@@ -98,7 +97,6 @@ To enhance information extraction from our database, we implemented four functio
 - Execute Query: Executes a given SQL query and returns the results.
 
 These functions enable the LLM to dynamically interact with the database, allowing for more informed and contextually relevant responses.
-
 
 <ul id="profileTabs" class="nav nav-tabs">
     <li  class="active"><a class="noCrossRef" href="#list_tables" data-toggle="tab">list_tables</a></li>
@@ -185,130 +183,71 @@ def execute_query(conn, sql: str) -> list[list[str]]:
 
 
 
-### LangGraph for Supply Chain Acharya
-We design our multi-agent AI system shown below
+#### LangGraph for Supply Chain Acharya
+We design our AI agent system using LangGraph shown below
 ![LangGraph for Supply Chain Acharya](/img/in-post/lang_graph.png)
 
-This **LangGraph** workflow orchestrates a **six-node** supply chain analysis pipeline powered by four specialized **AI agents**. The process begins when users enter through the **Welcome Node** that provides initial instructions before proceeding to the Human Node for interaction. Here, users submit their supply chain questions, which then route to the **Manager Agent** for validation. Using **Chain-of-Thought (CoT)** reasoning, the Manager Agent determines whether the input requires clarification (looping back to the **Human Node**) or contains sufficient detail to proceed downstream. This iterative refinement continues until the input meets quality thresholds or reaches the maximum allowed clarification attempts.
+This **LangGraph** workflow orchestrates a **four-node** supply chain analysis pipeline powered by a specialized **AI agents**. The process begins when users enter through the **input_node** that provides initial instructions before proceeding to the Human Node for interaction. Here, users submit their supply chain questions, which then route to the **supplychain_agent** for validation. Using **Chain-of-Thought (CoT)** and **few shots prompting** reasoning, the supplychain_agent determines whether the input requires clarification (looping to the **clarification_node**) or contains sufficient detail to get the results. This iterative refinement continues until the input meets quality thresholds.
 
-Once validated, the workflow progresses through three analytical stages:
-- The **SQL Generator Agent** transforms the refined input into executable, schema-aware database queries.
+After user clarify their questions, **supplychain_agent** will feature the the workflow progresses through four analytical stages:
+- Interpret the user’s natural language question
+- Explore the database schema using tools (not assumptions)
+- Generate SQL queries to investigate all relevant angles (inventory, vendors, forecasts, shipments)
+- Generate structured output with defined format
 
-- The **SQL Executor Agent** runs these queries against the supply chain database. The results were wrapped in **JSON format** and were sent to **Root Cause Analyzer Agent**
 
-- The **Root Cause Analyzer Agent** gets the query results and the original questions in dictionary format. Then,this agent employs LLM + CoT reasoning to diagnose core issues,and present evidence-backed conclusions.
-
-
-#### Agent-01: Manager Agent
+#### Prompt of the Agent
 Acts as the coordinator for user interactions.It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensures every query is handled efficiently and passed to the right downstream node. If more information is required, it will loop back to human node to get more information.
- * Prompt for Manager Agent
+ * Prompt for the Agent
 
 ```python
-    """
-            You are a supply chain assistant. Extract store references (by number or name) and item references 
-            (by name or “item <id>”) from user questions.
+    """You are a helpful **supply chain root-cause analyst agent** with access to an SQL database for a retail store.
 
-            Extract RAW:
-            - store_mentions: ["6", "Dallas store", ...]
-            - item_mentions: ["milk", "item 5", "eggs", ...]
+    Your job is to identify and explain **why a supply chain issue is happening** — such as:
+    - Inventory stockouts or shortages
+    - Vendor shipment delays
+    - Sales forecast mismatches
+    - Missed deliveries or receipts
 
-            Respond ONLY in this JSON:
-            {
-            "store_mentions": [str],
-            "item_mentions": [str]
-            }
+    You will:
+    - Interpret the user’s natural language question
+    - Explore the database schema using tools (not assumptions)
+    - Generate SQL queries to investigate all relevant angles (inventory, vendors, forecasts, shipments)
+
+    ---
+
+    STRICT RULES you MUST follow:
+
+    1. **DO NOT ask the user for table or column names**  
+    → Use `list_tables()` and `describe_table(table_name)` to explore the schema  
+    
+    2. **Only generate SQL AFTER** you've understood the schema through tool usage.
+
+    3. **For ambiguous terms (like 'eggs', 'forecast', or 'Store X')**:  
+    → Use the database to find possible options and ask the user to choose  
+    → Phrase it like: "Which of the following items/stores do you mean?"  
+    → Provide real entries from the table as “Options: [...]”
+
+
+    Your Final Response Format (concise bullet points):
+
+    1. **Root Cause**: What is likely causing the issue, with specific facts or numbers (e.g., stock levels, forecast gaps, missing shipments). Always use item names and store names, not IDs.
+
+    2. **Recommendation**: What should the user do next to fix or investigate further?
+
+
+    Do NOT:
+    - Guess any schema
+    - Output SQL queries or table structures
+    - Ask the user for table/column names
+
+    Do:
+    - Think step-by-step using tool calls
+    - Provide smart, plain-language insights
+
+    Respond clearly and helpfully like a domain expert — no jargon.
     """
 ```
-
-#### Agent-02: SQL Generation Agent
-This agent translates validated user queries into executable, schema-aware SQL code. It uses dynamic prompting and metadata to understand the query structure. It returns a well-formed SQL query to fetch the requested insights.
-
-This agent acts as the bridge between natural language and database execution.
-
- * Prompt for SQL Generation Agent
-
- ```python
-    """
-    You are an expert SQL Generator Agent for a retail supply chain database.
-    STRICT SCHEMA: Only use the tables & columns listed below—no others.
-
-    {schema_description}
-
-    --- EXAMPLES ---
-
-    1) In: "What is the current inventory of item_id=1 at store 5?"
-    Out:
-    [
-    "SELECT EODQty FROM InventoryOH WHERE store_id=5 AND item_id=1 ORDER BY InventoryDt DESC LIMIT 1;"
-    ]
-
-    2) In: "Show me the last 7 days of sales for item 2 at store 3."
-    Out:
-    [
-    "SELECT Sales_dt, Sales FROM StoreSales WHERE store_id=3 AND item_id=2 ORDER BY Sales_dt DESC LIMIT 7;"
-    ]
-
-    3) In: "Compare forecast vs actual for item 4 at store 2 for this month."
-    Out:
-    [
-    "SELECT Forecast_sales_dt, Forecast FROM StoreFC WHERE store_id=2 AND item_id=4 AND Forecast_sales_dt BETWEEN DATE('now','start of month') AND DATE('now');",
-    "SELECT Sales_dt, Sales FROM StoreSales WHERE store_id=2 AND item_id=4 AND Sales_dt BETWEEN DATE('now','start of month') AND DATE('now');"
-    ]
-
-    --- END EXAMPLES ---
-
-    User question: {question}
-    Store ID: {store_id}
-    Item IDs: {items}
-
-    Please return **only** a JSON array of SQL string(s), e.g.:
-
-    [
-    "SELECT * FROM InventoryOH WHERE store_id=5 AND item_id=1;"
-    ]
-    """
- ```
-
-#### Agent-03: SQL Execution Agent
-This agent executes the SQL queries, retrieves results from the Digital Twin database and formats the output for easy interpretation. 
-
-
- * Prompt for SQL Generation Agent
-
- ```python
-    """
-            You are the SQL code executor using the tool execute_query_tool.
-            Your job is to execute the SQL query and return only the raw rows from the database.
-            Do not explain the results or provide any additional commentary.
-
-            Always return the raw result in the same format as shown above.
-    """
- ```
-
-#### Agent-04: Root Cause Analyzer
-This analytical component transforms raw simulation data into actionable insights by diagnosing the underlying causes of supply chain disruptions. Using a structured Chain-of-Thought framework, it systematically: (1) isolates critical patterns from the results, (2) generates prioritized corrective recommendations, and (3) proposes strategic follow-up questions to deepen the investigation when warranted. By revealing the fundamental "why" behind operational breakdowns, the agent empowers decision-makers with evidence-based understanding - converting retrospective analysis into proactive resolution strategies while maintaining full interpretive transparency throughout the diagnostic process.
-
-
- * Prompt for Root Cause Analyzer
-
- ```python
-    """
-    You are a supply‑chain insights assistant.
-
-    The user asked:
-    "{user_q}"
-
-    The following SQL queries were executed and returned results:
-    {qr_text}
-
-    Please provide in three concise bullet points:
-    1. The single most important insight from these results.
-    2. A recommended next step or action for the user.
-    3. A follow‑up question the user could ask to dig deeper.
-
-    Respond in plain language, without SQL code or technical jargon.
-    """
- ```
 
 
 ### 🛠️ Technology Stack & Generative AI Capabilities
