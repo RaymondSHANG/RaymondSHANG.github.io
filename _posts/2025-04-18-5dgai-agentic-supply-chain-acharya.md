@@ -53,10 +53,9 @@ With this assistant, we could just tell it what we want, and it would:
 - Analyze and Root-cause and Recommend the best possible solution/next steps.
 - Show results in a structured format like JSON or table for better understanding.
 
-### Method
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
 
-#### Digital Twin of a retail supply chain network
+### Digital Twin of a retail supply chain network
 {{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3" target="_blank" rel="noopener noreferrer">
   https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
 </a>) {{end}}
@@ -79,7 +78,7 @@ Details of the supply chain network could be viewed below, and
 ![supply network](/img/in-post/supply_network.png)
 In the simulation, Suppliers ship items to DCs, which then distribute them to Stores based on demand. Daily, each store generates item sales based on a simulated normal distribution. Stores subsequently create orders based on these sales and forecasts, which are transmitted to Suppliers. Suppliers then prepare item shipments to stores via the DCs. The lead time for each order is simulated using a normal distribution.
 
-#### Supply Chain Acharya – An Agent Assistant for Intelligent Supply Chain Diagnosis
+### Supply Chain Acharya – An Agent Assistant for Intelligent Supply Chain Diagnosis
 
 Based on the intended use cases and the database structure, we aimed to develop an AI agent system capable of:
 - Understanding ambiguous human queries
@@ -89,7 +88,7 @@ Based on the intended use cases and the database structure, we aimed to develop 
 
 To achieve this, we require an interactive **Generative AI agent** capable of engaging with users to obtain a more precise definition of their questions. For this interactive process, we utilize **LangGraph** to manage the decision flow between the agent and a clarification node, effectively modeling the refinement of user inquiries.
 
-#### Function Calling for External Data Integration to AI agents
+### Function Calling for External Data Integration to AI agents
 To enhance information extraction from our database, we implemented four functions designed to provide the LLM with database access capabilities:
 
 - List Tables: Retrieves a list of all tables within the database.
@@ -183,7 +182,7 @@ def execute_query(conn, sql: str) -> list[list[str]]:
 
 
 
-#### LangGraph for Supply Chain Acharya
+### LangGraph for Supply Chain Acharya
 We design our AI agent system using LangGraph shown below
 ![LangGraph for Supply Chain Acharya](/img/in-post/lang_graph.png)
 
@@ -196,7 +195,7 @@ After user clarify their questions, **supplychain_agent** will feature the the w
 - Generate structured output with defined format
 
 
-#### Prompt of the Agent
+### Prompt of the Agent
 The agent acts as the coordinator for user interactions. It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensure every query is handled efficiently and directed to the appropriate downstream node. If further information is required for clarification, it initiates a loop back to the human node to gather the necessary details.
 
 Furthermore, the prompt establishes key constraints and formatting guidelines:
@@ -286,7 +285,7 @@ Below showed a user case of how Supply Chain Acharya work.
 
 ![Supply Chain Acharya Demo](/img/in-post/demo_supplyChain.png)
 
-## ✍️ Authors
+### ✍️ Authors
 
 This project is developed by (Alphabetical Order):
 
