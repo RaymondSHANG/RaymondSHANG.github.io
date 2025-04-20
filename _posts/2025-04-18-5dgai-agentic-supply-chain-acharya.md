@@ -48,9 +48,11 @@ To tackle this challenge, our team developed Supply Chain Acharya, a GenAI-power
 With this assistant, we could just tell it what we want, and it would:
 
 - Understand our problem.
-- Search across multiple databases store inventory,orders,forecast,sales, logistic lead times.
+- Understand the data shema of available database.
+- Search across multiple data table including store inventory,orders,forecast,sales, logistic lead times.
+- Sharing information between analytic steps.
 - Analyze and Root-cause and Recommend the best possible solution/next steps.
-- Show results in a structured format like JSON or table
+- Show results in a structured format like JSON or table for better understanding.
 
 ## Method
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
@@ -60,21 +62,23 @@ Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these roo
   https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
 </a>) {{end}}
 
-We created a 30-day simulation of demand and replenishment for a small but representative network:
+We created a 30-day simulation of demand and replenishment for a representative supply chain network comprising:
 -    2 Distribution Centers (DCs)
 -    10 Suppliers
 -    30 Stores
 -    20 Items (2 per supplier in each store)
 -    Simulated lead times between vendors, DCs, and stores
+-    Calendar-based Sales for each item in each store
+-    Calendar-based Orders for each item in each store
 -    Calendar-based logic for shipping and receiving 
 
-This setup allows us to inject disturbances, model replenishment strategies, and understand the downstream effects of seemingly small parameter changes.
+To manage the resulting data complexity and ensure efficiency, we designed a database with 16 tables, normalized to 3rd Normal Form. This database infrastructure enables us to inject disruptions, model various replenishment strategies, and analyze the downstream effects of parameter changes.
 
 Details of the supply chain network could be viewed below, and 
 [Kaggle Notebook for Digital Twin of a retail supply chain network](https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3)
 
 ![supply network](/img/in-post/supply_network.png)
-The Suppliers send items to DCs, and DCs distribute items to Stores on demand. Everyday, each store will generate sales for each item based on normal distribution and simultation. Then, the stores create orders based on sales and forecasts. The orders were sent to Suppliers, which will prepare items shipments to each store through DCs. The lead time of each order varies and were simulated through normal distribution.
+In the simulation, Suppliers ship items to DCs, which then distribute them to Stores based on demand. Daily, each store generates item sales based on a simulated normal distribution. Stores subsequently create orders based on these sales and forecasts, which are transmitted to Suppliers. Suppliers then prepare item shipments to stores via the DCs. The lead time for each order is simulated using a normal distribution.
 
 ### Supply Chain Acharya – A Multi-Agent System for Intelligent Supply Chain Diagnosis
 
@@ -85,7 +89,6 @@ Based on the usage senario and database structure, We aimed to develop an AI age
 - Present results in structured, readable form
 
 To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
-
 
 
 ### LangGraph for Supply Chain Acharya
@@ -102,21 +105,117 @@ Once validated, the workflow progresses through three analytical stages:
 - The **Root Cause Analyzer Agent** gets the query results and the original questions in dictionary format. Then,this agent employs LLM + CoT reasoning to diagnose core issues,and present evidence-backed conclusions.
 
 
-
 #### Agent-01: Manager Agent
 Acts as the coordinator for user interactions.It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensures every query is handled efficiently and passed to the right downstream node. If more information is required, it will loop back to human node to get more information.
+ * Prompt for Manager Agent
+
+```python
+    """
+            You are a supply chain assistant. Extract store references (by number or name) and item references 
+            (by name or “item <id>”) from user questions.
+
+            Extract RAW:
+            - store_mentions: ["6", "Dallas store", ...]
+            - item_mentions: ["milk", "item 5", "eggs", ...]
+
+            Respond ONLY in this JSON:
+            {
+            "store_mentions": [str],
+            "item_mentions": [str]
+            }
+    """
+```
 
 #### Agent-02: SQL Generation Agent
 This agent translates validated user queries into executable, schema-aware SQL code. It uses dynamic prompting and metadata to understand the query structure. It returns a well-formed SQL query to fetch the requested insights.
 
 This agent acts as the bridge between natural language and database execution.
 
+ * Prompt for SQL Generation Agent
+
+ ```python
+    """
+    You are an expert SQL Generator Agent for a retail supply chain database.
+    STRICT SCHEMA: Only use the tables & columns listed below—no others.
+
+    {schema_description}
+
+    --- EXAMPLES ---
+
+    1) In: "What is the current inventory of item_id=1 at store 5?"
+    Out:
+    [
+    "SELECT EODQty FROM InventoryOH WHERE store_id=5 AND item_id=1 ORDER BY InventoryDt DESC LIMIT 1;"
+    ]
+
+    2) In: "Show me the last 7 days of sales for item 2 at store 3."
+    Out:
+    [
+    "SELECT Sales_dt, Sales FROM StoreSales WHERE store_id=3 AND item_id=2 ORDER BY Sales_dt DESC LIMIT 7;"
+    ]
+
+    3) In: "Compare forecast vs actual for item 4 at store 2 for this month."
+    Out:
+    [
+    "SELECT Forecast_sales_dt, Forecast FROM StoreFC WHERE store_id=2 AND item_id=4 AND Forecast_sales_dt BETWEEN DATE('now','start of month') AND DATE('now');",
+    "SELECT Sales_dt, Sales FROM StoreSales WHERE store_id=2 AND item_id=4 AND Sales_dt BETWEEN DATE('now','start of month') AND DATE('now');"
+    ]
+
+    --- END EXAMPLES ---
+
+    User question: {question}
+    Store ID: {store_id}
+    Item IDs: {items}
+
+    Please return **only** a JSON array of SQL string(s), e.g.:
+
+    [
+    "SELECT * FROM InventoryOH WHERE store_id=5 AND item_id=1;"
+    ]
+    """
+ ```
+
 #### Agent-03: SQL Execution Agent
 This agent executes the SQL queries, retrieves results from the Digital Twin database and formats the output for easy interpretation. 
 
 
+ * Prompt for SQL Generation Agent
+
+ ```python
+    """
+            You are the SQL code executor using the tool execute_query_tool.
+            Your job is to execute the SQL query and return only the raw rows from the database.
+            Do not explain the results or provide any additional commentary.
+
+            Always return the raw result in the same format as shown above.
+    """
+ ```
+
 #### Agent-04: Root Cause Analyzer
 This analytical component transforms raw simulation data into actionable insights by diagnosing the underlying causes of supply chain disruptions. Using a structured Chain-of-Thought framework, it systematically: (1) isolates critical patterns from the results, (2) generates prioritized corrective recommendations, and (3) proposes strategic follow-up questions to deepen the investigation when warranted. By revealing the fundamental "why" behind operational breakdowns, the agent empowers decision-makers with evidence-based understanding - converting retrospective analysis into proactive resolution strategies while maintaining full interpretive transparency throughout the diagnostic process.
+
+
+ * Prompt for Root Cause Analyzer
+
+ ```python
+    """
+    You are a supply‑chain insights assistant.
+
+    The user asked:
+    "{user_q}"
+
+    The following SQL queries were executed and returned results:
+    {qr_text}
+
+    Please provide in three concise bullet points:
+    1. The single most important insight from these results.
+    2. A recommended next step or action for the user.
+    3. A follow‑up question the user could ask to dig deeper.
+
+    Respond in plain language, without SQL code or technical jargon.
+    """
+ ```
+
 
 ### 🛠️ Technology Stack & Generative AI Capabilities
 
