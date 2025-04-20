@@ -90,10 +90,16 @@ Based on the usage senario and database structure, We aimed to develop an AI age
 
 To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
 
-### Function Calling to incorportate external data resource for LLM
+### Function Calling for External Data Integration to AI agents
+To enhance information extraction from our database, we implemented four functions designed to provide the LLM with database access capabilities:
 
+- List Tables: Retrieves a list of all tables within the database.
+- Describe Table: Provides a detailed schema description for a specified table.
+- Execute Query: Executes a given SQL query and returns the results.
+- Get Constraints: Retrieves all constraint definitions within the database.
 
-The following is a [demo](https://raw.githubusercontent.com/tomjoht/documentation-theme-jekyll/gh-pages/pages/mydoc/mydoc_navtabs.md) of a navtab. 
+These functions enable the LLM to dynamically interact with the database, allowing for more informed and contextually relevant responses.
+
 
 <ul id="profileTabs" class="nav nav-tabs">
     <li  class="active"><a class="noCrossRef" href="#python1" data-toggle="tab">Function Calling</a></li>
