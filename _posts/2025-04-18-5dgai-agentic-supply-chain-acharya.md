@@ -14,8 +14,8 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 
 ## Kaggle Notebook
 The Kaggle Notebook for this blogpost (including code implementations and demos) could be found at:
-{{note}} [Kaggle Notebook for Supply Chain Acharya: A GenAI-Powered Digital Twin](<a href="https://www.kaggle.com/code/toshall/agentic-supply-chain-acharya" target="_blank" rel="noopener noreferrer">
-  https://www.kaggle.com/code/toshall/agentic-supply-chain-acharya
+{{note}} [Kaggle Notebook for Supply Chain Acharya: A GenAI-Powered Digital Twin](<a href="https://www.kaggle.com/code/haripriyaram51/agentic-supply-chain-acharya-final" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/haripriyaram51/agentic-supply-chain-acharya-final
 </a>) {{end}}
 
 {{note}} Vedio for this project can be found here(<a href="(https://medium.com/@haripriyaram51/bee428f66764)" target="_blank" rel="noopener noreferrer">
@@ -27,22 +27,22 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
 </a>) {{end}}
 
 ### Highlights
-This project leverages Generative AI to develop an intelligent assistant designed to enhance supply chain management. The system employs a multi-agent architecture, utilizing LangGraph to orchestrate decision-making and interactions among the agents. To improve the accuracy of question reasoning and data retrieval, the project incorporates several advanced prompting techniques and tools:
+This project leverages Generative AI to develop an intelligent assistant designed to enhance supply chain management. The system employs a LangGraph workflow to orchestrate decision-making and interactions between a primary Generative AI agent and a clarification node. To improve the accuracy of question reasoning and data retrieval, the project incorporates several advanced prompting techniques and tools:
 
-- ✅ Multi-Agent System with LangGraph: LangGraph is used to define the workflow and communication pathways between 4 different Generative AI agents designed for specific tasks, enabling collaborative problem-solving within the supply chain context.
-- ✅ Few-Shot Prompting and Chain-of-Thought Prompting: These prompting strategies are employed to guide the LLMs in generating more accurate and reasoned responses, particularly when dealing with complex supply chain queries. We are 4 Agents here, based on the designed task, each agent used their own specific prompt optimized for their tasks using Few-Shot Prompting and Chain-of-Thought Prompting.
+- ✅ Agent System with LangGraph: LangGraph is used to define the workflow and communication pathways between a primary Generative AI agent, designed for core supply chain tasks, and a clarification node, which handles user interaction and ambiguity resolution. This structure enables a focused agent to perform its primary function while the clarification node manages the conversational flow.
+- ✅ Few-Shot and Chain-of-Thought Prompting: These prompting strategies are employed to guide the primary LLM agent in generating more accurate and reasoned responses, particularly when dealing with complex supply chain queries. The primary agent uses a prompt optimized for its core tasks, leveraging Few-Shot and Chain-of-Thought prompting.
 - ✅ Function Calling: This technique is utilized to retrieve relevant data schemas, database constraints, and query results from external data sources (supply chain database), ensuring the agents have access to necessary information.
-- ✅ Structured output for Agent Communication: Agents exchange information in JSON format, providing a standardized and structured way to share data and updates throughout the decision-making process.
+- ✅ Structured Output: The primary agent and the clarification node exchange information in dict format within the LangGraph workflow, providing a standardized and structured way to share data and updates throughout the decision-making process. Additionally, the final response from agent is formated so that human could read easily.
 
 By combining these technologies, the project aims to create a more robust and optimized approach to supply chain management, enabling more informed and efficient decision-making.
 
 
-## Problem Overview: Why Are the Shelves Empty—or Overflowing?
+### Problem Overview: Why Are the Shelves Empty—or Overflowing?
 Imagine walking into your local store looking for eggs, only to find the shelves bare. Or picture a store associate asking, "Why are we getting so many eggs we can’t sell?" These everyday questions reflect a deeper issue in the retail supply chain: inventory mismanagement. Whether it’s understocking that disappoints customers or overstocking that drives up waste and cost, the underlying problem is surprisingly complex.
 
 These problems are not just operational—they’re strategic and systemic. From decisions about the physical supply network to individual item parameters affecting availability, the supply chain is governed by a vast, interdependent set of rules.
 
-## Our Solution: Supply Chain Acharya
+### Our Solution: Supply Chain Acharya
 To tackle this challenge, our team developed Supply Chain Acharya, a GenAI-powered assistant built on top of a Digital Twin of a simplified retail supply chain. 
 
 With this assistant, we could just tell it what we want, and it would:
@@ -54,10 +54,10 @@ With this assistant, we could just tell it what we want, and it would:
 - Analyze and Root-cause and Recommend the best possible solution/next steps.
 - Show results in a structured format like JSON or table for better understanding.
 
-## Method
+### Method
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
 
-### Digital Twin of a retail supply chain network
+#### Digital Twin of a retail supply chain network
 {{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3" target="_blank" rel="noopener noreferrer">
   https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
 </a>) {{end}}
@@ -80,34 +80,34 @@ Details of the supply chain network could be viewed below, and
 ![supply network](/img/in-post/supply_network.png)
 In the simulation, Suppliers ship items to DCs, which then distribute them to Stores based on demand. Daily, each store generates item sales based on a simulated normal distribution. Stores subsequently create orders based on these sales and forecasts, which are transmitted to Suppliers. Suppliers then prepare item shipments to stores via the DCs. The lead time for each order is simulated using a normal distribution.
 
-### Supply Chain Acharya – A Multi-Agent System for Intelligent Supply Chain Diagnosis
+#### Supply Chain Acharya – An Agent Assistant for Intelligent Supply Chain Diagnosis
 
-Based on the usage senario and database structure, We aimed to develop an AI agent system that could: 
-- Understand vague human queries
-- Auto-generate SQL to explore relevant supply data
-- Identify bottlenecks & root causes
-- Present results in structured, readable form
+Based on the intended use cases and the database structure, we aimed to develop an AI agent system capable of:
+- Understanding ambiguous human queries
+- Automatically generating SQL to explore relevant supply chain data
+- Identifying bottlenecks and root causes
+- Presenting results in a structured, easily readable format
 
-To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
+To achieve this, we require an interactive **Generative AI agent** capable of engaging with users to obtain a more precise definition of their questions. For this interactive process, we utilize **LangGraph** to manage the decision flow between the agent and a clarification node, effectively modeling the refinement of user inquiries.
 
-### Function Calling for External Data Integration to AI agents
+#### Function Calling for External Data Integration to AI agents
 To enhance information extraction from our database, we implemented four functions designed to provide the LLM with database access capabilities:
 
 - List Tables: Retrieves a list of all tables within the database.
 - Describe Table: Provides a detailed schema description for a specified table.
 - Execute Query: Executes a given SQL query and returns the results.
-- Get Constraints: Retrieves all constraint definitions within the database.
 
 These functions enable the LLM to dynamically interact with the database, allowing for more informed and contextually relevant responses.
 
 
 <ul id="profileTabs" class="nav nav-tabs">
-    <li  class="active"><a class="noCrossRef" href="#python1" data-toggle="tab">Function Calling</a></li>
-    <li><a class="noCrossRef" href="#python2" data-toggle="tab">Function Calling decorators</a></li>
+    <li  class="active"><a class="noCrossRef" href="#list_tables" data-toggle="tab">list_tables</a></li>
+    <li><a class="noCrossRef" href="#describe_table" data-toggle="tab">describe_table</a></li>
+    <li><a class="noCrossRef" href="#execute_query" data-toggle="tab">execute_query</a></li>
 </ul>
 
 <div class="tab-content">
-<div role="tabpanel" class="tab-pane active" id="python1" markdown="1">
+<div role="tabpanel" class="tab-pane active" id="list_tables" markdown="1">
 
 ```python
 # SQL Tools
@@ -128,6 +128,18 @@ def list_tables(conn) -> list[str]:
     return [t[0] for t in tables]
 
 
+
+
+```
+
+</div>
+
+
+<div role="tabpanel" class="tab-pane" id="describe_table" markdown="1">
+
+
+```python
+
 def describe_table(conn, table_name: str) -> list[tuple[str, str]]:
     """
     Look up the schema (column names and types) of the specified table.
@@ -144,7 +156,14 @@ def describe_table(conn, table_name: str) -> list[tuple[str, str]]:
     cursor.execute(f"PRAGMA table_info({table_name});")
     schema = cursor.fetchall()
     return [(col[1], col[2]) for col in schema]
+```
+</div>
 
+
+<div role="tabpanel" class="tab-pane" id="execute_query" markdown="1">
+
+
+```python
 
 def execute_query(conn, sql: str) -> list[list[str]]:
     """
@@ -159,126 +178,8 @@ def execute_query(conn, sql: str) -> list[list[str]]:
     cursor = conn.cursor()
     cursor.execute(sql)
     return cursor.fetchall()
-
-
-def get_sqlite_constraints(conn)-> dict:
-    """
-    Retrieves constraint information from an SQLite database.
-
-    Args:
-        db_file (str): The path to the SQLite database file.
-
-    Returns:
-        dict: A dictionary where keys are table names, and values are lists of
-              dictionaries, each representing a constraint.
-    """
-    constraints = {}
-
-    #conn = sqlite3.connect(db_file)
-    cursor = conn.cursor()
-
-    # Get table names
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = [table[0] for table in cursor.fetchall()]
-
-    for table in tables:
-        constraints[table] = []
-        cursor.execute(f"PRAGMA table_info('{table}');")
-        columns = cursor.fetchall()
-
-        # Get table creation SQL
-        cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table}';")
-        create_table_sql = cursor.fetchone()[0]
-
-        # Extract constraints from CREATE TABLE SQL
-        if create_table_sql:
-            # Primary Key
-            pk_match = re.search(r"PRIMARY KEY \((.*?)\)", create_table_sql, re.IGNORECASE)
-            if pk_match:
-                pk_columns = [col.strip() for col in pk_match.group(1).split(",")]
-                constraints[table].append({
-                    "type": "PRIMARY KEY",
-                    "columns": pk_columns
-                })
-
-            # Foreign Keys
-            fk_matches = re.finditer(r"FOREIGN KEY \((.*?)\) REFERENCES (.*?)(\((.*?)\))?", create_table_sql, re.IGNORECASE)
-            for fk_match in fk_matches:
-                fk_columns = [col.strip() for col in fk_match.group(1).split(",")]
-                ref_table = fk_match.group(2).strip()
-                ref_columns = [col.strip() for col in fk_match.group(4).split(",")] if fk_match.group(4) else None
-                constraints[table].append({
-                    "type": "FOREIGN KEY",
-                    "columns": fk_columns,
-                    "referenced_table": ref_table,
-                    "referenced_columns": ref_columns
-                })
-
-            # Unique Constraints
-            unique_matches = re.finditer(r"UNIQUE \((.*?)\)", create_table_sql, re.IGNORECASE)
-            for unique_match in unique_matches:
-                unique_columns = [col.strip() for col in unique_match.group(1).split(",")]
-                constraints[table].append({
-                    "type": "UNIQUE",
-                    "columns": unique_columns
-                })
-
-            # Check Constraints
-            check_matches = re.finditer(r"CHECK \((.*?)\)", create_table_sql, re.IGNORECASE)
-            for check_match in check_matches:
-                check_condition = check_match.group(1).strip()
-                constraints[table].append({
-                    "type": "CHECK",
-                    "condition": check_condition
-                })
-
-        # NOT NULL constraints (from table_info)
-        for column in columns:
-            if column[2] == 0:  # 0 indicates NOT NULL
-                constraints[table].append({
-                    "type": "NOT NULL",
-                    "column": column[1]
-                })
-
-
-    return constraints
-```
-
-</div>
-
-
-<div role="tabpanel" class="tab-pane" id="python2" markdown="1">
-
-
-```python
-from langchain.tools import tool
-
-@tool
-def list_tables_tool() -> list:
-    """List all table names in the database."""
-    conn = get_connection()
-    return list_tables(conn)
-
-@tool
-def describe_table_tool(table_name: str) -> list:
-    """Describe the schema of a given table."""
-    conn = get_connection()
-    return describe_table(conn, table_name)
-
-@tool
-def execute_query_tool(sql: str) -> list:
-    """Execute a SQL SELECT query and return the results."""
-    conn = get_connection()
-    return execute_query(conn, sql)
-
-@tool
-def get_sqlite_constraints_tool() -> dict:
-    """Execute a SQL SELECT query and return the results."""
-    conn = get_connection()
-    return get_sqlite_constraints(conn)
 ```
 </div>
-
 
 </div>
 
