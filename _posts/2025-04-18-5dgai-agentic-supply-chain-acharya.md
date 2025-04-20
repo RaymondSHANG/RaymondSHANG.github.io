@@ -90,6 +90,193 @@ Based on the usage senario and database structure, We aimed to develop an AI age
 
 To fullfill this, we need an interactive generative agent to interact with human to get the more clear defintion of questions. Also, we need multi agents for different sub tasks such as **question clarifications, SQL query generation and executions, Root cause analysis, and agent managements**. This part could best be implemented through **LangGraph**.
 
+### Function Calling to incorportate external data resource for LLM
+
+
+The following is a [demo](https://raw.githubusercontent.com/tomjoht/documentation-theme-jekyll/gh-pages/pages/mydoc/mydoc_navtabs.md) of a navtab. 
+
+<ul id="profileTabs" class="nav nav-tabs">
+    <li  class="active"><a class="noCrossRef" href="#python1" data-toggle="tab">Function Calling</a></li>
+    <li><a class="noCrossRef" href="#python2" data-toggle="tab">Function Calling decorators</a></li>
+</ul>
+
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane active" id="python1" markdown="1">
+
+```python
+# SQL Tools
+def list_tables(conn) -> list[str]:
+    """
+    Retrieve the names of all tables in the SQLite database.
+    
+    Args:
+        conn: A SQLite connection object.
+    
+    Returns:
+        List[str]: A list of table names.
+    """
+    print(' - DB CALL: list_tables()')
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    return [t[0] for t in tables]
+
+
+def describe_table(conn, table_name: str) -> list[tuple[str, str]]:
+    """
+    Look up the schema (column names and types) of the specified table.
+    
+    Args:
+        conn: A SQLite connection object.
+        table_name (str): The name of the table.
+    
+    Returns:
+        List[Tuple[str, str]]: A list of (column_name, column_type).
+    """
+    print(f' - DB CALL: describe_table({table_name})')
+    cursor = conn.cursor()
+    cursor.execute(f"PRAGMA table_info({table_name});")
+    schema = cursor.fetchall()
+    return [(col[1], col[2]) for col in schema]
+
+
+def execute_query(conn, sql: str) -> list[list[str]]:
+    """
+    Execute an SQL statement and return the results.
+    Args:
+        conn: The SQLite connection object.
+        sql (str): The SQL query string.
+    Returns:
+        List[List[str]]: The results as a list of rows.
+    """
+    print(f' - DB CALL: execute_query({sql})')
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    return cursor.fetchall()
+
+
+def get_sqlite_constraints(conn)-> dict:
+    """
+    Retrieves constraint information from an SQLite database.
+
+    Args:
+        db_file (str): The path to the SQLite database file.
+
+    Returns:
+        dict: A dictionary where keys are table names, and values are lists of
+              dictionaries, each representing a constraint.
+    """
+    constraints = {}
+
+    #conn = sqlite3.connect(db_file)
+    cursor = conn.cursor()
+
+    # Get table names
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = [table[0] for table in cursor.fetchall()]
+
+    for table in tables:
+        constraints[table] = []
+        cursor.execute(f"PRAGMA table_info('{table}');")
+        columns = cursor.fetchall()
+
+        # Get table creation SQL
+        cursor.execute(f"SELECT sql FROM sqlite_master WHERE type='table' AND name='{table}';")
+        create_table_sql = cursor.fetchone()[0]
+
+        # Extract constraints from CREATE TABLE SQL
+        if create_table_sql:
+            # Primary Key
+            pk_match = re.search(r"PRIMARY KEY \((.*?)\)", create_table_sql, re.IGNORECASE)
+            if pk_match:
+                pk_columns = [col.strip() for col in pk_match.group(1).split(",")]
+                constraints[table].append({
+                    "type": "PRIMARY KEY",
+                    "columns": pk_columns
+                })
+
+            # Foreign Keys
+            fk_matches = re.finditer(r"FOREIGN KEY \((.*?)\) REFERENCES (.*?)(\((.*?)\))?", create_table_sql, re.IGNORECASE)
+            for fk_match in fk_matches:
+                fk_columns = [col.strip() for col in fk_match.group(1).split(",")]
+                ref_table = fk_match.group(2).strip()
+                ref_columns = [col.strip() for col in fk_match.group(4).split(",")] if fk_match.group(4) else None
+                constraints[table].append({
+                    "type": "FOREIGN KEY",
+                    "columns": fk_columns,
+                    "referenced_table": ref_table,
+                    "referenced_columns": ref_columns
+                })
+
+            # Unique Constraints
+            unique_matches = re.finditer(r"UNIQUE \((.*?)\)", create_table_sql, re.IGNORECASE)
+            for unique_match in unique_matches:
+                unique_columns = [col.strip() for col in unique_match.group(1).split(",")]
+                constraints[table].append({
+                    "type": "UNIQUE",
+                    "columns": unique_columns
+                })
+
+            # Check Constraints
+            check_matches = re.finditer(r"CHECK \((.*?)\)", create_table_sql, re.IGNORECASE)
+            for check_match in check_matches:
+                check_condition = check_match.group(1).strip()
+                constraints[table].append({
+                    "type": "CHECK",
+                    "condition": check_condition
+                })
+
+        # NOT NULL constraints (from table_info)
+        for column in columns:
+            if column[2] == 0:  # 0 indicates NOT NULL
+                constraints[table].append({
+                    "type": "NOT NULL",
+                    "column": column[1]
+                })
+
+
+    return constraints
+```
+
+</div>
+
+
+<div role="tabpanel" class="tab-pane" id="python2" markdown="1">
+
+
+```python
+from langchain.tools import tool
+
+@tool
+def list_tables_tool() -> list:
+    """List all table names in the database."""
+    conn = get_connection()
+    return list_tables(conn)
+
+@tool
+def describe_table_tool(table_name: str) -> list:
+    """Describe the schema of a given table."""
+    conn = get_connection()
+    return describe_table(conn, table_name)
+
+@tool
+def execute_query_tool(sql: str) -> list:
+    """Execute a SQL SELECT query and return the results."""
+    conn = get_connection()
+    return execute_query(conn, sql)
+
+@tool
+def get_sqlite_constraints_tool() -> dict:
+    """Execute a SQL SELECT query and return the results."""
+    conn = get_connection()
+    return get_sqlite_constraints(conn)
+```
+</div>
+
+
+</div>
+
+
 
 ### LangGraph for Supply Chain Acharya
 We design our multi-agent AI system shown below
