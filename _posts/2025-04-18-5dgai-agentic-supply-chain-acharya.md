@@ -18,6 +18,14 @@ The Kaggle Notebook for this blogpost (including code implementations and demos)
   https://www.kaggle.com/code/toshall/agentic-supply-chain-acharya
 </a>) {{end}}
 
+{{note}} Vedio for this project can be found here(<a href="(https://medium.com/@haripriyaram51/bee428f66764)" target="_blank" rel="noopener noreferrer">
+  https://medium.com/@haripriyaram51/bee428f66764
+</a>) {{end}}
+
+{{note}} Other media presentations could be found here(<a href="https://medium.com/@haripriyaram51/bee428f66764" target="_blank" rel="noopener noreferrer">
+  https://medium.com/@haripriyaram51/bee428f66764
+</a>) {{end}}
+
 ### Highlights
 🎯 We built a multi-agent system powered by LangGraph and Gemini Pro that can:
 
@@ -139,5 +147,22 @@ This analytical component transforms raw simulation data into actionable insight
 
 ## Demo of Supply Chain Acharya
 
+
+## ✍️ Authors
+
+This project is developed by (Alphabetical Order):
+
+*   **Dr. Sonney George**
+    *   Kaggle: [@sonneygeorge](https://www.kaggle.com/sonneygeorge)
+    *   LinkedIn: [Dr. Sonney George](https://www.linkedin.com/in/sonneygeorge/)
+*   **Hari Priya Ramamoorthy**
+    *   Kaggle: [@haripriyaram51](https://www.kaggle.com/haripriyaram51)
+    *   LinkedIn: [Hari Priya Ramamoorthy](https://www.linkedin.com/in/haripriyaram51/)
+*   **Dr.Yuan Shang**
+    *   Kaggle: [@raymondyuanshang](https://www.kaggle.com/raymondyuanshang)
+    *   LinkedIn: [Dr.Yuan Shang](https://www.linkedin.com/in/yuanshang2020/)
+*   **Toshal Warke**
+    *   Kaggle: [@toshall](https://www.kaggle.com/toshall)
+    *   LinkedIn: [Toshal Warke](https://www.linkedin.com/in/toshal-warke/)
 
 ---
