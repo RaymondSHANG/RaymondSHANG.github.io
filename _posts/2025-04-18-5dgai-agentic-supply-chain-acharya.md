@@ -55,7 +55,7 @@ With this assistant, we could just tell it what we want, and it would:
 
 Supply Chain Acharya is a Gen AI-powered assistant designed to uncover these root causes dynamically helping the store managers, replenishment planners rootcause and recommend on next steps. The functionality has been tested with the information using a Digital Twin of a retail supply chain network.
 
-### Digital Twin of a retail supply chain network
+### Database decription and generation: Digital Twin of a retail supply chain network
 {{note}} [Kaggle Notebook for Digital Twin of a retail supply chain network](<a href="https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3" target="_blank" rel="noopener noreferrer">
   https://www.kaggle.com/code/sonneygeorge/scacharyavapr16v3
 </a>) {{end}}
