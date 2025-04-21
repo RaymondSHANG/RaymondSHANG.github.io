@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Supply Chain Acharya: A GenAI-Powered Expert Assistant to Solve Retail Supply Chain Challenges"
+title: "SupplyChain Acharya:AI Agent for Retail Challenge"
 subtitle: "Gen AI Capstone 2025Q1 by Kaggle"
 date: 2025-04-18 14:24:45
 header-style: text
@@ -14,12 +14,12 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 
 ## Kaggle Notebook
 The Kaggle Notebook for this blogpost (including code implementations and demos) could be found at:
-{{note}} [Supply Chain Acharya: A GenAI-Powered Expert Assistant to Solve Retail Supply Chain Challenges](<a href="https://www.kaggle.com/code/haripriyaram51/supplychain-acharya-ai-agent-for-retail-challenge" target="_blank" rel="noopener noreferrer">
-  https://www.kaggle.com/code/haripriyaram51/supplychain-acharya-ai-agent-for-retail-challenge
+{{note}} [SupplyChain Acharya:AI Agent for Retail Challenge](<a href="https://www.kaggle.com/code/raymondyuanshang/supplychain-acharya-ai-agent-for-retail-challenge" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/raymondyuanshang/supplychain-acharya-ai-agent-for-retail-challenge
 </a>) {{end}}
 
-{{note}} Vedio for this project can be found here(<a href="(https://medium.com/@haripriyaram51/bee428f66764)" target="_blank" rel="noopener noreferrer">
-  https://medium.com/@haripriyaram51/bee428f66764
+{{note}} Vedio for this project can be found here(<a href="(https://www.youtube.com/watch?v=2RugHXyzfKc" target="_blank" rel="noopener noreferrer">
+  https://www.youtube.com/watch?v=2RugHXyzfKc
 </a>) {{end}}
 
 {{note}} Other media presentations could be found here(<a href="https://medium.com/@haripriyaram51/bee428f66764" target="_blank" rel="noopener noreferrer">
