@@ -195,7 +195,7 @@ After user clarify their questions, **supplychain_agent** will feature the the w
 - Generate structured output with defined format
 
 
-### Prompt of the Agent
+### Prompt of the Agent with CoT and Few Shot Learning
 The agent acts as the coordinator for user interactions. It validates user input by checking for missing or ambiguous entities (e.g., item, store, DC) to ensure every query is handled efficiently and directed to the appropriate downstream node. If further information is required for clarification, it initiates a loop back to the human node to gather the necessary details.
 
 Furthermore, the prompt establishes key constraints and formatting guidelines:
