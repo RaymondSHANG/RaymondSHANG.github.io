@@ -310,11 +310,10 @@ This PoC successfully showcases the potential of GenAI tools such as function ca
 
 2. Path to Production
 With real-time integration and refined prompt engineering, the Supply Chain Acharya can evolve into a powerful autonomous system that supports key business functions:
-
-- Retail Decision Support: Empower strategic decision-making through dynamic, AI-driven insights.
-- Forecast Tuning: Enhance demand forecasting accuracy by continuously learning from real-time data patterns.
-- Root Cause Analysis: Accelerate issue detection and resolution across the supply chain through intelligent diagnostics.
-- Autonomous Agent: Lay the foundation for self-operating supply chain modules that adapt and act based on contextual signals.
+- - Retail Decision Support: Empower strategic decision-making through dynamic, AI-driven insights.
+- - Forecast Tuning: Enhance demand forecasting accuracy by continuously learning from real-time data patterns.
+- - Root Cause Analysis: Accelerate issue detection and resolution across the supply chain through intelligent diagnostics.
+- - Autonomous Agent: Lay the foundation for self-operating supply chain modules that adapt and act based on contextual signals.
 
 ### ✍️ Authors
 
