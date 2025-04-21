@@ -304,6 +304,18 @@ In another senario, we need to further define our question through clarification
 
 ![Supply Chain Acharya (clarification required) Demo](/img/in-post/demo_supplyChain2.png)
 
+### Next Step: Scaling to Reality¶
+1. Proof of Concept Validation
+This PoC successfully showcases the potential of GenAI tools such as function calling and LangGraph in enabling advanced analysis within the Supply Chain Digital Twin Data Warehouse.
+
+2. Path to Production
+With real-time integration and refined prompt engineering, the Supply Chain Acharya can evolve into a powerful autonomous system that supports key business functions:
+
+- Retail Decision Support: Empower strategic decision-making through dynamic, AI-driven insights.
+- Forecast Tuning: Enhance demand forecasting accuracy by continuously learning from real-time data patterns.
+- Root Cause Analysis: Accelerate issue detection and resolution across the supply chain through intelligent diagnostics.
+- Autonomous Agent: Lay the foundation for self-operating supply chain modules that adapt and act based on contextual signals.
+
 ### ✍️ Authors
 
 This project is developed by (Alphabetical Order):
