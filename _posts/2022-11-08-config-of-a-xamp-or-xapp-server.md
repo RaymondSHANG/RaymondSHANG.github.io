@@ -171,6 +171,7 @@ echo "PostgreSQL connected";
    ```
 7. Test MySQL connectsion
    - conmsql.php
+   
     ```php
     // Connect
     //DB_HOST,DB_PORT,DB_USER,DB_PASS,DB_SCHEMA,DB_PORT
