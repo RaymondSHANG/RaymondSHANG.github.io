@@ -18,7 +18,7 @@ The github repository for this blogpost (including codes and potential documents
 
 ### How to use:
 Most of time, we just need to use ```RNASeq_pip.Rmd```. Additionally, there are several required files:
-- 1. Sample demographic excel file (such as ```samples_SexTreatment.xlsx``` ) with at least 2 columns 'Sample' and 'Group'. Other columns will be treated as co-variable in the GLM model.
+- 1. Sample demographic excel file (such as ```samples_SexTreatment.xlsx``` ) with at least 2 columns 'Sample' and 'Group'. Other columns will be treated as co-variable in the GLM model (~ + Co-factor1 + Co-factor2 + ... + Group).
 
 | Sample       | APOE  | Group     |
 |--------------|-------|-----------|
