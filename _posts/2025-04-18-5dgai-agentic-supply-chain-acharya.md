@@ -14,8 +14,8 @@ tags: [Gen AI Intensive Course with Google, Kaggle, Generative AI, Few Shot Lear
 
 ## Kaggle Notebook
 The Kaggle Notebook for this blogpost (including code implementations and demos) could be found at:
-{{note}} [Supply Chain Acharya: A GenAI-Powered Expert Assistant to Solve Retail Supply Chain Challenges](<a href="https://www.kaggle.com/code/haripriyaram51/agentic-supply-chain-acharya-final" target="_blank" rel="noopener noreferrer">
-  https://www.kaggle.com/code/haripriyaram51/agentic-supply-chain-acharya-final
+{{note}} [Supply Chain Acharya: A GenAI-Powered Expert Assistant to Solve Retail Supply Chain Challenges](<a href="https://www.kaggle.com/code/haripriyaram51/supplychain-acharya-ai-agent-for-retail-challenge" target="_blank" rel="noopener noreferrer">
+  https://www.kaggle.com/code/haripriyaram51/supplychain-acharya-ai-agent-for-retail-challenge
 </a>) {{end}}
 
 {{note}} Vedio for this project can be found here(<a href="(https://medium.com/@haripriyaram51/bee428f66764)" target="_blank" rel="noopener noreferrer">
