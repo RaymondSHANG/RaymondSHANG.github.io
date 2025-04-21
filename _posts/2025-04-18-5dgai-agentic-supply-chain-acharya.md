@@ -300,6 +300,10 @@ Below showed a user case of how Supply Chain Acharya work.
 
 ![Supply Chain Acharya Demo](/img/in-post/demo_supplyChain.png)
 
+In another senario, we need to further define our question through clarification node:
+
+![Supply Chain Acharya (clarification required) Demo](/img/in-post/demo_supplyChain2.png)
+
 ### ✍️ Authors
 
 This project is developed by (Alphabetical Order):
