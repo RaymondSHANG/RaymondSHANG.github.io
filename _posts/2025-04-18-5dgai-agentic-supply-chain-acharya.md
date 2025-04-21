@@ -304,7 +304,7 @@ In another senario, we need to further define our question through clarification
 
 ![Supply Chain Acharya (clarification required) Demo](/img/in-post/demo_supplyChain2.png)
 
-### Next Step: Scaling to Reality¶
+### Next Step: Scaling to Reality
 1. Proof of Concept Validation
 This PoC successfully showcases the potential of GenAI tools such as function calling and LangGraph in enabling advanced analysis within the Supply Chain Digital Twin Data Warehouse.
 
