@@ -304,16 +304,29 @@ In another senario, we need to further define our question through clarification
 
 ![Supply Chain Acharya (clarification required) Demo](/img/in-post/demo_supplyChain2.png)
 
-### Next Step: Scaling to Reality
-1. Proof of Concept Validation
-This PoC successfully showcases the potential of GenAI tools such as function calling and LangGraph in enabling advanced analysis within the Supply Chain Digital Twin Data Warehouse.
+### Scaling to Reality
 
-2. Path to Production
-With real-time integration and refined prompt engineering, the Supply Chain Acharya can evolve into a powerful autonomous system that supports key business functions:
-- - Retail Decision Support: Empower strategic decision-making through dynamic, AI-driven insights.
-- - Forecast Tuning: Enhance demand forecasting accuracy by continuously learning from real-time data patterns.
-- - Root Cause Analysis: Accelerate issue detection and resolution across the supply chain through intelligent diagnostics.
-- - Autonomous Agent: Lay the foundation for self-operating supply chain modules that adapt and act based on contextual signals.
+1.  **Proof of Concept Validation**
+
+    This project successfully showcases the potential of GenAI tools such as function calling and LangGraph in enabling advanced analysis within the Supply Chain Digital Twin Data Warehouse.
+
+2.  **Path to Production**
+
+    With real-time integration and refined prompt engineering, the Supply Chain Acharya can evolve into a powerful autonomous system that supports key business functions:
+
+    * Retail Decision Support: Empower strategic decision-making through dynamic, AI-driven insights.
+    * Root Cause Analysis: Accelerate issue detection and resolution across the supply chain through intelligent diagnostics.
+    * Autonomous Agent: Lay the foundation for self-operating supply chain modules that adapt and act based on contextual signals.
+
+###   Limitations
+
+While GenAI holds immense potential for supply chain management, there are also limitations to consider:
+
+* **Data Dependency**: GenAI models heavily rely on the quality and quantity of data. Inaccurate, incomplete, or biased data can lead to unreliable results.
+* **Over-reliance**: Over-reliance on GenAI systems without human oversight can lead to errors or unintended consequences, especially in complex or dynamic situations.
+* **Security Risks**: GenAI systems can be vulnerable to adversarial attacks, where malicious actors manipulate input data to cause the model to make incorrect predictions or take undesirable actions. 
+* **Lack of Standardization**: The field of GenAI is rapidly evolving, and there is a lack of standardization in terms of tools, techniques, and best practices. We do not have a standard question/answer datasets for us to verify the robustness and accuracy of our agent. All test and evaluations were done mannually.
+
 
 ### ✍️ Authors
 
