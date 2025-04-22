@@ -25,6 +25,7 @@ Most of time, we just need to use ```RNASeq_pip.Rmd```. Additionally, there are 
 | GTH11051_28  | APOE3 | M.Control |
 | GTH11051_29  | APOE3 | M.Control |
 | GTH11051_30  | APOE3 | M.Control |
+
 - 2. Put Your Salmon RNASeq counts in a datadir folder
 - 3. Generate a separate AnyMeaningfullName.R in your project directory like this:
 
