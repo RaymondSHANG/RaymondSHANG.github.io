@@ -11,8 +11,10 @@ tags: [Alzheimer's Disease, RWE, Real World Evidence, Combined Therapy, Diabetes
 {% include linksref.html %}
 >Old remedies, new songs for memories redeemed
 
-{{note}} The online version of our recent publication is open accessible(<a href="https://alz-journals.onlinelibrary.wiley.com/doi/10.1002/trc2.70074" target="_blank" rel="noopener noreferrer">
+{{note}} The online version of our recent publication is open accessible:
+
+<a href="https://alz-journals.onlinelibrary.wiley.com/doi/10.1002/trc2.70074" target="_blank" rel="noopener noreferrer">
   https://alz-journals.onlinelibrary.wiley.com/doi/10.1002/trc2.70074
-</a>) {{end}}
+</a> {{end}}
 
 ---
