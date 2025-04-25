@@ -6,7 +6,7 @@ date: 2023-10-01 15:08:26
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [RNASeq,NextFlow,nf]
+tags: [RNASeq, NextFlow, nf, Salmon, FastQC, MultiQC, featureCount]
 ---
 {% include linksref.html %}
 
@@ -14,7 +14,6 @@ tags: [RNASeq,NextFlow,nf]
 
 As RNA-Seq continues to be a core technology for transcriptomic analysis, having a reproducible, scalable, and modular pipeline is essential. In this post, I’ll walk through recent updates to our RNA-Seq pipeline built with [Nextflow](https://www.nextflow.io/), including improvements in preprocessing, quantification, and downstream QC.
 
----
 
 ## 🔧 Why Nextflow?
 
@@ -213,9 +212,6 @@ process multiqc_report {
 </div>
 
 
-
----
-
 ## 🧬 Pipeline Components
 
 Here’s an overview of the major steps in the updated pipeline:
@@ -230,16 +226,12 @@ Here’s an overview of the major steps in the updated pipeline:
    - *Option A*: STAR for genome alignment  
    - *Option B*: Salmon for transcript-level quantification (faster, alignment-free)
 
-4. **Gene-Level Quantification**  
-   - Use of `tximport` for summarizing transcript-level counts (from Salmon) to gene level.
-
-5. **QC Metrics Aggregation**  
+4. **QC Metrics Aggregation**  
    - Mapping rate summaries, read distribution, duplication rates, etc., compiled using MultiQC.
 
-6. **Differential Expression (optional module)**  
-   - DESeq2 or edgeR integrated as a modular postprocessing step.
+5. **Differential Expression (optional module)**  
+   - The salmon counts could be used as input for my [RNASeq pipline](https://raymondshang.github.io/2023/05/23/rnaseq-update/).
 
----
 
 ## 📦 Tool Updates
 
@@ -248,7 +240,6 @@ Here’s an overview of the major steps in the updated pipeline:
 - Modular design now supports toggling between STAR and Salmon
 - Improved containerization: Docker and Singularity support with `nf-core` compatibility
 
----
 
 
 ---
