@@ -225,13 +225,5 @@ Here’s an overview of the major steps in the updated pipeline:
    - The salmon counts could be used as input for my [RNASeq pipline](https://raymondshang.github.io/2023/05/23/rnaseq-update/).
 
 
-## 📦 Tool Updates
-
-- Replaced deprecated tools and updated versions to latest stable releases
-- Added support for `fastp` as a trimming alternative
-- Modular design now supports toggling between STAR and Salmon
-- Improved containerization: Docker and Singularity support with `nf-core` compatibility
-
-
 
 ---
