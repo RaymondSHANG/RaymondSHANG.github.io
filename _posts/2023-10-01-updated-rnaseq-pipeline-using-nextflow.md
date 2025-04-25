@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "updated RNAseq pipeline using nextflow"
-subtitle: "This is a subtitle"
+title: "Updated RNAseq Pipeline Using NextFlow"
+subtitle: "A modular, scalable, and reproducible workflow for RNA-seq data analysis with built-in QC, alignment, and quantification steps"
 date: 2023-10-01 15:08:26
 header-style: text
 catalog: true
