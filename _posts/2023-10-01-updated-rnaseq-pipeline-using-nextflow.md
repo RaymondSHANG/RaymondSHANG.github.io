@@ -6,7 +6,7 @@ date: 2023-10-01 15:08:26
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [RNASeq, NextFlow, nf, Salmon, FastQC, MultiQC, featureCount]
+tags: [RNASeq, NextFlow, nf, Salmon, FastQC, MultiQC, featureCount, Groovy]
 ---
 {% include linksref.html %}
 
@@ -19,28 +19,21 @@ As RNA-Seq continues to be a core technology for transcriptomic analysis, having
 
 [Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers. It integrates smoothly with cloud and HPC environments and is particularly well-suited for complex bioinformatics pipelines.
 
+{{note}}
+**Nextflow** is a domain-specific language (**DSL**) for data-driven workflows (like RNA-seq), built on top of the Java Virtual Machine.
+
+It uses **Groovy**, a scripting language that runs on the JVM (and blends with Java syntax).
+
+So when you run Nextflow, it uses Java under the hood.
+{{end}}    
+
+
+
 Key advantages:
 - Easy parallelization
 - Support for Docker/Singularity
 - Seamless integration with GitHub and CI/CD tools
 - Built-in traceability and logging
-
-## 🗂 Directory Structure
-
-```bash
-rna-seq-pipeline/
-├── main.nf
-├── nextflow.config
-├── modules/
-│   ├── qc/
-│   ├── align/
-│   ├── quant/
-├── results/
-│   └── multiqc/
-└── resources/
-    ├── genome.fa
-    └── annotation.gtf
-```
 
 ## Example running bash code
 
