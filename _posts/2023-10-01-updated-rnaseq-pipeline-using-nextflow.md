@@ -20,12 +20,12 @@ As RNA-Seq continues to be a core technology for transcriptomic analysis, having
 [Nextflow](https://www.nextflow.io/) enables scalable and reproducible scientific workflows using software containers. It integrates smoothly with cloud and HPC environments and is particularly well-suited for complex bioinformatics pipelines.
 
 {{note}}
-**Nextflow** is a domain-specific language (**DSL**) for data-driven workflows (like RNA-seq), built on top of the Java Virtual Machine.
+<p><strong>Nextflow</strong> is a domain-specific language (<strong>DSL</strong>) for data-driven workflows (like RNA-seq), built on top of the Java Virtual Machine.</p>
 
-It uses **Groovy**, a scripting language that runs on the JVM (and blends with Java syntax).
+<p>It uses <strong>Groovy</strong>, a scripting language that runs on the JVM (and blends with Java syntax).</p>
 
-So when you run Nextflow, it uses Java under the hood.
-{{end}}    
+<p>So when you run Nextflow, it uses Java under the hood.</p>
+{{end}}  
 
 
 
