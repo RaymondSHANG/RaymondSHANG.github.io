@@ -6,7 +6,7 @@ date: 2025-04-25 14:20:14
 header-style: text
 catalog: true
 author: "Yuan"
-tags: []
+tags: [Alzheimer's Disease, RWE, Real World Evidence, Combined Therapy, Diabetes, Hypertension, Hyperlipidemia, Inflammation, Regression, GLM]
 ---
 {% include linksref.html %}
 ---
