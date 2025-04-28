@@ -21,8 +21,8 @@ tags: [Alzheimer's Disease, RWE, Real World Evidence, Combined Therapy, Diabetes
 
 <table>
   <tr>
-    <td style="vertical-align: top;">
-      <img src="/img/in-post/AD-progression.png" alt="Image Description" width="300">
+    <td style="vertical-align: top; width: 70%; padding-right: 10px;">
+      <img src="/img/in-post/AD-progression.pngg" alt="Image Description" style="width: 100%; height: auto;">
     </td>
     <td style="vertical-align: top; padding-left: 20px;">
       <p>Figure A: Individual trajectories of cognitive status in Alzheimer's disease (AD) patients, measured by the Clinical Dementia Rating - Sum of Boxes (CDR-SB), reveal substantial heterogeneity in progression. Lines represent individual patients, illustrating a spectrum from rapid decline to relative stability over 7+ years, and suggesting a potential therapeutic opportunity to convert rapid progressors to slow progressors.
