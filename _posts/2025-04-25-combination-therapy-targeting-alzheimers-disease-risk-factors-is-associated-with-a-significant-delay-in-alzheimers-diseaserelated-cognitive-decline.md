@@ -17,7 +17,8 @@ tags: [Alzheimer's Disease, RWE, Real World Evidence, Combined Therapy, Diabetes
   https://alz-journals.onlinelibrary.wiley.com/doi/10.1002/trc2.70074
 </a> {{end}}
 
-### Overview from a Data Scientist perspective
+### A Data Scientist's View: The Variability of AD
+As a data scientist deeply involved in analyzing the NACC dataset, I observed a striking heterogeneity in the progression of Alzheimer's disease (AD). While some patients progressed rapidly to severe AD within just 2 years, others maintained relatively stable cognitive function for over 7-10 years. This profound variability prompted my investigation into the factors that may influence AD progression, with the ultimate goal of identifying potential therapeutic interventions.
 
 <table>
   <tr>
@@ -31,5 +32,5 @@ tags: [Alzheimer's Disease, RWE, Real World Evidence, Combined Therapy, Diabetes
   </tr>
 </table>
 
-
+### 
 ---
