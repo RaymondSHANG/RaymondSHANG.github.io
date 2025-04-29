@@ -35,12 +35,12 @@ As a data scientist deeply involved in analyzing the NACC dataset, I observed a 
 </table>
 
 ### Co-factors that affect AD risk and progression
-#### Lasso identified Beta blockers in the effect of AD treatment
-To take a quick look, I labeled all AD patients with at least 2 visits as fast/slow progressors, and then built logistic regression models to evaluate the effect of factors distincguish these two groups. Variables with 20% missing values were dropped.
+#### Lasso identified Beta-blockers' influence on AD treatment
+To quickly explore factors influencing AD progression, I categorized patients with at least two visits as fast or slow progressors. Logistic regression models were then built to evaluate the effect of various factors distinguishing these groups. Variables with over 20% missing values were excluded.
 
-For logistic regression methods, we built 4 models: full logistic regression model based on all variables; the Lasso regression model, hyperparameters tunings are based on 10-fold cross-validation and 1SE rule; the Ridge regression model, hyperparameters tunings are based on 10-fold cross validation and minimum errors; the elastic net regression model, hyperparameters tunings are based on RMSE.
+Four modeling approaches were employed: full logistic regression, Lasso regression (hyperparameter tuning via 10-fold cross-validation and the 1SE rule), Ridge regression (hyperparameter tuning via 10-fold cross-validation and minimum error), and elastic net regression (hyperparameter tuning via RMSE).
 
-When the number of variables in a prediction problem is very large, lasso regression tries to avoid overfitting and as a result, some of the coefficients go to zero, thus the corresponding variables are eliminated from the prediction. Figure B showed the variable selected by the Lasso and their coefficients.
+Lasso regression, a technique particularly effective for feature selection in high-dimensional datasets, achieves variable selection by shrinking the coefficients of less influential variables to zero. The variables selected by the Lasso model, along with their associated coefficients, are shown in Figure B. These results indicate that while certain factors are directly linked to AD severity, others, such as beta-blocker medications, appear to correlate with treatment outcomes. This observation implied that specific medical treatments might possess the capacity to slow the rate of AD progression. Therefore, we conducted further research to explore and identify medical treatments that could potentially modify the course of AD progression.
 
 <table>
   <tr>
@@ -53,6 +53,10 @@ When the number of variables in a prediction problem is very large, lasso regres
     </td>
   </tr>
 </table>
+
+#### Medication for Diabetes, Hypertension, Hyperlipidemia, and Inflammation
+Beta-blockers are commonly used in the treatment of hypertension. Our lab's literature-based method, targeted-risk AD prevention (TRAP), identified diabetes, dyslipidemia, hypertension, and inflammation as key drivers of AD risk. Given these findings, I further investigated the rate of cognitive decline using generalized linear models (GLMs) instead of Lasso logistic models.
+
 
 
 ---
