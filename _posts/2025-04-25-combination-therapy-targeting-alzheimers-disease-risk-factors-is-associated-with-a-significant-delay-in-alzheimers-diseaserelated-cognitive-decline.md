@@ -57,9 +57,22 @@ Lasso regression, a technique particularly effective for feature selection in hi
 #### Medication for Diabetes, Hypertension, Hyperlipidemia, and Inflammation
 Beta-blockers are commonly used in the treatment of hypertension. Our lab's literature-based method, targeted-risk AD prevention (TRAP), identified diabetes, dyslipidemia, hypertension, and inflammation as key drivers of AD risk.Building upon these insights, I proceeded to investigate the rate of cognitive decline using generalized linear models (GLMs), transitioning from the initial Lasso logistic regression modeling. This methodological change was implemented to leverage the capacity of GLMs to model the continuous range of cognitive function measures, enabling a more detailed examination of the relationships between medication use and the degree of cognitive decline..
 
+###   Effects of Medications and Their Combinations on AD Progression
 
-### Effects of medications and their combinations on AD progressions
+   A regression model was applied to analyze the effects of medication prescriptions on the rate of cognitive decline in Alzheimer's Disease (AD) patients. The model used change in cognition score (dCognitionScores) as the outcome variable, with PrescriptionGroup, BaselineAge, and BaselineCognitionStatus as predictor variables. The resulting regression lines are shown below.
 
-![Cognitive decline of AD patients with different prescriptions](/img/in-post/AD-progression-regression.png) Data were adjusted for baseline scores and age at recruitment. Abbreviations:DBMD, Diabetes medication; NSD, Non-steroidal anti-inflammatories; LIPL, lipid-lowering drugs; AHTN, antihypertensive drugs.
+   ![Cognitive decline of AD patients with different prescriptions](/img/in-post/AD-progression-regression.png)
 
+   The results suggest potential synergistic effects of medication combinations on AD progression. Notably, QuandRx showed the most pronounced effect in slowing the rate of AD progression, which is a key finding of our study. Data were adjusted for baseline cognition scores and age at recruitment.
+
+   Abbreviations:
+
+   * DBMD: Diabetes medication
+   * NSD: Non-steroidal anti-inflammatories
+   * LIPL: Lipid-lowering drugs
+   * AHTN: Antihypertensive drugs
+   
+###   Implications for Real-World AD Treatment
+
+   Our analysis of the NACC dataset revealed that approximately 2,000 Alzheimer's Disease (AD) patients had at least two visits to AD centers (ADCs) and were not taking medications for diabetes, non-steroidal anti-inflammatories, lipid-lowering, or antihypertensive conditions (DBMD, NSD, LIPL, AHTN) during those visits. However, roughly 50% of these patients had documented diagnoses of diabetes, hypercholesterolemia, or hypertension but were not receiving corresponding treatments. Our findings strongly suggest that these AD patients should be treated for those co-occurring conditions, as the medications not only address the primary conditions but also appear to significantly slow the rate of AD progression.
 ---
