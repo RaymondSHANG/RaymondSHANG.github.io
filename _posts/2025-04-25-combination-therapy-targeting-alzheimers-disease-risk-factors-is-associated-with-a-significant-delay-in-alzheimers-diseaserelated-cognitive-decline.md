@@ -55,7 +55,7 @@ Lasso regression, a technique particularly effective for feature selection in hi
 </table>
 
 #### Medication for Diabetes, Hypertension, Hyperlipidemia, and Inflammation
-Beta-blockers are commonly used in the treatment of hypertension. Our lab's literature-based method, targeted-risk AD prevention (TRAP), identified diabetes, dyslipidemia, hypertension, and inflammation as key drivers of AD risk. Given these findings, I further investigated the rate of cognitive decline using generalized linear models (GLMs) instead of Lasso logistic models.
+Beta-blockers are commonly used in the treatment of hypertension. Our lab's literature-based method, targeted-risk AD prevention (TRAP), identified diabetes, dyslipidemia, hypertension, and inflammation as key drivers of AD risk.Building upon these insights, I proceeded to investigate the rate of cognitive decline using generalized linear models (GLMs), transitioning from the initial Lasso logistic regression modeling. This methodological change was implemented to leverage the capacity of GLMs to model the continuous range of cognitive function measures, enabling a more detailed examination of the relationships between medication use and the degree of cognitive decline..
 
 
 
