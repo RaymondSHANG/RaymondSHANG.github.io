@@ -73,6 +73,6 @@ Beta-blockers are commonly used in the treatment of hypertension. Our lab's lite
    * AHTN: Antihypertensive drugs
    
 ###   Implications for Real-World AD Treatment
-Our analysis of the NACC dataset revealed that approximately 2,000 Alzheimer's Disease (AD) patients had at least two visits to AD centers (ADCs) and were not taking medications for diabetes, non-steroidal anti-inflammatories, lipid-lowering, or antihypertensive conditions (DBMD, NSD, LIPL, AHTN) during those visits. However, roughly 50% of these patients had documented diagnoses of diabetes, hypercholesterolemia, or hypertension but were not receiving corresponding treatments. Our findings strongly suggest that these AD patients should be treated for those co-occurring conditions, as the medications not only address the primary conditions but also appear to significantly slow the rate of AD progression.
+Our analysis of the NACC dataset revealed that approximately 25% Alzheimer's Disease (AD) patients were not taking medications for diabetes, non-steroidal anti-inflammatories, lipid-lowering, or antihypertensive conditions (DBMD, NSD, LIPL, AHTN) during those visits. However, roughly **HALF** of these patients had documented diagnoses of diabetes, hypercholesterolemia, or hypertension but were not receiving corresponding treatments. Our findings strongly suggest that these AD patients should be treated for those co-occurring conditions, as the medications not only address the primary conditions but also **significantly** slow the rate of AD progression.
 
 ---
