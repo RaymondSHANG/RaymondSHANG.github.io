@@ -35,7 +35,7 @@ As a data scientist deeply involved in analyzing the NACC dataset, I observed a 
 </table>
 
 ### Co-factors that affect AD risk and progression
-#### Lasso identified Beta-blockers' influence on AD treatment
+#### Lasso Analysis Reveals Beneficial Effect of Antihypertensive Medications
 To quickly explore factors influencing AD progression, I categorized patients with at least two visits as fast or slow progressors. Logistic regression models were then built to evaluate the effect of various factors distinguishing these groups. Variables with over 20% missing values were excluded.
 
 Four modeling approaches were employed: full logistic regression, Lasso regression (hyperparameter tuning via 10-fold cross-validation and the 1SE rule), Ridge regression (hyperparameter tuning via 10-fold cross-validation and minimum error), and elastic net regression (hyperparameter tuning via RMSE).
