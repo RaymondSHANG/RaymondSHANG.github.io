@@ -59,4 +59,7 @@ Beta-blockers are commonly used in the treatment of hypertension. Our lab's lite
 
 
 ### Effects of medications and their combinations on AD progressions
+
+[Cognitive decline of AD patients with different prescriptions](/img/in-post/AD-progression-regression.png) Data were adjusted for baseline scores and age at recruitment. Abbreviations:DBMD, Diabetes medication; NSD, Non-steroidal anti-inflammatories; LIPL, lipid-lowering drugs; AHTN, antihypertensive drugs.
+
 ---
