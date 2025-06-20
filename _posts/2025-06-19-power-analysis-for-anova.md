@@ -99,6 +99,9 @@ options(contrasts = c("contr.treatment", "contr.poly"))
 
 We could also got the same results using Python
 ```python
+from statsmodels.formula.api import ols
+import statsmodels.api as sm
+
 df['A'] = pd.Categorical(df['A'])
 df['B'] = pd.Categorical(df['B'])
 
@@ -130,6 +133,8 @@ def calculate_eta_f(ss_effect, ss_error):
 # Power calculation
 
 ```python
+from statsmodels.stats.power import FTestPower
+
 # Power analysis using FTestPower
 # f_genotype would be cohen_f from calculate_eta_f for genotype factor
 power_calculator = FTestPower()
