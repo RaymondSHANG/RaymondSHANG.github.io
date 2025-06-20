@@ -45,8 +45,10 @@ Type III partial sums of squares adjust every effect for all other effects in th
 - Key Feature: Tests specific hypotheses about population marginal means, assuming all other effects are also in the model.
 
 ## 
-{{important}}Type III Sum of Squares is highly sensitive to the choice of contrasts, especially in unbalanced designs.For Type III SS to provide meaningful and unambiguous results (where the sum of squares for each effect uniquely reflects its contribution regardless of the order of other factors in the model), the contrasts used to code your categorical variables must be orthogonal (uncorrelated).<p>
-When you have unordered categorical factors (like "Genotype"), using contr.sum in R ensures that the main effects are coded in a way that, when combined with an appropriate model specification, allows their contribution to be assessed independently of (orthogonal to) the interaction terms. If you used contr.treat (R's default) with an unbalanced design and Type III SS, the results for main effects could change depending on which level is chosen as the reference category, making the interpretation problematic.{{end}}
+{{important}}
+Type III Sum of Squares is highly sensitive to the choice of contrasts, especially in unbalanced designs.For Type III SS to provide meaningful and unambiguous results (where the sum of squares for each effect uniquely reflects its contribution regardless of the order of other factors in the model), the contrasts used to code your categorical variables must be orthogonal (uncorrelated).<br/>
+When you have unordered categorical factors (like "Genotype"), using contr.sum in R ensures that the main effects are coded in a way that, when combined with an appropriate model specification, allows their contribution to be assessed independently of (orthogonal to) the interaction terms. If you used contr.treat (R's default) with an unbalanced design and Type III SS, the results for main effects could change depending on which level is chosen as the reference category, making the interpretation problematic.
+{{end}}
 
 ```r
 options(contrasts = c("contr.sum", "contr.poly"))
