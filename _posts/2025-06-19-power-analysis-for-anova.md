@@ -44,7 +44,21 @@ Type III partial sums of squares adjust every effect for all other effects in th
 - Use Case & Controversy: Useful for comparing main effects even when interactions are present, though many statisticians advise caution or against this practice if interactions are significant, as main effects might not be interpretable in such cases.
 - Key Feature: Tests specific hypotheses about population marginal means, assuming all other effects are also in the model.
 
-## 
+## Effect of Codings on categorical factors
+When you have a categorical variable (like "Genotype" with "APOE3" and "APOE4", or "Time_Condition" with "6M-Reg", "9M-Reg", etc.), statistical models convert these categories into numerical dummy variables. Contrasts define how these dummy variables are coded.
+
+Different contrast types lead to different numerical representations, which in turn define the specific comparisons being made between group means.
+
+- "contr.sum" (Sum Contrasts / Deviation Contrasts):
+Compares the mean of each group to the grand mean (the mean of all group means).
+For a factor with k levels, the sum of the dummy variable coefficients for that factor is 0. The effect of the last level is inferred from the others.
+- "contr.poly" (Polynomial Contrasts):
+Used specifically for ordered categorical variables (like your "Time_Condition" if it implies a temporal progression).
+It tests for linear, quadratic, cubic, etc., trends across the levels of the factor. These contrasts are inherently orthogonal (uncorrelated) for evenly spaced levels.
+- "contr.treat" (Treatment Contrasts / Dummy Coding - R's default for unordered factors):
+Compares the mean of each group to the mean of a reference group (usually the first level alphabetically or specified). These are not orthogonal contrasts.
+
+
 {{important}}
 Type III Sum of Squares is highly sensitive to the choice of contrasts, especially in unbalanced designs.For Type III SS to provide meaningful and unambiguous results (where the sum of squares for each effect uniquely reflects its contribution regardless of the order of other factors in the model), the contrasts used to code your categorical variables must be orthogonal (uncorrelated).<br/>
 When you have unordered categorical factors (like "Genotype"), using contr.sum in R ensures that the main effects are coded in a way that, when combined with an appropriate model specification, allows their contribution to be assessed independently of (orthogonal to) the interaction terms. If you used contr.treat (R's default) with an unbalanced design and Type III SS, the results for main effects could change depending on which level is chosen as the reference category, making the interpretation problematic.
