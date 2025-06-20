@@ -44,7 +44,39 @@ Type III partial sums of squares adjust every effect for all other effects in th
 - Use Case & Controversy: Useful for comparing main effects even when interactions are present, though many statisticians advise caution or against this practice if interactions are significant, as main effects might not be interpretable in such cases.
 - Key Feature: Tests specific hypotheses about population marginal means, assuming all other effects are also in the model.
 
+## 
 {{important}}Type III Sum of Squares is highly sensitive to the choice of contrasts, especially in unbalanced designs.For Type III SS to provide meaningful and unambiguous results (where the sum of squares for each effect uniquely reflects its contribution regardless of the order of other factors in the model), the contrasts used to code your categorical variables must be orthogonal (uncorrelated).<p>
 When you have unordered categorical factors (like "Genotype"), using contr.sum in R ensures that the main effects are coded in a way that, when combined with an appropriate model specification, allows their contribution to be assessed independently of (orthogonal to) the interaction terms. If you used contr.treat (R's default) with an unbalanced design and Type III SS, the results for main effects could change depending on which level is chosen as the reference category, making the interpretation problematic.{{end}}
+
+```r
+options(contrasts = c("contr.sum", "contr.poly"))
+library(car)  # for Anova()
+
+df <- data.frame(
+  A = factor(c("a1", "a1", "a1", "a2", "a2", "a2", "a2", "a2")),
+  B = factor(c("b1", "b2", "b3", "b1", "b2", "b2", "b3", "b3")),
+  Y = c(10, 15, 12, 20, 25, 23, 19, 21)
+)
+
+mod_full <- lm(Y ~ A * B, data = df)
+Anova(mod_full, type = 3)
+
+rss_full <- sum(resid(mod_full)^2)  # Residual sum of squares
+rss_full  # Should match Residuals row in ANOVA
+
+mod_noA <- update(mod_full, . ~ . - A)
+rss_noA <- sum(resid(mod_noA)^2)
+ss_A <- rss_noA - rss_full
+
+mod_noB <- update(mod_full, . ~ . - B)
+rss_noB <- sum(resid(mod_noB)^2)
+ss_B <- rss_noB - rss_full
+
+mod_noAB <- update(mod_full, . ~ . - A:B)
+rss_noAB <- sum(resid(mod_noAB)^2)
+ss_AB <- rss_noAB - rss_full
+
+options(contrasts = c("contr.treatment", "contr.poly"))
+```
 
 ---
