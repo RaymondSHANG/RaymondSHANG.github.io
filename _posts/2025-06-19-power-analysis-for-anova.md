@@ -64,6 +64,7 @@ Type III Sum of Squares is highly sensitive to the choice of contrasts, especial
 When you have unordered categorical factors (like "Genotype"), using contr.sum in R ensures that the main effects are coded in a way that, when combined with an appropriate model specification, allows their contribution to be assessed independently of (orthogonal to) the interaction terms. If you used contr.treat (R's default) with an unbalanced design and Type III SS, the results for main effects could change depending on which level is chosen as the reference category, making the interpretation problematic.
 {{end}}
 
+Below is the R code to calculate Type III SS ANOVA table
 ```r
 options(contrasts = c("contr.sum", "contr.poly"))
 library(car)  # for Anova()
@@ -77,6 +78,7 @@ df <- data.frame(
 mod_full <- lm(Y ~ A * B, data = df)
 Anova(mod_full, type = 3)
 
+# Below is step by step on how to calculate type3 SS(A), SS(B), and SS(A:B). Which should be identical to Anova(mod_full,type=3)
 rss_full <- sum(resid(mod_full)^2)  # Residual sum of squares
 rss_full  # Should match Residuals row in ANOVA
 
@@ -93,6 +95,46 @@ rss_noAB <- sum(resid(mod_noAB)^2)
 ss_AB <- rss_noAB - rss_full
 
 options(contrasts = c("contr.treatment", "contr.poly"))
+```
+
+We could also got the same results using Python
+```python
+df['A'] = pd.Categorical(df['A'])
+df['B'] = pd.Categorical(df['B'])
+
+# Type II ANOVA
+model_type2 = ols('Body_Weight ~ C(A) + C(B) + C(A):C(B)', data=df).fit()
+anova_table_type2 = sm.stats.anova_lm(model, typ=2)#
+
+# Type III ANOVA
+model_type3 = smf.ols('Y ~ C(A, Sum) * C(B, Sum)', data=df).fit()
+# Perform Type III ANOVA
+anova_table_type3 = sm.stats.anova_lm(model, typ=3)
+```
+
+# Effect size calculation
+After we got the correct ANOVA table, we could extract ss_effect values for each term (A,B, A:B), and ss_error for the residue term. Then, we could calculate partial eta-squared and convert to Cohen's f, shown below in python
+
+```python
+# Function to calculate partial eta-squared and convert to Cohen's f
+def calculate_eta_f(ss_effect, ss_error):
+    """Calculates partial eta-squared and Cohen's f."""
+    if (ss_effect + ss_error) == 0:
+        eta_sq_p = 0.0
+    else:
+        eta_sq_p = ss_effect / (ss_effect + ss_error)
+    cohen_f = sqrt(eta_sq_p / (1 - eta_sq_p)) if eta_sq_p < 1 else np.inf
+    return eta_sq_p, cohen_f
+```
+
+# Power calculation
+
+```python
+# Power analysis using FTestPower
+# f_genotype would be cohen_f from calculate_eta_f for genotype factor
+power_calculator = FTestPower()
+alpha = 0.05
+power_genotype = power_calculator.solve_power(effect_size=f_genotype, alpha=alpha, df_num=df_genotype, df_denom=df_error)
 ```
 
 ---
