@@ -6,7 +6,7 @@ date: 2025-08-13 14:23:41
 header-style: text
 catalog: true
 author: "Yuan"
-tags: ['cloud','cluster','notebook','long run','env','sql','line magics','cell magics']
+tags: ['cloud','cluster','notebook','long run','env','sql','line magics','cell magics','autosave','autoload']
 ---
 {% include linksref.html %}
 >Cloud clusters hum, notebooks run, and you just wait the work get done.
@@ -165,6 +165,48 @@ The double percent sign is a **"cell magic" command**. Unlike line magics, it ap
 * `%%bash` at the top of a cell will tell the notebook to interpret the entire cell's content as bash commands.
 * `%%writefile my_script.py` will save the contents of the cell to a file named `my_script.py`.
 
+Here is the information in the requested format.
+
+-----
+
+### The `%autoreload` and `%autosave` Magic Commands
+
+#### `%autoreload`
+
+**Explanation:**
+The `%autoreload` command is a powerful "magic" command used in IPython and Jupyter notebooks to automatically reload modules before executing code. This is particularly useful during active development when you are making changes to external Python files (`.py`) and want those changes to be immediately reflected in your notebook without needing to restart the kernel. By default, Python imports modules only once, so `%autoreload` bypasses this behavior. To use it, you must first enable it with `%load_ext autoreload`.
+- `%autoreload 0`: Disables auto-reloading (the default setting).
+
+- `%autoreload 1`: Only reloads modules that were imported with %aimport.
+
+- `%autoreload 2`: Reloads all modules (except those you've specifically excluded) every time a cell is run. This is the most common setting for active development.
+
+**Usage Example:**
+
+```python
+# Enable the autoreload extension
+%load_ext autoreload
+
+# Set autoreload to mode 2 to reload all modules before execution
+%autoreload 2
+```
+
+Once this is set, any changes you make to imported Python files will be automatically loaded the next time you run a cell.
+
+#### `%autosave`
+
+**Explanation:**
+The `%autosave` command is a magic command that allows you to control the frequency of your notebook's autosave function. By default, Jupyter notebooks autosave every 120 seconds (2 minutes). Using `%autosave`, you can customize this interval to save more or less frequently, or even turn autosaving off completely. This can be helpful to prevent data loss with a shorter interval or to avoid unnecessary disk writes with a longer one. The command takes a numerical argument representing the desired interval in seconds.
+
+**Usage Example:**
+
+```python
+# Set the autosave interval to 60 seconds (1 minute)
+%autosave 60
+
+# Turn autosaving off completely
+%autosave 0
+```
 
 ## Communications between virtual machine (VM) and Google buckets
 
