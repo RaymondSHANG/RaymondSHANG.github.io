@@ -210,4 +210,57 @@ The `%autosave` command is a magic command that allows you to control the freque
 
 ## Communications between virtual machine (VM) and Google buckets
 
+This guide will show you how to use the **gcloud storage** command to interact with Google Cloud Storage buckets directly from your VM. 
+
+### Creating a Folder in a Google Bucket
+
+Google Cloud Storage doesn't use a traditional file system with folders. Instead, it uses a flat hierarchy where objects have names that can include a prefix that acts like a directory path. You can create this "folder" structure by simply copying an object into a path that includes the desired folder name.
+
+To create a folder named `data` in your bucket, you'll first create a dummy file on your VM and then copy it to the desired location.
+
+```
+# First, create a dummy file on your VM
+touch empty_file.txt
+
+# Then, copy it to the 'data' directory within your bucket
+gcloud storage cp empty_file.txt gs://<YOUR_BUCKET_NAME>/data/
+
+```
+
+This command will create a `data/` "folder" and place `empty_file.txt` inside it. You can now delete the dummy file from your VM if you no longer need it.
+
+### Copying a File from a VM to a Bucket
+
+To copy a local file from your VM to the bucket, you'll use the `gcloud storage cp` command. This is the command to use for the specific task you requested.
+
+```
+# Create a sample file on your VM named test1.csv
+echo "header1,header2" > test1.csv
+echo "value1,value2" >> test1.csv
+
+# Now, copy the test1.csv file into the 'data' folder in your bucket
+gcloud storage cp test1.csv gs://<YOUR_BUCKET_NAME>/data/test1.csv
+
+```
+
+### Moving a File within a Google Bucket
+
+The `gcloud storage mv` command is used to move files. This command also works for renaming a file, as it simply moves the file to a new location with a new name.
+
+```
+# Move a file from the bucket root to the 'data' folder
+gcloud storage mv gs://<YOUR_BUCKET_NAME>/old_file.txt gs://<YOUR_BUCKET_NAME>/data/new_file.txt
+
+```
+
+### Renaming a File in a Google Bucket
+
+To rename a file, you use the same `gcloud storage mv` command, but you keep the file in the same "directory" and just change its name.
+
+```
+# Rename 'test1.csv' to 'final_data.csv' within the 'data' folder
+gcloud storage mv gs://<YOUR_BUCKET_NAME>/data/test1.csv gs://<YOUR_BUCKET_NAME>/data/final_data.csv
+
+```
+
 ---
