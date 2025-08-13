@@ -6,7 +6,7 @@ date: 2025-08-13 14:23:41
 header-style: text
 catalog: true
 author: "Yuan"
-tags: ['cloud','cluster','notebook','long run','env','sql','line magics','cell magics','autosave','autoload']
+tags: ['cloud','cluster','notebook','long run','env','sql','line magics','cell magics','autosave','autoload','gcloud storage','Bucket','gcloud']
 ---
 {% include linksref.html %}
 >Cloud clusters hum, notebooks run, and you just wait the work get done.
