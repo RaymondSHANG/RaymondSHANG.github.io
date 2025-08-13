@@ -6,7 +6,7 @@ date: 2025-08-13 14:23:41
 header-style: text
 catalog: true
 author: "Yuan"
-tags: ['cloud','cluster','notebook','long run','env','sql','']
+tags: ['cloud','cluster','notebook','long run','env','sql','line magics','cell magics']
 ---
 {% include linksref.html %}
 >Cloud clusters hum, notebooks run, and you just wait the work get done.
@@ -123,7 +123,8 @@ save_to_bucket(LOG_FILE, "notebooks")
 ```
 
 ## Basic, execute bash commands in a Notebook
-{{note}} You could use `%lsmagic` in a cell to list all **"line magic" commands** and **"cell magic" commands** {{end}}
+{{note}} <p>You could use <code>%lsmagic</code> in a cell to list all <b>"line magic" commands"</b> and <b>"cell magic" commands</b></p>
+{{end}}
 
 ### Exclamation Mark `!`
 
