@@ -123,7 +123,7 @@ save_to_bucket(LOG_FILE, "notebooks")
 ```
 
 ## Basic, execute bash commands in a Notebook
-{{note}}You could use <code>%lsmagic</code> in a cell to list all <b>"line magic" commands"</b> and <b>"cell magic" commands</b>{{end}}
+{{note}}<p>You could use <code>%lsmagic</code> in a cell to list all <b>"line magic" commands"</b> and <b>"cell magic" commands</b></p>{{end}}
 
 ### Exclamation Mark `!`
 
