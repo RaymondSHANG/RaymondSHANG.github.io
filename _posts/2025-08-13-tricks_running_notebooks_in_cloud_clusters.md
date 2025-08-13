@@ -263,4 +263,9 @@ gcloud storage mv gs://<YOUR_BUCKET_NAME>/data/test1.csv gs://<YOUR_BUCKET_NAME>
 
 ```
 
+### Remove a file in a Google Bucket
+Using `gcloud storage rm` command
+```
+gcloud storage rm gs://<YOUR_BUCKET_NAME>/data/final_data.csv
+```
 ---
