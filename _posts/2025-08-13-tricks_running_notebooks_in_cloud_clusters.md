@@ -122,6 +122,49 @@ save_to_bucket(LOG_FILE, "notebooks")
 
 ```
 
+## Basic, execute bash commands in a Notebook
+{{note}} You could use `%lsmagic` in a cell to list all **"line magic" commands** and **"cell magic" commands** {{end}}
 
+### Exclamation Mark `!`
+
+The exclamation mark is used to execute **shell commands** directly from a notebook cell. This is useful for running system commands, such as installing a package or checking a file's content, without leaving the notebook environment.
+
+**Example:**
+* `!pip install numpy` will install the numpy library.
+* `!ls -l` will list the files in the current directory.
+* `!ls -d */` will list all directories or `ls -d */ | sed 's:/$::'`
+
+---
+
+### Dollar Sign `$`
+
+In some interactive environments, particularly those with a bash or shell kernel, the dollar sign is used to reference a **variable's value**. This allows you to pass a variable from your notebook's code to a shell command.
+
+**Example:**
+* If `my_file = "data.csv"`, then `!ls -l $my_file` will list the details of the `data.csv` file.
+
+---
+
+### Percent Sign `%` (Line Magics)
+
+The single percent sign is a **"line magic" command**. It applies a specific function to a **single line of code** in a notebook cell. These commands are built into the IPython kernel and are used for a variety of tasks, like timing code execution or loading external files.
+
+**Example:**
+* `%timeit sum(range(100))` will measure the execution time of summing numbers from 0 to 99.
+* `%pwd` will print the current working directory.
+* `%lsmagic` will list all **"line magic" commands** and **"cell magic" commands**
+
+---
+
+### Double Percent Sign `%%` (Cell Magics)
+
+The double percent sign is a **"cell magic" command**. Unlike line magics, it applies a command to the **entire cell**. This is commonly used to change the language interpreter for a cell or to write the cell's content to a file.
+
+**Example:**
+* `%%bash` at the top of a cell will tell the notebook to interpret the entire cell's content as bash commands.
+* `%%writefile my_script.py` will save the contents of the cell to a file named `my_script.py`.
+
+
+## Communications between virtual machine (VM) and Google buckets
 
 ---
