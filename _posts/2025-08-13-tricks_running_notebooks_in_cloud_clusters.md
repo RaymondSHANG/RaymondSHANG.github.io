@@ -127,7 +127,7 @@ save_to_bucket(LOG_FILE, "notebooks")
 <style>
         code {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #f4f4f4;
+            background-color:rgb(199, 255, 150);
             padding: 2px 4px;
             border-radius: 4px;
         }
