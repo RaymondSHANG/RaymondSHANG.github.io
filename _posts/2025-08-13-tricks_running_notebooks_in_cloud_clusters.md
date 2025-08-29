@@ -127,7 +127,7 @@ save_to_bucket(LOG_FILE, "notebooks")
 <style>
         code {
             font-family: 'Courier New', Courier, monospace;
-            background-color:rgb(199, 255, 150);
+            background-color:rgb(255, 255, 255);
             padding: 2px 4px;
             border-radius: 4px;
         }
@@ -220,6 +220,10 @@ The `%autosave` command is a magic command that allows you to control the freque
 ## Communications between virtual machine (VM) and Google buckets
 
 This guide will show you how to use the **gcloud storage** command to interact with Google Cloud Storage buckets directly from your VM. 
+```python
+my_bucket=os.getenv('WORKSPACE_BUCKET')
+my_bucket
+```
 
 ### Creating a Folder in a Google Bucket
 
