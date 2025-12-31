@@ -6,9 +6,10 @@ date: 2025-12-31 12:31:21
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [decorator, python, @,]
+tags: [decorator, python, property,dataclass]
 ---
 {% include linksref.html %}
+
 In Python Class, @ decorator with **@property** is used to implement encapsulation, meaning that methods are disguised as attributes, so that when the user reads or modifies the data, additional checks or cleanup logic are automatically executed.
 
 There are 3 decorators, usually defined together: **Getter (@property), Setter (@z.setter), and Deleter (@z.deleter)**. **@property** needs to be defined first
