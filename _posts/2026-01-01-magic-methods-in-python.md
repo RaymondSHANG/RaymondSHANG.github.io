@@ -59,6 +59,13 @@ print([p])    # Output: [Point(x=1, y=2)]  (Lists use __repr__)
 ```
 
 ### Comparison Operators
+Allow objects to be compared (`<`, `>`, `==`).
+
+In Python, the `__lt__` (less than) method is the "keystone" comparison operator.
+
+The built-in functions `sorted()`, `list.sort()`, `min()`, and `max()` rely almost exclusively on the `<` operator to order items. As long as Python knows how to determine if "Item A is smaller than Item B," it can figure out the rest of the order.
+
+**Pro Tip**: If you want all comparison operators (`<=`, `>=`, `==`) to work by only writing one or two methods, use the `@total_ordering` decorator from the `functools` module. It fills in the missing ones for you automatically.
 
 | Method | Operator | Description |
 | :--- | :--- | :--- |
