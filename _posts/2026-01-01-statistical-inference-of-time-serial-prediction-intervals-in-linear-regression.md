@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Statistical Inference of Time Serial Prediction Intervals in Linear Regression"
+title: "Statistical Inference of Time Series Prediction Intervals in Linear Regression"
 subtitle: "Understanding the cihw calculation in Time Based Regression"
 date: 2026-01-01 10:10:26
 header-style: text
