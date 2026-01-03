@@ -200,7 +200,9 @@ external_lib.OriginalClass.broken_method = my_fixed_function
 # Now any instance (even existing ones!) will use the new method
 ```
 
-## The "Import" Trap {: .warning }
+
+{{warning}}<h2>The "Import" Trap</h2>{{end}}
+
 Python patching relies on where the class is looked up.
 
 If external_lib looks like this internally:
