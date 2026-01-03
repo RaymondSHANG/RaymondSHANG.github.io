@@ -6,7 +6,7 @@ date: 2026-01-02 23:29:05
 header-style: text
 catalog: true
 author: "Yuan"
-tags: [python, ]
+tags: [python, Monkey Patching, Runtime Replacement, Rewrite class]
 ---
 {% include linksref.html %}
 
@@ -126,4 +126,95 @@ If the changes are complex, it is safer to own the code entirely.
 | **Forking** | Medium | You stop getting official updates or security patches unless you manually merge them. |
 | **Shadowing** | High | If the library updates and adds a new method to that class, your shadowed version won't have it, causing a crash. |
 | **Monkey Patching** | High | Highly fragile. If the library changes internal variable names or import paths, your patch will silently fail. |
+
+## Monkey Patching in Python
+
+**The Scenario**
+
+Imagine you are using a library called `external_lib`.
+
+It has a class `OriginalClass` (which you don't like).
+
+It has a `Worker` class that internally calls `OriginalClass`.
+
+The goal: Make `Worker` use `MyBetterClass` instead of `OriginalClass`.
+
+### Step 1: Create your "Better" Class
+Create your replacement class. It usually helps to inherit from the original so you keep the methods you don't want to change, but you don't strictly have to.
+```python
+# my_script.py
+import external_lib
+
+# Option A: Inherit and fix specific methods (Safer)
+class MyBetterClass(external_lib.OriginalClass):
+    def bad_method(self):
+        print("I fixed the logic here!")
+
+# Option B: Rewrite entirely (if the original is totally broken)
+class MyBetterClass:
+    def bad_method(self):
+        print("New logic from scratch!")
+    
+    def other_method(self):
+        print("Required method implementation")
+```
+
+### Step 2: The Monkey Patch (The Swap)
+You must perform this assignment before the library code runs or instantiates the class.
+```python
+# my_script.py
+import external_lib
+
+# ... define MyBetterClass as shown above ...
+
+print(f"Before patch: {external_lib.OriginalClass}")
+# Output: <class 'external_lib.OriginalClass'>
+
+# --- THE MAGIC HAPPENS HERE ---
+# We overwrite the name 'OriginalClass' inside the library module
+# with our new class.
+external_lib.OriginalClass = MyBetterClass 
+# ------------------------------
+
+print(f"After patch: {external_lib.OriginalClass}")
+# Output: <class '__main__.MyBetterClass'>
+
+# Now, run the library logic
+worker = external_lib.Worker() 
+worker.do_job() 
+# result: The 'Worker' thinks it is calling OriginalClass, 
+# but it is actually calling MyBetterClass.
+```
+
+## Patching specific methods
+Sometimes you don't need to rewrite the whole class. If you just hate one method, you can replace just that function on the existing class.
+```python
+import external_lib
+
+def my_fixed_function(self, arg1):
+    print(f"Fixed logic with {arg1}")
+
+# Overwrite only the specific method on the class
+external_lib.OriginalClass.broken_method = my_fixed_function
+
+# Now any instance (even existing ones!) will use the new method
+```
+
+## {{warning}} The "Import" Trap{{end}}
+Python patching relies on where the class is looked up.
+
+If external_lib looks like this internally:
+```python
+# external_lib/worker.py
+from .definitions import OriginalClass # <--- Direct import
+
+def run():
+    x = OriginalClass()
+```
+
+If you patch `external_lib.definitions.OriginalClass`, it might not update `worker.py` if `worker.py` has already been imported. `worker.py` might be holding onto a reference to the old class.
+
+**The Fix**: Patch the module where the class is defined, and do it as early as possible in your program execution (at the very top of your main.py).
+
+
 ---
