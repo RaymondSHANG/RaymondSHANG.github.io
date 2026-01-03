@@ -110,13 +110,13 @@ If the changes are complex, it is safer to own the code entirely.
 ```
 
 ## Recommendation
-    Check for Config: Always look for Dependency Injection options first.
+- Check for Config: Always look for Dependency Injection options first.
 
-    Monkey Patch: Good for quick fixes in dynamic languages.
+- Monkey Patch: Good for quick fixes in dynamic languages.
 
-    Shadow: Good for static languages if you can't fork.
+- Shadow: Good for static languages if you can't fork.
 
-    Fork: The nuclear option; use only when necessary.
+- Fork: The nuclear option; use only when necessary.
 
 ### Risk Comparison Matrix
 
@@ -200,7 +200,7 @@ external_lib.OriginalClass.broken_method = my_fixed_function
 # Now any instance (even existing ones!) will use the new method
 ```
 
-## {{warning}} The "Import" Trap{{end}}
+## {% raw %}{{warning}} The "Import" Trap{{end}}{% endraw %}
 Python patching relies on where the class is looked up.
 
 If external_lib looks like this internally:
@@ -214,7 +214,7 @@ def run():
 
 If you patch `external_lib.definitions.OriginalClass`, it might not update `worker.py` if `worker.py` has already been imported. `worker.py` might be holding onto a reference to the old class.
 
-**The Fix**: Patch the module where the class is defined, and do it as early as possible in your program execution (at the very top of your main.py).
+**The Fix**: Patch the module where the class is defined, and do it as early as possible in your program execution (at the **very top** of your `main.py`).
 
 
 ---
