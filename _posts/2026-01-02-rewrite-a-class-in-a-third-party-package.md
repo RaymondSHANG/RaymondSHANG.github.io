@@ -201,9 +201,9 @@ external_lib.OriginalClass.broken_method = my_fixed_function
 ```
 
 
-{{warning}}<h2>The "Import" Trap</h2>
+## The "Import" Trap
 
-Python patching relies on where the class is looked up.
+{{warning}}Python patching relies on where the class is looked up.{{end}}
 
 If external_lib looks like this internally:
 ```python
@@ -218,5 +218,5 @@ If you patch `external_lib.definitions.OriginalClass`, it might not update `work
 
 **The Fix**: Patch the module where the class is defined, and do it as early as possible in your program execution (at the **very top** of your `main.py`).
 
-{{end}}
+
 ---
