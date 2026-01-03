@@ -6,7 +6,7 @@ date: 2026-01-02 23:09:12
 header-style: text
 catalog: true
 author: "Yuan"
-tags: []
+tags: [TBR, TBRMM, Gready Search, Hill Climb, Priority Queue]
 ---
 {% include linksref.html %}
 ---
