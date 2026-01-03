@@ -201,7 +201,7 @@ external_lib.OriginalClass.broken_method = my_fixed_function
 ```
 
 
-{{warning}}<h2>The "Import" Trap</h2>{{end}}
+{{warning}}The "Import" Trap{{end}}
 
 Python patching relies on where the class is looked up.
 
