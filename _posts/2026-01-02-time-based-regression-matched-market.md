@@ -16,6 +16,7 @@ In this post, I will break down the engineering behind how the TBR Matched Marke
 # 0. Data Preparation: Cleaning & Feasibility
 - keep only the most recent n_pretest_max data points for the experiments.
 - calculate the impact for each geos. ()
+
 ```python
 def estimate_required_impact(y):
       return TBRMMDiagnostics(y,
