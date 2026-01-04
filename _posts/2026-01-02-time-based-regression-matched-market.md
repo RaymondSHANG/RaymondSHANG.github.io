@@ -33,6 +33,8 @@ def estimate_required_impact(y):
 
 ```
 
+{{note}}By processing the "Expensive" (Budget-Busting) cities first, the algorithm hits the budget limit sooner in the Pruning Logic in exhaustive_search:<italic>If a group of cities is already over budget, any larger group containing them will also be over budget. So, skip them</italic>{{end}}
+
 # 1. The Scoring Function: "Safety First"
 
 How does the algorithm decide if Design A is better than Design B? It uses a Lexicographical Scoring system embodied in the TBRMMScore class.
@@ -41,12 +43,12 @@ Instead of a single number, the score is a tuple. Python compares tuples element
 
 ```python
 Scoring(
-    corr_test,  # 1st Priority: Did it pass the correlation test? (0 or 1)
-    aa_test,    # 2nd Priority: Did it pass the A/A test? (0 or 1)
-    bb_test,    # 3rd Priority: Did it pass the Brownian Bridge test? (0 or 1)
-    dw_test,    # 4th Priority: Did it pass the Durbin-Watson test? (0 or 1)
-    corr,       # 5th Priority: How high is the correlation? (0.0 to 1.0)
-    inv_imp     # 6th Priority: How sensitive is the test? (Higher is better)
+    corr_test,  # Priority 1: Correlation Test (0 or 1). Is the relationship real?
+    aa_test,    # Priority 2: A/A Test (0 or 1). Does the model hallucinate lift on fake data?
+    bb_test,    # Priority 3: Brownian Bridge (0 or 1). Is the model stable over time?
+    dw_test,    # Priority 4: Durbin-Watson (0 or 1). Are the residuals random (no autocorrelation)?
+    corr,       # Priority 5: Correlation (0.0 to 1.0). How tight is the fit?
+    inv_imp     # Priority 6: Sensitivity (Higher is better). Can we detect small lifts?
 )
 ```
 
