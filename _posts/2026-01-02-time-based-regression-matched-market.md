@@ -33,7 +33,7 @@ def estimate_required_impact(y):
 
 ```
 
-{{note}}By processing the "Expensive" (Budget-Busting) cities first, the algorithm hits the budget limit sooner in the Pruning Logic in exhaustive_search:<italic>If a group of cities is already over budget, any larger group containing them will also be over budget. So, skip them</italic>{{end}}
+{{note}}By processing the "Expensive" (Budget-Busting) cities first, the algorithm hits the budget limit sooner in the Pruning Logic in exhaustive_search:<pre>If a group of cities is already over budget, any larger group containing them will also be over budget. So, skip them</pre>{{end}}
 
 # 1. The Scoring Function: "Safety First"
 
