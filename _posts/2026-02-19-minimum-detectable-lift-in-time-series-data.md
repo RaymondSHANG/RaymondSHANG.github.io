@@ -86,11 +86,12 @@ In a typical setting, n=90, n_test = 56, flevel = 0.9
 Then, we have: $\phi = stats.f(dfn=1, dfd=89).ppf(0.9) \approx 2.7628$
 
 <br>
-the orignal one will give sq = $sq1 \approx 0.17184$
+the orignal one will give $sq_original \approx 0.17184$
 <br>
-The new one will give sq = $sq1 \approx 0.17282$
+The new one will give sq = $sq_new \approx 0.17282$
 <br>
-The difference is minor, only 0.6%. The original one underestimate MDE by 0.6%.
+The difference is minor, only 0.6%. \
+The original one underestimate MDE by 0.6%.
 
 {{end}}
 
