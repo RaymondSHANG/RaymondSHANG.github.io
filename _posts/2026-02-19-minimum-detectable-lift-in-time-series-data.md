@@ -76,7 +76,7 @@ phi = stats.f(dfn=1, dfd=n - 1).ppf(flevel)
 sq = np.sqrt(phi * (n + 1) / (n * n_test * (n - 1)) + 1 / n + 1 / n_test)
 
 # Corrected one,  https://github.com/google/matched_markets/issues/16#issue-3966610639 raised by me
-sq = np.sqrt(phi * (n + 1) / (n * n_test * (n - 1)) + 1 / n + 1 / n_test)
+sq = np.sqrt(phi * (n + n_test) / (n * n_test * (n - 1)) + 1 / n + 1 / n_test)
 
 ```
 
