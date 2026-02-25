@@ -82,13 +82,14 @@ sq = np.sqrt(phi * (n + n_test) / (n * n_test * (n - 1)) + 1 / n + 1 / n_test)
 
 {{important}}
 In a typical setting, n=90, n_test = 56, flevel = 0.9
+</br>
+Then, we have: $\phi = stats.f(dfn=1, dfd=89).ppf(0.9) \approx 2.7628$
 
-Then, we have: $\phi = stats.f(dfn=1, dfd=89).ppf(0.9) \approx 2.7628
-
+</br>
 the orignal one will give sq = $sq1 \approx 0.17184$
-
+</br>
 The new one will give sq = $sq1 \approx 0.17282$
-
+</br>
 The difference is minor, only 0.6%. The original one underestimate MDE by 0.6%.
 
 {{end}}
