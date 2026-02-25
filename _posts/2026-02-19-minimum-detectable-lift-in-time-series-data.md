@@ -80,6 +80,19 @@ sq = np.sqrt(phi * (n + n_test) / (n * n_test * (n - 1)) + 1 / n + 1 / n_test)
 
 ```
 
+{{important}}
+In a typical setting, n=90, n_test = 56, flevel = 0.9
+
+Then, we have: $\phi = stats.f(dfn=1, dfd=89).ppf(0.9) \approx 2.7628
+
+the orignal one will give sq = $sq1 \approx 0.17184$
+
+The new one will give sq = $sq1 \approx 0.17282$
+
+The difference is minor, only 0.6%. The original one underestimate MDE by 0.6%.
+
+{{end}}
+
 # 4. Part 4: The Statistical Multiplier (Thresholding)
 Once we have calculated the standard error of the prediction (sq and sigma), we must determine how many multiples of that error the observed signal must reach to be considered significant.
 
